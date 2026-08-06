@@ -18,8 +18,9 @@ npm run dev
 
 The dev server runs at `http://localhost:4321`. Visiting `/` redirects to `/en/`.
 
-A `.env.local` is already committed with working local defaults so `npm install && npm run dev`
-works immediately. Replace the values before deploying.
+Copy `.env.example` to `.env.local` and fill in every value before running `npm run dev` or
+`npm run build`. The build fails with a clear error if any required variable is missing.
+`.env.local` is gitignored and must never be committed.
 
 ## Scripts
 

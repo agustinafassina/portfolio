@@ -1,0 +1,85 @@
+---
+import type { Locale } from '../i18n/ui';
+import { localizedPath, useTranslations } from '../i18n/utils';
+import { siteConfig, socialLinks } from '../lib/config';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const year = new Date().getFullYear();
+
+const footerNav = (
+  [
+    { key: 'nav.projects', segment: 'projects' },
+    { key: 'nav.blog', segment: 'blog' },
+    { key: 'nav.travels', segment: 'travels' },
+    { key: 'nav.contact', segment: 'contact' },
+  ] as const
+).map((item) => ({ href: localizedPath(lang, item.segment), label: t(item.key) }));
+
+const rssHref = localizedPath(lang, 'rss.xml');
+---
+
+<footer class="border-t-2 border-edge bg-surface">
+  <div
+    class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-start md:justify-between"
+  >
+    <div class="space-y-2">
+      <p class="font-mono text-sm font-bold">
+        <span class="text-accent" aria-hidden="true">~/</span>{siteConfig.name}
+      </p>
+      <p class="max-w-xs text-sm text-fg-muted">{t('site.tagline')}</p>
+    </div>
+
+    <nav aria-label={t('footer.nav')}>
+      <ul class="space-y-1.5">
+        {
+          footerNav.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm text-fg-muted hover:text-accent">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="space-y-1.5">
+      <ul class="space-y-1.5">
+        {
+          socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.url}
+                rel="me noopener noreferrer"
+                target="_blank"
+                class="text-sm text-fg-muted hover:text-accent"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={rssHref} class="text-sm text-fg-muted hover:text-accent">
+            {t('footer.rss')}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t-2 border-edge">
+    <div
+      class="mx-auto flex w-full max-w-5xl flex-col gap-1 px-4 py-4 font-mono text-xs text-fg-muted sm:flex-row sm:justify-between sm:px-6"
+    >
+      <p>&copy; {year} {siteConfig.author}. {t('footer.rights')}</p>
+      <p>{t('footer.builtWith')}</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,180 @@
+---
+import { Image } from 'astro:assets';
+import PageHeader from '../../components/PageHeader.astro';
+import TravelMap from '../../components/TravelMap.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Locale } from '../../i18n/ui';
+import { localeStaticPaths, useTranslations } from '../../i18n/utils';
+import { getTravels } from '../../lib/content';
+import { flagDataUri } from '../../lib/flags';
+import { formatDate, isoDate } from '../../lib/utils';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.props as { lang: Locale };
+const t = useTranslations(lang);
+
+const travels = await getTravels(lang);
+const galleryTravels = travels.filter((travel) => travel.photos.length > 0);
+---
+
+<BaseLayout lang={lang} title={t('travels.title')} description={t('travels.description')}>
+  <PageHeader
+    lang={lang}
+    title={t('travels.title')}
+    description={t('travels.description')}
+    section="travels"
+  />
+
+  {
+    travels.length > 0 ? (
+      <>
+        <p class="mb-4 font-mono text-xs tracking-widest text-fg-muted uppercase">
+          {t('travels.countries')}
+          <span class="ml-2 text-accent">{travels.length}</span>
+        </p>
+
+        <TravelMap lang={lang} travels={travels} />
+
+        <h2 class="mt-14 mb-6 border-b-2 border-edge pb-2 text-2xl">
+          <span class="mr-2 text-accent" aria-hidden="true">##</span>
+          {t('travels.gallery')}
+        </h2>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          {galleryTravels.map((travel, index) => (
+            <figure class="flex h-full flex-col border-2 border-edge bg-surface">
+              <div
+                class="relative overflow-hidden border-b-2 border-edge"
+                data-travel-carousel
+                aria-label={`${travel.title}: ${travel.photos.length} ${t('travels.gallery').toLowerCase()}`}
+              >
+                <div
+                  class="flex transition-transform duration-500 ease-out motion-reduce:transition-none"
+                  data-carousel-track
+                >
+                  {travel.photos.map((photo, photoIndex) => (
+                    <div
+                      class="w-full shrink-0"
+                      data-carousel-slide
+                      aria-hidden={photoIndex !== 0 ? 'true' : 'false'}
+                    >
+                      <Image
+                        src={photo.src}
+                        alt={photo.alt}
+                        widths={[400, 800]}
+                        sizes="(min-width: 640px) 45vw, 92vw"
+                        class="aspect-[4/3] w-full object-cover"
+                        loading={index < 2 && photoIndex === 0 ? 'eager' : 'lazy'}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {travel.photos.length > 1 ? (
+                  <>
+                    <button
+                      type="button"
+                      data-carousel-previous
+                      class="absolute top-1/2 left-2 grid size-9 -translate-y-1/2 place-items-center border-2 border-edge bg-surface/90 font-mono text-xl text-fg shadow-sm hover:border-accent hover:text-accent sm:size-10"
+                      aria-label={t('travels.previousPhoto')}
+                    >
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <button
+                      type="button"
+                      data-carousel-next
+                      class="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center border-2 border-edge bg-surface/90 font-mono text-xl text-fg shadow-sm hover:border-accent hover:text-accent sm:size-10"
+                      aria-label={t('travels.nextPhoto')}
+                    >
+                      <span aria-hidden="true">→</span>
+                    </button>
+
+                    <div
+                      class="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5 border border-edge bg-surface/85 px-2 py-1.5"
+                      aria-hidden="true"
+                    >
+                      {travel.photos.map((_, photoIndex) => (
+                        <span
+                          data-carousel-dot
+                          class:list={[
+                            'block size-1.5 rounded-full border border-fg-muted',
+                            photoIndex === 0 ? 'bg-accent' : 'bg-surface',
+                          ]}
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : null}
+
+                <span
+                  class="sr-only"
+                  data-carousel-status
+                  data-label={t('travels.photoOf')}
+                  aria-live="polite"
+                >
+                  {t('travels.photoOf')} 1 / {travel.photos.length}
+                </span>
+              </div>
+              <figcaption class="flex flex-1 flex-col gap-2 p-4">
+                <div class="flex items-center gap-2">
+                  <img
+                    src={flagDataUri(travel.countryCode)}
+                    alt=""
+                    width="24"
+                    height="18"
+                    class="border border-edge"
+                  />
+                  <h3 class="text-base">{travel.title}</h3>
+                </div>
+                {travel.summary ? <p class="flex-1 text-sm text-fg-muted">{travel.summary}</p> : null}
+                {travel.visitedOn ? (
+                  <time
+                    datetime={isoDate(travel.visitedOn)}
+                    class="font-mono text-xs text-fg-muted"
+                  >
+                    {t('travels.visitedOn')} {formatDate(travel.visitedOn, lang)}
+                  </time>
+                ) : null}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </>
+    ) : (
+      <p class="text-fg-muted">{t('travels.empty')}</p>
+    )
+  }
+</BaseLayout>
+
+<script>
+  for (const carousel of document.querySelectorAll<HTMLElement>('[data-travel-carousel]')) {
+    const track = carousel.querySelector<HTMLElement>('[data-carousel-track]');
+    const slides = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-slide]')];
+    const dots = [...carousel.querySelectorAll<HTMLElement>('[data-carousel-dot]')];
+    const status = carousel.querySelector<HTMLElement>('[data-carousel-status]');
+    const previous = carousel.querySelector<HTMLButtonElement>('[data-carousel-previous]');
+    const next = carousel.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    let current = 0;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      if (track) {
+        track.style.transform = `translateX(-${current * 100}%)`;
+      }
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute('aria-hidden', slideIndex === current ? 'false' : 'true');
+      });
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('bg-accent', dotIndex === current);
+        dot.classList.toggle('bg-surface', dotIndex !== current);
+      });
+      if (status) {
+        status.textContent = `${status.dataset.label ?? ''} ${current + 1} / ${slides.length}`;
+      }
+    };
+
+    previous?.addEventListener('click', () => show(current - 1));
+    next?.addEventListener('click', () => show(current + 1));
+  }
+</script>

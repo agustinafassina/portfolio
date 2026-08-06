@@ -1,0 +1,32 @@
+---
+interface Props {
+  variant?: 'note' | 'warning' | 'success';
+  title?: string;
+}
+
+const { variant = 'note', title } = Astro.props;
+
+const accents: Record<NonNullable<Props['variant']>, string> = {
+  note: 'border-l-accent',
+  warning: 'border-l-pin',
+  success: 'border-l-sage',
+};
+
+const marks: Record<NonNullable<Props['variant']>, string> = {
+  note: '//',
+  warning: '!!',
+  success: 'ok',
+};
+---
+
+<aside
+  class={`my-6 border-2 border-l-8 border-edge bg-surface-raised px-4 py-3 ${accents[variant]}`}
+>
+  <p class="mb-1 font-mono text-xs tracking-widest text-fg-muted uppercase">
+    <span aria-hidden="true">{marks[variant]}</span>
+    {title ? <span class="ml-2">{title}</span> : null}
+  </p>
+  <div class="[&>*+*]:mt-2 [&>p]:m-0">
+    <slot />
+  </div>
+</aside>

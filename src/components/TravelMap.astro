@@ -1,0 +1,218 @@
+---
+import 'leaflet/dist/leaflet.css';
+import type { Locale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import type { ResolvedTravel } from '../lib/content';
+import { flagDataUri } from '../lib/flags';
+import { formatDate } from '../lib/utils';
+
+interface Props {
+  lang: Locale;
+  travels: ResolvedTravel[];
+}
+
+const { lang, travels } = Astro.props;
+const t = useTranslations(lang);
+
+const markers = travels.map((travel) => ({
+  id: travel.id,
+  lat: travel.lat,
+  lng: travel.lng,
+  title: travel.title,
+  country: travel.country,
+  flag: flagDataUri(travel.countryCode),
+  visited: travel.visitedOn
+    ? `${t('travels.visitedOn')} ${formatDate(travel.visitedOn, lang)}`
+    : undefined,
+}));
+---
+
+<div class="border-2 border-edge bg-surface">
+  <div
+    id="travel-map"
+    role="application"
+    aria-label={t('travels.mapLabel')}
+    class="h-[22rem] w-full sm:h-[28rem]"
+  >
+  </div>
+</div>
+
+<script is:inline type="application/json" id="travel-map-data" set:html={JSON.stringify(markers)} />
+
+<style is:global>
+  #travel-map {
+    background-color: var(--surface-raised);
+  }
+
+  #travel-map .leaflet-tile-pane {
+    filter: sepia(0.55) saturate(0.72) hue-rotate(-12deg) brightness(1.02) contrast(0.95);
+  }
+
+  .dark #travel-map .leaflet-tile-pane {
+    filter: invert(0.92) hue-rotate(180deg) sepia(0.4) saturate(0.65) brightness(0.92)
+      contrast(1.05);
+  }
+
+  #travel-map .leaflet-container {
+    font-family: var(--font-sans);
+    background-color: var(--surface-raised);
+  }
+
+  .travel-pin {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--pin);
+    border-radius: 2px;
+    background-color: var(--surface-raised);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.25);
+    overflow: hidden;
+  }
+
+  .travel-pin img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #travel-map .leaflet-popup-content-wrapper,
+  #travel-map .leaflet-popup-tip {
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    background-color: var(--surface);
+    color: var(--fg);
+    box-shadow: none;
+  }
+
+  #travel-map .leaflet-popup-content {
+    margin: 0.6rem 0.8rem;
+  }
+
+  #travel-map .leaflet-popup-content strong {
+    font-family: var(--font-mono);
+  }
+
+  #travel-map .leaflet-popup-content span {
+    color: var(--fg-muted);
+    font-size: 0.8rem;
+  }
+
+  #travel-map .leaflet-control-zoom a {
+    border-color: var(--border);
+    background-color: var(--surface);
+    color: var(--fg);
+  }
+
+  #travel-map .leaflet-control-zoom a:hover {
+    background-color: var(--surface-raised);
+    color: var(--accent);
+  }
+
+  #travel-map .leaflet-control-attribution {
+    background-color: var(--surface);
+    color: var(--fg-muted);
+    font-size: 0.65rem;
+  }
+
+  #travel-map .leaflet-control-attribution a {
+    color: var(--accent);
+  }
+</style>
+
+<script>
+  import L from 'leaflet';
+
+  interface TravelMarker {
+    id: string;
+    lat: number;
+    lng: number;
+    title: string;
+    country: string;
+    flag: string;
+    visited?: string;
+  }
+
+  function isSafeFlagUri(uri: string): boolean {
+    return uri.startsWith('data:image/');
+  }
+
+  function createPinElement(flag: string): HTMLElement {
+    const pin = document.createElement('span');
+    pin.className = 'travel-pin';
+
+    if (isSafeFlagUri(flag)) {
+      const img = document.createElement('img');
+      img.src = flag;
+      img.alt = '';
+      img.width = 24;
+      img.height = 24;
+      pin.appendChild(img);
+    }
+
+    return pin;
+  }
+
+  function createPopupContent(marker: TravelMarker): HTMLElement {
+    const content = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = marker.title;
+    content.appendChild(title);
+
+    if (marker.visited) {
+      content.appendChild(document.createElement('br'));
+      const visited = document.createElement('span');
+      visited.textContent = marker.visited;
+      content.appendChild(visited);
+    }
+
+    return content;
+  }
+
+  const container = document.getElementById('travel-map');
+  const payload = document.getElementById('travel-map-data');
+
+  if (container && payload?.textContent) {
+    const markers = JSON.parse(payload.textContent) as TravelMarker[];
+
+    const map = L.map(container, {
+      scrollWheelZoom: false,
+      worldCopyJump: true,
+      minZoom: 1,
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 18,
+    }).addTo(map);
+
+    const bounds = L.latLngBounds([]);
+
+    for (const marker of markers) {
+      const icon = L.divIcon({
+        className: '',
+        html: createPinElement(marker.flag),
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        popupAnchor: [0, -16],
+      });
+
+      L.marker([marker.lat, marker.lng], { icon, title: marker.title })
+        .addTo(map)
+        .bindPopup(createPopupContent(marker));
+
+      bounds.extend([marker.lat, marker.lng]);
+    }
+
+    if (bounds.isValid()) {
+      map.fitBounds(bounds, { padding: [48, 48], maxZoom: 5 });
+    } else {
+      map.setView([20, 0], 2);
+    }
+
+    map.once('focus', () => map.scrollWheelZoom.enable());
+    container.addEventListener('click', () => map.scrollWheelZoom.enable(), { once: true });
+  }
+</script>

@@ -1,0 +1,44 @@
+---
+import { locales, localeNames, type Locale } from '../i18n/ui';
+import { switchLocalePath, useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Locale;
+  alternates?: Partial<Record<Locale, string>>;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+
+const options = locales.map((locale) => ({
+  locale,
+  name: localeNames[locale],
+  href: alternates?.[locale] ?? switchLocalePath(Astro.url, locale),
+  current: locale === lang,
+}));
+---
+
+<nav aria-label={t('lang.label')} class="flex items-center border-2 border-edge bg-surface">
+  {
+    options.map(({ locale, name, href, current }, index) => (
+      <a
+        href={href}
+        hreflang={locale}
+        lang={locale}
+        title={name}
+        aria-current={current ? 'true' : undefined}
+        class:list={[
+          'px-2 py-1.5 font-mono text-xs uppercase',
+          index > 0 && 'border-l-2 border-edge',
+          current
+            ? 'bg-accent text-accent-contrast'
+            : 'text-fg-muted hover:bg-surface-raised hover:text-accent',
+        ]}
+      >
+        <span class="sr-only">{current ? `${t('lang.current')}: ` : `${t('lang.label')}: `}</span>
+        <span aria-hidden="true">{locale}</span>
+        <span class="sr-only">{name}</span>
+      </a>
+    ))
+  }
+</nav>

@@ -1,0 +1,95 @@
+---
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import type { Locale } from '../i18n/ui';
+import { localizedPath, useTranslations } from '../i18n/utils';
+import { siteConfig } from '../lib/config';
+
+interface Props {
+  lang: Locale;
+  alternates?: Partial<Record<Locale, string>>;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+
+const current = Astro.url.pathname.replace(/\/$/, '');
+
+const navItems = (
+  [
+    { key: 'nav.projects', segment: 'projects' },
+    { key: 'nav.blog', segment: 'blog' },
+    { key: 'nav.travels', segment: 'travels' },
+    { key: 'nav.contact', segment: 'contact' },
+  ] as const
+).map((item) => {
+  const href = localizedPath(lang, item.segment);
+  const normalized = href.replace(/\/$/, '');
+  return {
+    href,
+    label: t(item.key),
+    active: current === normalized || current.startsWith(`${normalized}/`),
+  };
+});
+
+const homeHref = localizedPath(lang);
+---
+
+<header class="sticky top-0 z-40 border-b-2 border-edge bg-bg/95 backdrop-blur">
+  <div class="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 py-3 sm:px-6">
+    <a
+      href={homeHref}
+      class="group mr-auto flex items-baseline gap-2 font-mono text-sm font-bold tracking-tight sm:text-base"
+    >
+      <span class="text-accent" aria-hidden="true">~/</span>
+      <span class="group-hover:text-accent">{siteConfig.name}</span>
+    </a>
+
+    <nav aria-label={t('nav.menu')} class="hidden sm:block">
+      <ul class="flex items-center gap-1">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={item.active ? 'page' : undefined}
+                class:list={[
+                  'block border-2 px-3 py-1.5 font-mono text-xs tracking-wide uppercase',
+                  item.active
+                    ? 'border-accent text-accent'
+                    : 'border-transparent text-fg-muted hover:border-edge hover:text-fg',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <LanguageSwitcher lang={lang} alternates={alternates} />
+    <ThemeToggle lang={lang} />
+  </div>
+
+  <nav aria-label={t('nav.menu')} class="border-t-2 border-edge sm:hidden">
+    <ul class="mx-auto flex w-full max-w-5xl">
+      {
+        navItems.map((item) => (
+          <li class="flex-1">
+            <a
+              href={item.href}
+              aria-current={item.active ? 'page' : undefined}
+              class:list={[
+                'block px-2 py-2 text-center font-mono text-[0.7rem] tracking-wide uppercase',
+                item.active ? 'bg-surface text-accent' : 'text-fg-muted hover:text-fg',
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

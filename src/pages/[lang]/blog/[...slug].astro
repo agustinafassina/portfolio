@@ -1,0 +1,30 @@
+---
+import { render } from 'astro:content';
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { locales, type Locale } from '../../../i18n/ui';
+import { getPosts, getPostTranslationHrefs, type ResolvedPost } from '../../../lib/content';
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const lang of locales) {
+    for (const post of await getPosts(lang)) {
+      paths.push({
+        params: { lang, slug: post.slug },
+        props: { lang, post },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang, post } = Astro.props as { lang: Locale; post: ResolvedPost };
+
+const alternates = await getPostTranslationHrefs(post.translationKey);
+const { Content } = await render(post.entry);
+---
+
+<BlogLayout lang={lang} post={post} alternates={alternates}>
+  <Content />
+</BlogLayout>

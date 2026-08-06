@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import type { Locale } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import type { ResolvedProject } from '../lib/content';
+
+interface Props {
+  lang: Locale;
+  project: ResolvedProject;
+  eager?: boolean;
+  headingLevel?: 2 | 3;
+}
+
+const { lang, project, eager = false, headingLevel = 2 } = Astro.props;
+const t = useTranslations(lang);
+const { data } = project.entry;
+const HeadingTag = headingLevel === 2 ? 'h2' : 'h3';
+---
+
+<article class="group flex h-full flex-col border-2 border-edge bg-surface">
+  <a href={project.href} class="block overflow-hidden border-b-2 border-edge" tabindex="-1">
+    <Image
+      src={data.cover}
+      alt={data.coverAlt}
+      widths={[400, 800]}
+      sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 92vw"
+      class="aspect-video w-full object-cover transition-transform duration-300 group-hover:scale-105"
+      loading={eager ? 'eager' : 'lazy'}
+    />
+  </a>
+
+  <div class="flex flex-1 flex-col gap-3 p-4">
+    <HeadingTag class="text-lg leading-snug">
+      <a href={project.href} class="hover:text-accent">
+        {data.title}
+      </a>
+    </HeadingTag>
+
+    <p class="flex-1 text-sm text-fg-muted">{data.description}</p>
+
+    <ul class="flex flex-wrap gap-1.5" aria-label={t('projects.stack')}>
+      {
+        data.stack.map((item) => (
+          <li class="border border-edge bg-surface-raised px-1.5 py-0.5 font-mono text-[0.7rem] text-fg-muted">
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="flex flex-wrap items-center gap-3 border-t-2 border-edge pt-3 font-mono text-xs">
+      <a href={project.href} class="text-accent hover:text-accent-hover">
+        {t('projects.readMore')}
+        <span aria-hidden="true">-&gt;</span>
+      </a>
+      {
+        data.repoUrl ? (
+          <a
+            href={data.repoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-fg-muted hover:text-accent"
+          >
+            {t('projects.repo')}
+          </a>
+        ) : null
+      }
+      {
+        data.demoUrl ? (
+          <a
+            href={data.demoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-fg-muted hover:text-accent"
+          >
+            {t('projects.demo')}
+          </a>
+        ) : null
+      }
+    </div>
+  </div>
+</article>

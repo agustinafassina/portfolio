@@ -1,0 +1,36 @@
+---
+import PageHeader from '../../components/PageHeader.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Locale } from '../../i18n/ui';
+import { localeStaticPaths, useTranslations } from '../../i18n/utils';
+import { getProjects } from '../../lib/content';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.props as { lang: Locale };
+const t = useTranslations(lang);
+
+const projects = await getProjects(lang);
+---
+
+<BaseLayout lang={lang} title={t('projects.title')} description={t('projects.description')}>
+  <PageHeader
+    lang={lang}
+    title={t('projects.title')}
+    description={t('projects.description')}
+    section="projects"
+  />
+
+  {
+    projects.length > 0 ? (
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project, index) => (
+          <ProjectCard lang={lang} project={project} eager={index < 3} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-fg-muted">{t('projects.empty')}</p>
+    )
+  }
+</BaseLayout>

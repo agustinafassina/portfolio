@@ -1,0 +1,80 @@
+---
+title: Il cron che ha mentito per otto mesi
+description: Un backup notturno ha riportato successo ogni singola notte scrivendo zero byte. Come ci ha ingannati, e l abitudine di una riga che lo smaschera.
+lang: it
+translationKey: cron-job-that-lied
+slug: il-cron-che-ha-mentito
+category: Postmortem
+pubDate: 2026-05-14
+cover: ../../../assets/projects/pipeline.png
+coverAlt: Un nastro trasportatore di casse che passa attraverso archi verso una lampada verde di conferma
+---
+
+import Callout from '../../../components/Callout.astro';
+
+Il backup girava alle 03:00 ogni notte. Il log diceva `backup completed`. La dashboard di
+monitoraggio era verde. Per otto mesi, l archivio che produceva pesava 45 byte: un header
+gzip avvolto attorno a assolutamente niente.
+
+L abbiamo scoperto nel modo in cui lo scoprono tutti.
+
+## Come è rimasto nascosto
+
+Lo script aveva più o meno questa forma:
+
+```bash
+pg_dump "$DATABASE_URL" | gzip > "/backups/$(date +%F).sql.gz"
+echo "backup completed"
+```
+
+Qui ci sono due guasti impilati uno sull altro, e ciascuno da solo sarebbe stato
+sopravvivibile.
+
+Il primo è la pipeline. In una pipeline di shell lo stato di uscita è quello dell *ultimo*
+comando, quindi `pg_dump` poteva morire all istante e `gzip` avrebbe comunque compresso con
+successo lo stream vuoto che aveva ricevuto. La pipeline esce con zero. Il secondo è che
+`echo` viene eseguito incondizionatamente, quindi quella riga di log non è mai stata prova
+di nulla se non del fatto che lo script era arrivato alla sua ultima riga.
+
+<Callout variant="warning" title="La trappola">
+  Un messaggio di successo che non è condizionato al successo è peggio di nessun messaggio,
+  perché converte un assenza di informazione in un falso positivo.
+</Callout>
+
+## Cosa lo risolve davvero
+
+La correzione allettante è `set -o pipefail`, e va assolutamente impostata. Ma intercetta
+solo questa specifica classe di guasto. Non avrebbe intercettato un `pg_dump` riuscito
+contro una replica vuota, che è lo stesso disastro con una causa diversa.
+
+La correzione che generalizza è verificare l artefatto invece del processo:
+
+```bash
+set -euo pipefail
+
+pg_dump "$DATABASE_URL" | gzip > "$ARCHIVE"
+
+size=$(stat -c %s "$ARCHIVE")
+if [ "$size" -lt 1000000 ]; then
+  echo "backup sospettosamente piccolo: ${size} byte" >&2
+  exit 1
+fi
+```
+
+La soglia è grezza ed è proprio questo il punto. Non ha bisogno di sapere come sia fatto un
+backup corretto, solo come sia fatto uno palesemente rotto. I controlli grezzi che girano
+ogni notte battono i controlli sofisticati che nessuno scrive.
+
+<Callout variant="success" title="L abitudine">
+  Verifica la cosa che hai prodotto, non il fatto di aver finito di produrla. I codici di
+  uscita descrivono processi; a te interessano gli artefatti.
+</Callout>
+
+## La parte a cui continuo a pensare
+
+Avevamo il monitoraggio. Avevamo i log. Avevamo una dashboard che qualcuno guardava quasi
+ogni mattina. Ognuno di quei sistemi riportava fedelmente sulla domanda che gli era stata
+posta, e la domanda era "lo script è finito?". Nessuno aveva chiesto "esiste un backup?".
+
+Otto mesi di verde non sono la prova che qualcosa funziona. Sono la prova che niente stava
+controllando.

@@ -1,0 +1,37 @@
+---
+import BlogCard from '../../components/BlogCard.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Locale } from '../../i18n/ui';
+import { localeStaticPaths, localizedPath, useTranslations } from '../../i18n/utils';
+import { getPosts } from '../../lib/content';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.props as { lang: Locale };
+const t = useTranslations(lang);
+
+const posts = await getPosts(lang);
+---
+
+<BaseLayout lang={lang} title={t('blog.title')} description={t('blog.description')}>
+  <PageHeader lang={lang} title={t('blog.title')} description={t('blog.description')} section="blog" />
+
+  <p class="mb-6 font-mono text-xs text-fg-muted">
+    <a href={localizedPath(lang, 'rss.xml')} class="hover:text-accent">
+      {t('footer.rss')}
+    </a>
+  </p>
+
+  {
+    posts.length > 0 ? (
+      <div class="space-y-5">
+        {posts.map((post) => (
+          <BlogCard lang={lang} post={post} />
+        ))}
+      </div>
+    ) : (
+      <p class="text-fg-muted">{t('blog.empty')}</p>
+    )
+  }
+</BaseLayout>

@@ -1,0 +1,140 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { locales, type Locale } from '../../../i18n/ui';
+import { localizedPath, useTranslations } from '../../../i18n/utils';
+import {
+  getProjects,
+  getProjectTranslationHrefs,
+  type ResolvedProject,
+} from '../../../lib/content';
+import { formatDate, isoDate } from '../../../lib/utils';
+
+export async function getStaticPaths() {
+  const paths = [];
+
+  for (const lang of locales) {
+    for (const project of await getProjects(lang)) {
+      paths.push({
+        params: { lang, slug: project.slug },
+        props: { lang, project },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { lang, project } = Astro.props as { lang: Locale; project: ResolvedProject };
+const t = useTranslations(lang);
+const { data } = project.entry;
+
+const alternates = await getProjectTranslationHrefs(project.translationKey);
+const { Content } = await render(project.entry);
+---
+
+<BaseLayout
+  lang={lang}
+  title={data.title}
+  description={data.description}
+  image={data.cover}
+  imageAlt={data.coverAlt}
+  type="article"
+  alternates={alternates}
+>
+  <article class="mx-auto max-w-3xl">
+    <a
+      href={localizedPath(lang, 'projects')}
+      class="font-mono text-xs text-fg-muted hover:text-accent"
+    >
+      <span aria-hidden="true">&lt;-</span>
+      {t('projects.title')}
+    </a>
+
+    <header class="mt-6">
+      <h1 class="text-3xl leading-tight sm:text-4xl">{data.title}</h1>
+      <p class="mt-3 text-lg text-fg-muted">{data.description}</p>
+
+      {
+        project.isFallback ? (
+          <p class="mt-4 border-2 border-l-8 border-edge border-l-pin bg-surface px-3 py-2 font-mono text-xs text-fg-muted">
+            {t('common.fallbackNotice')}
+          </p>
+        ) : null
+      }
+    </header>
+
+    <Image
+      src={data.cover}
+      alt={data.coverAlt}
+      widths={[640, 1024]}
+      sizes="(min-width: 768px) 48rem, 92vw"
+      class="mt-8 w-full border-2 border-edge"
+      loading="eager"
+    />
+
+    <dl class="mt-8 grid gap-4 border-2 border-edge bg-surface p-4 sm:grid-cols-2">
+      <div>
+        <dt class="mb-1.5 font-mono text-xs tracking-widest text-fg-muted uppercase">
+          {t('projects.stack')}
+        </dt>
+        <dd>
+          <ul class="flex flex-wrap gap-1.5">
+            {
+              data.stack.map((item) => (
+                <li class="border border-edge bg-surface-raised px-1.5 py-0.5 font-mono text-[0.7rem] text-fg-muted">
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </dd>
+      </div>
+
+      <div>
+        <dt class="mb-1.5 font-mono text-xs tracking-widest text-fg-muted uppercase">
+          {t('blog.publishedOn')}
+        </dt>
+        <dd>
+          <time datetime={isoDate(data.startedOn)} class="font-mono text-sm text-fg-muted">
+            {formatDate(data.startedOn, lang)}
+          </time>
+        </dd>
+      </div>
+
+      {
+        data.repoUrl || data.demoUrl ? (
+          <div class="sm:col-span-2">
+            <dd class="flex flex-wrap gap-3 font-mono text-xs">
+              {data.repoUrl ? (
+                <a
+                  href={data.repoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="border-2 border-edge px-3 py-1.5 hover:border-accent hover:text-accent"
+                >
+                  {t('projects.repo')}
+                </a>
+              ) : null}
+              {data.demoUrl ? (
+                <a
+                  href={data.demoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="border-2 border-edge px-3 py-1.5 hover:border-accent hover:text-accent"
+                >
+                  {t('projects.demo')}
+                </a>
+              ) : null}
+            </dd>
+          </div>
+        ) : null
+      }
+    </dl>
+
+    <div class="prose-desk mt-10">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

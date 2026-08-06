@@ -1,0 +1,80 @@
+---
+title: The cron job that lied for eight months
+description: A nightly backup reported success every single night while writing zero bytes. Here is how it fooled us, and the one-line habit that catches it.
+lang: en
+translationKey: cron-job-that-lied
+slug: the-cron-job-that-lied
+category: Postmortem
+pubDate: 2026-05-14
+cover: ../../../assets/projects/pipeline.png
+coverAlt: A conveyor belt of crates passing through gates toward a green checkmark lamp
+---
+
+import Callout from '../../../components/Callout.astro';
+
+The backup ran at 03:00 every night. The log said `backup completed`. The monitoring
+dashboard was green. For eight months, the archive it produced was 45 bytes: a gzip
+header wrapped around nothing at all.
+
+We found out the way everyone finds out.
+
+## How it stayed hidden
+
+The script was roughly this shape:
+
+```bash
+pg_dump "$DATABASE_URL" | gzip > "/backups/$(date +%F).sql.gz"
+echo "backup completed"
+```
+
+There are two failures stacked on top of each other here, and each one alone would have
+been survivable.
+
+The first is the pipeline. In a shell pipeline the exit status is the status of the *last*
+command, so `pg_dump` could die instantly and `gzip` would still succeed at compressing
+the empty stream it received. The pipeline exits zero. The second is that `echo` runs
+unconditionally, so the log line was never evidence of anything except that the script
+reached its final line.
+
+<Callout variant="warning" title="The trap">
+  A success message that is not conditional on success is worse than no message, because
+  it converts an absence of information into a false positive.
+</Callout>
+
+## What actually fixes it
+
+The tempting fix is `set -o pipefail`, and you should absolutely set it. But it only
+catches this specific class of failure. It would not have caught a `pg_dump` that
+succeeded against an empty replica, which is the same disaster with a different cause.
+
+The fix that generalises is to assert on the artifact rather than the process:
+
+```bash
+set -euo pipefail
+
+pg_dump "$DATABASE_URL" | gzip > "$ARCHIVE"
+
+size=$(stat -c %s "$ARCHIVE")
+if [ "$size" -lt 1000000 ]; then
+  echo "backup suspiciously small: ${size} bytes" >&2
+  exit 1
+fi
+```
+
+The threshold is crude and that is the point. It does not need to know what a correct
+backup looks like, only what an obviously broken one looks like. Crude checks that run
+every night beat sophisticated checks that nobody writes.
+
+<Callout variant="success" title="The habit">
+  Verify the thing you produced, not the fact that you finished producing it. Exit codes
+  describe processes; you care about artifacts.
+</Callout>
+
+## The part I keep thinking about
+
+We had monitoring. We had logs. We had a dashboard someone glanced at most mornings. Every
+one of those systems was reporting faithfully on the question it had been asked, and the
+question was "did the script finish". Nobody had asked "is there a backup".
+
+Eight months of green is not evidence that something works. It is evidence that nothing
+has been checking.

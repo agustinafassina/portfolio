@@ -1,0 +1,1026 @@
+[
+  {
+    "id": "mexico",
+    "country": "Mexico",
+    "countryCode": "mx",
+    "lat": 19.6925,
+    "lng": -98.8438,
+    "photos": [
+      {
+        "src": "travels/mexico/teotihuacan.jpg",
+        "alt": {
+          "en": "Hot-air balloons flying above the pyramids of Teotihuacan at sunrise",
+          "es": "Globos aerostáticos volando sobre las pirámides de Teotihuacán al amanecer",
+          "it": "Mongolfiere in volo sopra le piramidi di Teotihuacán all alba"
+        }
+      },
+      {
+        "src": "travels/mexico/mexico-city.jpg",
+        "alt": {
+          "en": "Panoramic view over Mexico City",
+          "es": "Vista panorámica de Ciudad de México",
+          "it": "Vista panoramica di Città del Messico"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Teotihuacán & Mexico City, Mexico",
+        "summary": "Hot-air balloons drifting over the pyramids just after sunrise, followed by the colours, food and constant movement of Mexico City."
+      },
+      "es": {
+        "title": "Teotihuacán y Ciudad de México, México",
+        "summary": "Globos aerostáticos flotando sobre las pirámides apenas salió el sol, seguidos por los colores, la comida y el movimiento constante de Ciudad de México."
+      },
+      "it": {
+        "title": "Teotihuacán e Città del Messico, Messico",
+        "summary": "Mongolfiere sospese sopra le piramidi poco dopo l alba, seguite dai colori, dal cibo e dal movimento continuo di Città del Messico."
+      }
+    }
+  },
+  {
+    "id": "germany",
+    "country": "Germany",
+    "countryCode": "de",
+    "lat": 52.52,
+    "lng": 13.405,
+    "photos": [
+      {
+        "src": "travels/germany/berlin.jpeg",
+        "alt": {
+          "en": "The Fraternal Kiss mural painted on the Berlin Wall",
+          "es": "El mural del Beso Fraternal pintado sobre el Muro de Berlín",
+          "it": "Il murale del Bacio Fraterno dipinto sul Muro di Berlino"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Berlin, Germany",
+        "summary": "A city where every neighbourhood tells a different story. History, street art and long walks along the remains of the Wall."
+      },
+      "es": {
+        "title": "Berlín, Alemania",
+        "summary": "Una ciudad donde cada barrio cuenta una historia distinta. Historia, arte callejero y largas caminatas junto a los restos del Muro."
+      },
+      "it": {
+        "title": "Berlino, Germania",
+        "summary": "Una città in cui ogni quartiere racconta una storia diversa. Storia, arte di strada e lunghe passeggiate lungo ciò che resta del Muro."
+      }
+    }
+  },
+  {
+    "id": "poland",
+    "country": "Poland",
+    "countryCode": "pl",
+    "lat": 52.2297,
+    "lng": 21.0122,
+    "photos": [
+      {
+        "src": "travels/poland/warsaw.jpg",
+        "alt": {
+          "en": "The Palace of Culture and Science on a snowy day",
+          "es": "El Palacio de la Cultura y la Ciencia durante un día nevado",
+          "it": "Il Palazzo della Cultura e della Scienza in una giornata di neve"
+        }
+      },
+      {
+        "src": "travels/poland/auschwitz-birkenau.jpg",
+        "alt": {
+          "en": "Railway tracks leading toward the entrance of Auschwitz-Birkenau",
+          "es": "Vías ferroviarias que conducen hacia la entrada de Auschwitz-Birkenau",
+          "it": "Binari ferroviari che conducono verso l ingresso di Auschwitz-Birkenau"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Warsaw & Auschwitz-Birkenau, Poland",
+        "summary": "Warsaw's reconstructed streets and modern skyline, followed by a sobering visit to Auschwitz-Birkenau: a place of remembrance that demands time, silence and reflection."
+      },
+      "es": {
+        "title": "Varsovia y Auschwitz-Birkenau, Polonia",
+        "summary": "Las calles reconstruidas y el perfil moderno de Varsovia, seguidos por una visita movilizadora a Auschwitz-Birkenau: un lugar de memoria que exige tiempo, silencio y reflexión."
+      },
+      "it": {
+        "title": "Varsavia e Auschwitz-Birkenau, Polonia",
+        "summary": "Le strade ricostruite e lo skyline moderno di Varsavia, seguiti da una visita intensa ad Auschwitz-Birkenau: un luogo della memoria che richiede tempo, silenzio e riflessione."
+      }
+    }
+  },
+  {
+    "id": "brazil",
+    "country": "Brazil",
+    "countryCode": "br",
+    "lat": -22.9519,
+    "lng": -43.2105,
+    "photos": [
+      {
+        "src": "travels/brazil/rio.jpg",
+        "alt": {
+          "en": "Christ the Redeemer seen from below against a blue sky",
+          "es": "El Cristo Redentor visto desde abajo contra un cielo azul",
+          "it": "Il Cristo Redentore visto dal basso contro un cielo azzurro"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Rio de Janeiro, Brazil",
+        "summary": "Rio from above: mountains dropping into the sea, neighbourhoods filling every gap and Christ the Redeemer watching over it all."
+      },
+      "es": {
+        "title": "Río de Janeiro, Brasil",
+        "summary": "Río desde arriba: montañas que caen al mar, barrios ocupando cada espacio y el Cristo Redentor mirando todo desde lo alto."
+      },
+      "it": {
+        "title": "Rio de Janeiro, Brasile",
+        "summary": "Rio dall alto: montagne che scendono verso il mare, quartieri in ogni spazio e il Cristo Redentore che osserva tutto."
+      }
+    }
+  },
+  {
+    "id": "italy",
+    "country": "Italy",
+    "countryCode": "it",
+    "lat": 45.8081,
+    "lng": 9.0852,
+    "photos": [
+      {
+        "src": "travels/italy/como.jpeg",
+        "alt": {
+          "en": "Hillside neighbourhoods above Lake Como on a sunny day",
+          "es": "Barrios sobre las colinas junto al lago de Como en un día soleado",
+          "it": "Quartieri sulle colline sopra il Lago di Como in una giornata di sole"
+        }
+      },
+      {
+        "src": "travels/italy/venice.jpg",
+        "alt": {
+          "en": "A canal in Venice lined with colourful buildings",
+          "es": "Un canal de Venecia bordeado de edificios coloridos",
+          "it": "Un canale di Venezia fiancheggiato da edifici colorati"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Lake Como & Venice, Italy",
+        "summary": "Green hills packed with villages around Lake Como, then Venice, where the water replaces the streets and every canal feels like a shortcut."
+      },
+      "es": {
+        "title": "Lago de Como y Venecia, Italia",
+        "summary": "Colinas verdes llenas de pueblos junto al lago de Como y después Venecia, donde el agua reemplaza a las calles y cada canal parece un atajo."
+      },
+      "it": {
+        "title": "Lago di Como e Venezia, Italia",
+        "summary": "Colline verdi piene di paesi intorno al Lago di Como, poi Venezia, dove l acqua sostituisce le strade e ogni canale sembra una scorciatoia."
+      }
+    }
+  },
+  {
+    "id": "egypt",
+    "country": "Egypt",
+    "countryCode": "eg",
+    "lat": 29.9792,
+    "lng": 31.1342,
+    "photos": [
+      {
+        "src": "travels/egypt/giza.jpg",
+        "alt": {
+          "en": "A traveller sitting in front of the Great Pyramid of Giza",
+          "es": "Una viajera sentada frente a la Gran Pirámide de Guiza",
+          "it": "Una viaggiatrice seduta davanti alla Grande Piramide di Giza"
+        }
+      },
+      {
+        "src": "travels/egypt/cairo-skyline.jpg",
+        "alt": {
+          "en": "Cairo skyline with the pyramids visible through the sunset haze",
+          "es": "El horizonte de El Cairo con las pirámides entre la bruma del atardecer",
+          "it": "Lo skyline del Cairo con le piramidi nella foschia del tramonto"
+        }
+      },
+      {
+        "src": "travels/egypt/mosque.jpg",
+        "alt": {
+          "en": "A traveller in the courtyard of a historic Cairo mosque",
+          "es": "Una viajera en el patio de una mezquita histórica de El Cairo",
+          "it": "Una viaggiatrice nel cortile di una moschea storica del Cairo"
+        }
+      },
+      {
+        "src": "travels/egypt/tutankhamun.jpg",
+        "alt": {
+          "en": "The golden sarcophagus of Tutankhamun in a museum display",
+          "es": "El sarcófago dorado de Tutankamón en una exhibición de museo",
+          "it": "Il sarcofago dorato di Tutankhamon esposto in un museo"
+        }
+      },
+      {
+        "src": "travels/egypt/sphinx.jpg",
+        "alt": {
+          "en": "A traveller walking toward the Sphinx and pyramids of Giza",
+          "es": "Una viajera caminando hacia la Esfinge y las pirámides de Guiza",
+          "it": "Una viaggiatrice verso la Sfinge e le piramidi di Giza"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Cairo & Giza, Egypt",
+        "summary": "Nothing prepares you for the scale of the pyramids up close, or for the contrast between thousands of years of history and modern Cairo."
+      },
+      "es": {
+        "title": "El Cairo y Guiza, Egipto",
+        "summary": "Nada te prepara para la escala de las pirámides de cerca, ni para el contraste entre miles de años de historia y el Cairo moderno."
+      },
+      "it": {
+        "title": "Il Cairo e Giza, Egitto",
+        "summary": "Niente prepara alle dimensioni delle piramidi viste da vicino, né al contrasto tra migliaia di anni di storia e il Cairo moderno."
+      }
+    }
+  },
+  {
+    "id": "thailand",
+    "country": "Thailand",
+    "countryCode": "th",
+    "lat": 7.7407,
+    "lng": 98.7784,
+    "photos": [
+      {
+        "src": "travels/thailand/phi-phi.jpg",
+        "alt": {
+          "en": "Turquoise water and limestone cliffs at the Phi Phi Islands",
+          "es": "Agua turquesa y acantilados de piedra caliza en las islas Phi Phi",
+          "it": "Acqua turchese e scogliere calcaree alle isole Phi Phi"
+        }
+      },
+      {
+        "src": "travels/thailand/photo-02.jpg",
+        "alt": {
+          "en": "A traveller feeding an elephant beside a jungle river in Thailand",
+          "es": "Una viajera alimentando a un elefante junto a un río en la jungla de Tailandia",
+          "it": "Una viaggiatrice che dà da mangiare a un elefante accanto a un fiume nella giungla thailandese"
+        }
+      },
+      {
+        "src": "travels/thailand/white-temple.jpg",
+        "alt": {
+          "en": "The ornate white façade of Wat Rong Khun in Chiang Rai",
+          "es": "La ornamentada fachada blanca del Wat Rong Khun en Chiang Rai",
+          "it": "La decorata facciata bianca del Wat Rong Khun a Chiang Rai"
+        }
+      },
+      {
+        "src": "travels/thailand/night-taxi.jpg",
+        "alt": {
+          "en": "Bright red shared taxis lined up at night in Thailand",
+          "es": "Taxis compartidos rojos y luminosos en una calle nocturna de Tailandia",
+          "it": "Taxi collettivi rossi e luminosi in una strada notturna della Thailandia"
+        }
+      },
+      {
+        "src": "travels/thailand/white-buddha.jpg",
+        "alt": {
+          "en": "A traveller seated before white Buddha statues inside a temple",
+          "es": "Una viajera sentada frente a estatuas blancas de Buda dentro de un templo",
+          "it": "Una viaggiatrice seduta davanti a statue bianche del Buddha in un tempio"
+        }
+      },
+      {
+        "src": "travels/thailand/phuket-show.jpg",
+        "alt": {
+          "en": "A colourful dining hall beneath a large peacock decoration in Phuket",
+          "es": "Un salón colorido bajo una gran decoración de pavo real en Phuket",
+          "it": "Una sala colorata sotto una grande decorazione a pavone a Phuket"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Phi Phi, Phuket & Chiang Rai, Thailand",
+        "summary": "Turquoise water and limestone cliffs, elephants by a jungle river, the White Temple at Chiang Rai and nights in Phuket that felt almost too vivid to be real."
+      },
+      "es": {
+        "title": "Phi Phi, Phuket y Chiang Rai, Tailandia",
+        "summary": "Agua turquesa y acantilados de piedra caliza, elefantes junto a un río en la jungla, el Templo Blanco de Chiang Rai y noches en Phuket que parecían demasiado intensas para ser reales."
+      },
+      "it": {
+        "title": "Phi Phi, Phuket e Chiang Rai, Thailandia",
+        "summary": "Acqua turchese e scogliere calcaree, elefanti accanto a un fiume nella giungla, il Tempio Bianco di Chiang Rai e notti a Phuket che sembravano troppo intense per essere vere."
+      }
+    }
+  },
+  {
+    "id": "scotland",
+    "country": "Scotland",
+    "countryCode": "gb",
+    "lat": 55.9533,
+    "lng": -3.1883,
+    "photos": [
+      {
+        "src": "travels/scotland/edinburgh.jpg",
+        "alt": {
+          "en": "A wet stone passage in Edinburgh Old Town framed by a dark arch",
+          "es": "Un pasaje de piedra mojado en la Ciudad Vieja de Edimburgo enmarcado por un arco oscuro",
+          "it": "Un passaggio di pietra bagnato nella Città Vecchia di Edimburgo incorniciato da un arco scuro"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Edinburgh, Scotland",
+        "summary": "Stone closes, sudden views of the castle and just enough rain to make the Old Town look exactly as dramatic as it should."
+      },
+      "es": {
+        "title": "Edimburgo, Escocia",
+        "summary": "Pasajes de piedra, vistas repentinas del castillo y la lluvia justa para que la Ciudad Vieja se viera tan dramática como debía."
+      },
+      "it": {
+        "title": "Edimburgo, Scozia",
+        "summary": "Vicoli di pietra, scorci improvvisi del castello e abbastanza pioggia da rendere la Città Vecchia teatrale come dovrebbe essere."
+      }
+    }
+  },
+  {
+    "id": "uruguay",
+    "country": "Uruguay",
+    "countryCode": "uy",
+    "lat": -34.7719,
+    "lng": -55.7584,
+    "translations": {
+      "en": {
+        "title": "Atlántida, Uruguay",
+        "summary": "A small coastal town with an easy pace, beach sunsets and the feeling of being close to home, but not quite."
+      },
+      "es": {
+        "title": "Atlántida, Uruguay",
+        "summary": "Un pueblo costero con ritmo tranquilo, atardeceres en la playa y la sensación de estar cerca de casa, pero no del todo."
+      },
+      "it": {
+        "title": "Atlántida, Uruguay",
+        "summary": "Una cittadina costiera dal ritmo tranquillo, tramonti sulla spiaggia e la sensazione di essere vicino a casa, ma non del tutto."
+      }
+    }
+  },
+  {
+    "id": "chile",
+    "country": "Chile",
+    "countryCode": "cl",
+    "lat": -33.4489,
+    "lng": -70.6693,
+    "photos": [
+      {
+        "src": "travels/chile/punta-arenas.jpg",
+        "alt": {
+          "en": "The warm interior of a bar in Punta Arenas",
+          "es": "El cálido interior de un bar en Punta Arenas",
+          "it": "L interno accogliente di un bar a Punta Arenas"
+        }
+      },
+      {
+        "src": "travels/chile/southern-coast.jpg",
+        "alt": {
+          "en": "A rusted shipwreck on the southern Chilean coast",
+          "es": "Un barco oxidado varado en la costa del sur de Chile",
+          "it": "Un relitto arrugginito sulla costa meridionale del Cile"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Punta Arenas & the south, Chile",
+        "summary": "Wind, cold coastline and the particular warmth of places built at the far end of the continent."
+      },
+      "es": {
+        "title": "Punta Arenas y el sur, Chile",
+        "summary": "Viento, costa fría y la calidez particular de los lugares construidos en el extremo del continente."
+      },
+      "it": {
+        "title": "Punta Arenas e il sud, Cile",
+        "summary": "Vento, costa fredda e il calore particolare dei luoghi costruiti all estremità del continente."
+      }
+    }
+  },
+  {
+    "id": "colombia",
+    "country": "Colombia",
+    "countryCode": "co",
+    "lat": 4.711,
+    "lng": -74.0721,
+    "photos": [
+      {
+        "src": "travels/colombia/cartagena-arrival.jpg",
+        "alt": {
+          "en": "A traveller ready to leave with two large backpacks in Cartagena",
+          "es": "Una viajera lista para salir con dos mochilas grandes en Cartagena",
+          "it": "Una viaggiatrice pronta a partire con due grandi zaini a Cartagena"
+        }
+      },
+      {
+        "src": "travels/colombia/cartagena-remote-work.jpg",
+        "alt": {
+          "en": "A remote-work desk with laptops and spilled mate in Cartagena",
+          "es": "Un escritorio de trabajo remoto con notebooks y mate derramado en Cartagena",
+          "it": "Una postazione di lavoro da remoto con laptop e mate rovesciato a Cartagena"
+        }
+      },
+      {
+        "src": "travels/colombia/cartagena-view.jpg",
+        "alt": {
+          "en": "A cloudy panoramic view over Cartagena",
+          "es": "Una vista panorámica nublada de Cartagena",
+          "it": "Una vista panoramica nuvolosa su Cartagena"
+        }
+      },
+      {
+        "src": "travels/colombia/san-andres.jpg",
+        "alt": {
+          "en": "Boats floating in turquoise water at San Andres",
+          "es": "Botes flotando sobre el agua turquesa de San Andrés",
+          "it": "Barche sull acqua turchese di San Andrés"
+        }
+      },
+      {
+        "src": "travels/colombia/tayrona.jpg",
+        "alt": {
+          "en": "A campsite surrounded by green hills in Tayrona",
+          "es": "Un campamento rodeado de colinas verdes en Tayrona",
+          "it": "Un campeggio circondato da colline verdi a Tayrona"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Cartagena, San Andres & Tayrona, Colombia",
+        "summary": "Remote work, oversized backpacks, Caribbean water and a few days sleeping between the jungle and the sea."
+      },
+      "es": {
+        "title": "Cartagena, San Andrés y Tayrona, Colombia",
+        "summary": "Trabajo remoto, mochilas enormes, agua caribeña y unos días durmiendo entre la selva y el mar."
+      },
+      "it": {
+        "title": "Cartagena, San Andrés e Tayrona, Colombia",
+        "summary": "Lavoro da remoto, zaini enormi, acqua caraibica e qualche giorno dormendo tra la giungla e il mare."
+      }
+    }
+  },
+  {
+    "id": "singapore",
+    "country": "Singapore",
+    "countryCode": "sg",
+    "lat": 1.3521,
+    "lng": 103.8198,
+    "photos": [
+      {
+        "src": "travels/singapore/marina-bay.jpg",
+        "alt": {
+          "en": "Marina Bay Sands and the ArtScience Museum across the bay",
+          "es": "Marina Bay Sands y el ArtScience Museum frente a la bahía",
+          "it": "Marina Bay Sands e l ArtScience Museum dall altra parte della baia"
+        }
+      },
+      {
+        "src": "travels/singapore/singapore-flyer.jpg",
+        "alt": {
+          "en": "The Singapore Flyer and Marina Bay skyline",
+          "es": "La Singapore Flyer y el perfil urbano de Marina Bay",
+          "it": "La Singapore Flyer e lo skyline di Marina Bay"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Marina Bay, Singapore",
+        "summary": "A skyline built around water, with Marina Bay Sands, the Singapore Flyer and futuristic architecture appearing from every angle."
+      },
+      "es": {
+        "title": "Marina Bay, Singapur",
+        "summary": "Un perfil urbano construido alrededor del agua, con Marina Bay Sands, la Singapore Flyer y arquitectura futurista apareciendo desde cada ángulo."
+      },
+      "it": {
+        "title": "Marina Bay, Singapore",
+        "summary": "Uno skyline costruito intorno all acqua, con Marina Bay Sands, la Singapore Flyer e architetture futuristiche visibili da ogni angolazione."
+      }
+    }
+  },
+  {
+    "id": "luxembourg",
+    "country": "Luxembourg",
+    "countryCode": "lu",
+    "lat": 49.6116,
+    "lng": 6.1319,
+    "photos": [
+      {
+        "src": "travels/luxembourg/city-square.jpg",
+        "alt": {
+          "en": "Historic buildings surrounding a square in Luxembourg City",
+          "es": "Edificios históricos alrededor de una plaza en la ciudad de Luxemburgo",
+          "it": "Edifici storici intorno a una piazza nella città di Lussemburgo"
+        }
+      },
+      {
+        "src": "travels/luxembourg/souvenir.jpg",
+        "alt": {
+          "en": "A Luxembourg-shaped souvenir magnet in a shop",
+          "es": "Un imán de recuerdo con la forma de Luxemburgo en una tienda",
+          "it": "Un magnete souvenir a forma di Lussemburgo in un negozio"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Luxembourg City, Luxembourg",
+        "summary": "A compact capital of stately façades, quiet squares and reminders of just how small the country is."
+      },
+      "es": {
+        "title": "Ciudad de Luxemburgo, Luxemburgo",
+        "summary": "Una capital compacta de fachadas señoriales, plazas tranquilas y recordatorios de lo pequeño que es el país."
+      },
+      "it": {
+        "title": "Città di Lussemburgo, Lussemburgo",
+        "summary": "Una capitale compatta tra facciate eleganti, piazze tranquille e promemoria di quanto sia piccolo il paese."
+      }
+    }
+  },
+  {
+    "id": "malta",
+    "country": "Malta",
+    "countryCode": "mt",
+    "lat": 35.8989,
+    "lng": 14.5146,
+    "photos": [
+      {
+        "src": "travels/malta/victoria.jpg",
+        "alt": {
+          "en": "A narrow honey-coloured street with a red scooter in Victoria, Gozo",
+          "es": "Una calle angosta color miel con una moto roja en Victoria, Gozo",
+          "it": "Una stretta strada color miele con uno scooter rosso a Victoria, Gozo"
+        }
+      },
+      {
+        "src": "travels/malta/mdina.jpg",
+        "alt": {
+          "en": "The fortified stone city of Mdina beneath a clear blue sky",
+          "es": "La ciudad fortificada de piedra de Mdina bajo un cielo azul",
+          "it": "La città fortificata in pietra di Mdina sotto un cielo azzurro"
+        }
+      },
+      {
+        "src": "travels/malta/valletta.jpg",
+        "alt": {
+          "en": "A steep Valletta street lined with traditional enclosed balconies",
+          "es": "Una calle empinada de La Valeta con balcones tradicionales cerrados",
+          "it": "Una ripida strada della Valletta con i tradizionali balconi chiusi"
+        }
+      },
+      {
+        "src": "travels/malta/harbour-sunset.jpg",
+        "alt": {
+          "en": "A boat crossing the harbour in front of Malta's fortifications at sunset",
+          "es": "Un barco cruzando el puerto frente a las fortificaciones de Malta al atardecer",
+          "it": "Una barca nel porto davanti alle fortificazioni di Malta al tramonto"
+        }
+      },
+      {
+        "src": "travels/malta/ghajnsielem.jpg",
+        "alt": {
+          "en": "Tour boats floating on bright turquoise water near Ghajnsielem",
+          "es": "Barcos turísticos sobre agua turquesa cerca de Għajnsielem",
+          "it": "Barche turistiche sull acqua turchese vicino a Għajnsielem"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Valletta, Mdina & Gozo, Malta",
+        "summary": "Honey-coloured streets, fortified cities and water so blue that every ferry ride felt like part of the destination."
+      },
+      "es": {
+        "title": "La Valeta, Mdina y Gozo, Malta",
+        "summary": "Calles color miel, ciudades fortificadas y un agua tan azul que cada viaje en ferry se sentía como parte del destino."
+      },
+      "it": {
+        "title": "La Valletta, Mdina e Gozo, Malta",
+        "summary": "Strade color miele, città fortificate e un acqua così azzurra che ogni viaggio in traghetto sembrava parte della destinazione."
+      }
+    }
+  },
+  {
+    "id": "andorra",
+    "country": "Andorra",
+    "countryCode": "ad",
+    "lat": 42.5063,
+    "lng": 1.5218,
+    "photos": [
+      {
+        "src": "travels/andorra/pas-de-la-casa-1.jpg",
+        "alt": {
+          "en": "An Andorra postcard held in front of grazing cows and Pyrenean peaks",
+          "es": "Una postal de Andorra frente a vacas pastando y las cumbres de los Pirineos",
+          "it": "Una cartolina di Andorra davanti a mucche al pascolo e alle cime dei Pirenei"
+        }
+      },
+      {
+        "src": "travels/andorra/pas-de-la-casa-2.jpg",
+        "alt": {
+          "en": "A mountain lake surrounded by rocky peaks near Pas de la Casa",
+          "es": "Un lago de montaña rodeado de cumbres rocosas cerca de Pas de la Casa",
+          "it": "Un lago di montagna circondato da cime rocciose vicino a Pas de la Casa"
+        }
+      },
+      {
+        "src": "travels/andorra/pas-de-la-casa-3.jpg",
+        "alt": {
+          "en": "A rain-soaked street glowing beneath the fog in Pas de la Casa",
+          "es": "Una calle mojada por la lluvia iluminada bajo la niebla en Pas de la Casa",
+          "it": "Una strada bagnata dalla pioggia illuminata nella nebbia a Pas de la Casa"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Pas de la Casa, Andorra",
+        "summary": "Rocky Pyrenean trails, mountain lakes and a town that disappeared into the fog after dark."
+      },
+      "es": {
+        "title": "Pas de la Casa, Andorra",
+        "summary": "Senderos rocosos por los Pirineos, lagos de montaña y un pueblo que desapareció entre la niebla al anochecer."
+      },
+      "it": {
+        "title": "Pas de la Casa, Andorra",
+        "summary": "Sentieri rocciosi sui Pirenei, laghi di montagna e un paese scomparso nella nebbia dopo il tramonto."
+      }
+    }
+  },
+  {
+    "id": "spain",
+    "country": "Spain",
+    "countryCode": "es",
+    "lat": 40.4168,
+    "lng": -3.7038,
+    "photos": [
+      {
+        "src": "travels/spain/madrid-plaza-mayor.jpg",
+        "alt": {
+          "en": "People crossing Madrid's Plaza Mayor beneath an afternoon sky",
+          "es": "Personas cruzando la Plaza Mayor de Madrid bajo el cielo de la tarde",
+          "it": "Persone che attraversano Plaza Mayor a Madrid sotto il cielo del pomeriggio"
+        }
+      },
+      {
+        "src": "travels/spain/sagrada-familia.jpg",
+        "alt": {
+          "en": "The illuminated Sagrada Família rising into the night sky in Barcelona",
+          "es": "La Sagrada Familia iluminada elevándose en el cielo nocturno de Barcelona",
+          "it": "La Sagrada Família illuminata che si staglia nel cielo notturno di Barcellona"
+        }
+      },
+      {
+        "src": "travels/spain/toledo-cathedral.jpg",
+        "alt": {
+          "en": "Toledo Cathedral framed by a narrow stone street",
+          "es": "La Catedral de Toledo enmarcada por una estrecha calle de piedra",
+          "it": "La Cattedrale di Toledo incorniciata da una stretta strada in pietra"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Madrid, Barcelona & Toledo, Spain",
+        "summary": "Grand plazas, Gaudí after dark and old stone streets leading toward Toledo's cathedral."
+      },
+      "es": {
+        "title": "Madrid, Barcelona y Toledo, España",
+        "summary": "Plazas monumentales, Gaudí de noche y antiguas calles de piedra que llevan hasta la catedral de Toledo."
+      },
+      "it": {
+        "title": "Madrid, Barcellona e Toledo, Spagna",
+        "summary": "Piazze monumentali, Gaudí di notte e antiche strade in pietra che conducono alla cattedrale di Toledo."
+      }
+    }
+  },
+  {
+    "id": "england",
+    "country": "England",
+    "countryCode": "gb",
+    "lat": 51.5072,
+    "lng": -0.1276,
+    "photos": [
+      {
+        "src": "travels/england/london-big-ben.jpg",
+        "alt": {
+          "en": "A red telephone box and the Elizabeth Tower on a rainy London evening",
+          "es": "Una cabina telefónica roja y la Torre de Isabel en una tarde lluviosa de Londres",
+          "it": "Una cabina telefonica rossa e la Torre Elisabetta in una sera piovosa a Londra"
+        }
+      },
+      {
+        "src": "travels/england/platform-9-3-4.jpg",
+        "alt": {
+          "en": "Platform 9¾ at King's Cross with a luggage trolley halfway through the wall",
+          "es": "El andén 9¾ en King's Cross con un carrito de equipaje atravesando la pared",
+          "it": "Il binario 9¾ a King's Cross con un carrello dei bagagli a metà nel muro"
+        }
+      },
+      {
+        "src": "travels/england/stonehenge.jpg",
+        "alt": {
+          "en": "Stonehenge standing on a green hillside beneath a cloudy sky",
+          "es": "Stonehenge sobre una ladera verde bajo un cielo nublado",
+          "it": "Stonehenge su un pendio verde sotto un cielo nuvoloso"
+        }
+      },
+      {
+        "src": "travels/england/stonehenge-perspective.jpg",
+        "alt": {
+          "en": "A playful perspective shot making Stonehenge look tiny in an outstretched hand",
+          "es": "Una foto en perspectiva que hace que Stonehenge parezca diminuto en una mano extendida",
+          "it": "Uno scatto in prospettiva che fa sembrare Stonehenge minuscolo nel palmo di una mano"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "London & Stonehenge, England",
+        "summary": "Big Ben in the rain, a trolley through Platform 9¾ and prehistoric stones on a windswept Wiltshire hill."
+      },
+      "es": {
+        "title": "Londres y Stonehenge, Inglaterra",
+        "summary": "Big Ben bajo la lluvia, un carrito atravesando el andén 9¾ y piedras prehistóricas en una colina ventosa de Wiltshire."
+      },
+      "it": {
+        "title": "Londra e Stonehenge, Inghilterra",
+        "summary": "Big Ben sotto la pioggia, un carrello attraverso il binario 9¾ e pietre preistoriche su una collina ventosa del Wiltshire."
+      }
+    }
+  },
+  {
+    "id": "netherlands",
+    "country": "Netherlands",
+    "countryCode": "nl",
+    "lat": 52.3676,
+    "lng": 4.9041,
+    "photos": [
+      {
+        "src": "travels/netherlands/amsterdam.jpg",
+        "alt": {
+          "en": "A mint-green bicycle overlooking an Amsterdam canal",
+          "es": "Una bicicleta verde menta frente a un canal de Ámsterdam",
+          "it": "Una bicicletta verde menta davanti a un canale di Amsterdam"
+        }
+      },
+      {
+        "src": "travels/netherlands/haarlem.jpg",
+        "alt": {
+          "en": "A stepped-gable brick building in Haarlem",
+          "es": "Un edificio de ladrillo con fachada escalonada en Haarlem",
+          "it": "Un edificio in mattoni con facciata a gradoni ad Haarlem"
+        }
+      },
+      {
+        "src": "travels/netherlands/alkmaar.jpg",
+        "alt": {
+          "en": "A quiet cobbled residential street in Alkmaar",
+          "es": "Una tranquila calle residencial empedrada en Alkmaar",
+          "it": "Una tranquilla strada residenziale acciottolata ad Alkmaar"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Amsterdam, Haarlem & Alkmaar, Netherlands",
+        "summary": "Canals, bicycles and brick façades, from Amsterdam's busy streets to the quieter corners of Haarlem and Alkmaar."
+      },
+      "es": {
+        "title": "Ámsterdam, Haarlem y Alkmaar, Países Bajos",
+        "summary": "Canales, bicicletas y fachadas de ladrillo, desde las calles concurridas de Ámsterdam hasta los rincones tranquilos de Haarlem y Alkmaar."
+      },
+      "it": {
+        "title": "Amsterdam, Haarlem e Alkmaar, Paesi Bassi",
+        "summary": "Canali, biciclette e facciate in mattoni, dalle strade affollate di Amsterdam agli angoli più tranquilli di Haarlem e Alkmaar."
+      }
+    }
+  },
+  {
+    "id": "belgium",
+    "country": "Belgium",
+    "countryCode": "be",
+    "lat": 50.8503,
+    "lng": 4.3517,
+    "photos": [
+      {
+        "src": "travels/belgium/brussels.jpg",
+        "alt": {
+          "en": "The Atomium seen from below in Brussels",
+          "es": "El Atomium visto desde abajo en Bruselas",
+          "it": "L Atomium visto dal basso a Bruxelles"
+        }
+      },
+      {
+        "src": "travels/belgium/ghent-bikes.jpg",
+        "alt": {
+          "en": "A large bicycle parking area in Ghent",
+          "es": "Un gran estacionamiento de bicicletas en Gante",
+          "it": "Un grande parcheggio per biciclette a Gand"
+        }
+      },
+      {
+        "src": "travels/belgium/ghent-belfry.jpg",
+        "alt": {
+          "en": "The Belfry of Ghent against a blue sky",
+          "es": "El campanario de Gante contra un cielo azul",
+          "it": "Il campanile di Gand contro un cielo azzurro"
+        }
+      },
+      {
+        "src": "travels/belgium/antwerp.jpg",
+        "alt": {
+          "en": "Historic guild houses in Antwerp",
+          "es": "Casas gremiales históricas de Amberes",
+          "it": "Storiche case delle corporazioni ad Anversa"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Brussels, Ghent & Antwerp, Belgium",
+        "summary": "Three cities, ornate façades, towers and enough bicycles to make the train stations feel like landmarks of their own."
+      },
+      "es": {
+        "title": "Bruselas, Gante y Amberes, Bélgica",
+        "summary": "Tres ciudades, fachadas ornamentadas, torres y suficientes bicicletas para que las estaciones de tren se sintieran como atracciones propias."
+      },
+      "it": {
+        "title": "Bruxelles, Gand e Anversa, Belgio",
+        "summary": "Tre città, facciate elaborate, torri e abbastanza biciclette da far sembrare le stazioni ferroviarie attrazioni a sé."
+      }
+    }
+  },
+  {
+    "id": "france",
+    "country": "France",
+    "countryCode": "fr",
+    "lat": 48.8566,
+    "lng": 2.3522,
+    "photos": [
+      {
+        "src": "travels/france/paris-1.jpg",
+        "alt": {
+          "en": "A traveller standing in front of the Eiffel Tower on an overcast day",
+          "es": "Una viajera frente a la Torre Eiffel en un día nublado",
+          "it": "Una viaggiatrice davanti alla Torre Eiffel in una giornata nuvolosa"
+        }
+      },
+      {
+        "src": "travels/france/paris-2.jpg",
+        "alt": {
+          "en": "The illuminated Paris skyline seen from the Eiffel Tower at night",
+          "es": "El horizonte iluminado de París visto desde la Torre Eiffel de noche",
+          "it": "Lo skyline illuminato di Parigi visto dalla Torre Eiffel di notte"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Paris, France",
+        "summary": "The Eiffel Tower beneath grey skies, then the city lights stretching toward the horizon from high above Paris."
+      },
+      "es": {
+        "title": "París, Francia",
+        "summary": "La Torre Eiffel bajo un cielo gris y, después, las luces de la ciudad extendiéndose hasta el horizonte desde lo alto de París."
+      },
+      "it": {
+        "title": "Parigi, Francia",
+        "summary": "La Torre Eiffel sotto un cielo grigio e poi le luci della città che si estendono fino all'orizzonte dall'alto di Parigi."
+      }
+    }
+  },
+  {
+    "id": "switzerland",
+    "country": "Switzerland",
+    "countryCode": "ch",
+    "lat": 46.4908,
+    "lng": 9.8355,
+    "photos": [
+      {
+        "src": "travels/switzerland/poschiavo.jpg",
+        "alt": {
+          "en": "A turquoise alpine lake surrounded by snowy peaks near Poschiavo",
+          "es": "Un lago alpino turquesa rodeado de cumbres nevadas cerca de Poschiavo",
+          "it": "Un lago alpino turchese circondato da cime innevate vicino a Poschiavo"
+        }
+      },
+      {
+        "src": "travels/switzerland/st-moritz.jpg",
+        "alt": {
+          "en": "Stone towers and ornate architecture in St. Moritz",
+          "es": "Torres de piedra y arquitectura ornamentada en St. Moritz",
+          "it": "Torri in pietra e architettura decorata a St. Moritz"
+        }
+      },
+      {
+        "src": "travels/switzerland/bernina-train.jpg",
+        "alt": {
+          "en": "A red train travelling through an alpine valley on the Bernina route",
+          "es": "Un tren rojo recorriendo un valle alpino en la ruta del Bernina",
+          "it": "Un treno rosso attraversa una valle alpina sulla linea del Bernina"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "Poschiavo & St. Moritz, Switzerland",
+        "summary": "The Bernina route through snowy peaks, turquoise lakes and deep valleys, with stops in Poschiavo and St. Moritz along the way."
+      },
+      "es": {
+        "title": "Poschiavo y St. Moritz, Suiza",
+        "summary": "La ruta del Bernina entre cumbres nevadas, lagos turquesa y valles profundos, con paradas en Poschiavo y St. Moritz."
+      },
+      "it": {
+        "title": "Poschiavo e St. Moritz, Svizzera",
+        "summary": "La linea del Bernina tra cime innevate, laghi turchesi e valli profonde, con soste a Poschiavo e St. Moritz."
+      }
+    }
+  },
+  {
+    "id": "argentina",
+    "country": "Argentina",
+    "countryCode": "ar",
+    "lat": -50.3403,
+    "lng": -72.2624,
+    "photos": [
+      {
+        "src": "travels/argentina/talampaya.jpg",
+        "alt": {
+          "en": "A safari truck parked beneath the red cliffs of Talampaya",
+          "es": "Un camión safari estacionado bajo los acantilados rojos de Talampaya",
+          "it": "Un fuoristrada safari parcheggiato sotto le scogliere rosse di Talampaya"
+        }
+      },
+      {
+        "src": "travels/argentina/villa-epecuen.jpg",
+        "alt": {
+          "en": "The salt-crusted ruins of Villa Epecuén beneath a full moon",
+          "es": "Las ruinas cubiertas de sal de Villa Epecuén bajo la luna llena",
+          "it": "Le rovine ricoperte di sale di Villa Epecuén sotto la luna piena"
+        }
+      },
+      {
+        "src": "travels/argentina/paragliding.jpg",
+        "alt": {
+          "en": "A paraglider's view of a lake glowing at sunset",
+          "es": "La vista desde un parapente de un lago iluminado al atardecer",
+          "it": "La vista da un parapendio di un lago illuminato al tramonto"
+        }
+      },
+      {
+        "src": "travels/argentina/chubut-mountain-road.jpg",
+        "alt": {
+          "en": "A winding gravel road cutting through forested Patagonian mountains in Chubut",
+          "es": "Un camino de ripio serpenteante entre montañas boscosas de la Patagonia en Chubut",
+          "it": "Una strada sterrata tortuosa tra le montagne boschive della Patagonia nel Chubut"
+        }
+      },
+      {
+        "src": "travels/argentina/bariloche-funicular.jpg",
+        "alt": {
+          "en": "A red funicular climbing a snowy slope above Lake Nahuel Huapi in Bariloche",
+          "es": "Un funicular rojo subiendo una ladera nevada sobre el lago Nahuel Huapi en Bariloche",
+          "it": "Una funicolare rossa che sale un pendio innevato sul lago Nahuel Huapi a Bariloche"
+        }
+      },
+      {
+        "src": "travels/argentina/santa-cruz-hills.jpg",
+        "alt": {
+          "en": "Striped hills of pink, yellow and orange rock in Santa Cruz",
+          "es": "Cerros de roca a rayas rosas, amarillas y naranjas en Santa Cruz",
+          "it": "Colline a strisce di roccia rosa, gialla e arancione a Santa Cruz"
+        }
+      },
+      {
+        "src": "travels/argentina/santa-cruz-canyon.jpg",
+        "alt": {
+          "en": "A sunlit canyon wall in the Patagonian steppe of Santa Cruz",
+          "es": "Una pared de cañón iluminada por el sol en la estepa patagónica de Santa Cruz",
+          "it": "Una parete di canyon illuminata dal sole nella steppa patagonica di Santa Cruz"
+        }
+      }
+    ],
+    "translations": {
+      "en": {
+        "title": "La Rioja, Bariloche & Patagonia, Argentina",
+        "summary": "Home turf: Talampaya's red canyons, the flooded ruins of Villa Epecuén, paragliding at sunset, snow in Bariloche and Patagonian roads that never seem to end."
+      },
+      "es": {
+        "title": "La Rioja, Bariloche y Patagonia, Argentina",
+        "summary": "Casa: los cañones rojos de Talampaya, las ruinas inundadas de Villa Epecuén, parapente al atardecer, nieve en Bariloche y caminos patagónicos que no parecen terminar nunca."
+      },
+      "it": {
+        "title": "La Rioja, Bariloche e Patagonia, Argentina",
+        "summary": "Casa: i canyon rossi di Talampaya, le rovine allagate di Villa Epecuén, parapendio al tramonto, neve a Bariloche e strade patagoniche che non sembrano finire mai."
+      }
+    }
+  }
+]

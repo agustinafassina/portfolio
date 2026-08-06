@@ -1,0 +1,245 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg: #f4ebdb;
+  --surface: #e9dcc5;
+  --surface-raised: #f9f3e7;
+  --border: #c0a684;
+  --border-strong: #8d6043;
+  --fg: #3a2a1d;
+  --fg-muted: #6f5942;
+  --accent: #a85f1c;
+  --accent-hover: #8a4c14;
+  --accent-contrast: #fdf8ef;
+  --sage: #5c7444;
+  --pin: #a8412c;
+  --glow: rgb(168 95 28 / 0.14);
+}
+
+.dark {
+  --bg: #141729;
+  --surface: #1f2338;
+  --surface-raised: #272b43;
+  --border: #3a3f5a;
+  --border-strong: #59608a;
+  --fg: #e8dcc8;
+  --fg-muted: #a2967f;
+  --accent: #e3a24f;
+  --accent-hover: #f0b76c;
+  --accent-contrast: #171a33;
+  --sage: #8fae72;
+  --pin: #d1614a;
+  --glow: rgb(227 162 79 / 0.16);
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', monospace;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-edge: var(--border);
+  --color-edge-strong: var(--border-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-sage: var(--sage);
+  --color-pin: var(--pin);
+
+  --radius-none: 0px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body,
+  a,
+  button,
+  input,
+  textarea,
+  svg {
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      opacity 200ms ease,
+      transform 200ms ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-contrast);
+  }
+}
+
+@layer components {
+  .panel {
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .lamp-glow {
+    background-image: radial-gradient(60% 70% at 50% 0%, var(--glow), transparent 70%);
+  }
+
+  .link-underline {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border-strong);
+  }
+
+  .link-underline:hover {
+    text-decoration-color: var(--accent);
+  }
+
+  .prose-desk {
+    color: var(--fg);
+    line-height: 1.75;
+  }
+
+  .prose-desk > * + * {
+    margin-top: 1.15em;
+  }
+
+  .prose-desk h2 {
+    font-size: 1.5rem;
+    margin-top: 2.25em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .prose-desk h3 {
+    font-size: 1.2rem;
+    margin-top: 1.75em;
+  }
+
+  .prose-desk a {
+    color: var(--accent);
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+
+  .prose-desk a:hover {
+    color: var(--accent-hover);
+  }
+
+  .prose-desk ul,
+  .prose-desk ol {
+    padding-left: 1.4em;
+  }
+
+  .prose-desk ul {
+    list-style-type: square;
+  }
+
+  .prose-desk ol {
+    list-style-type: decimal;
+  }
+
+  .prose-desk li + li {
+    margin-top: 0.4em;
+  }
+
+  .prose-desk li::marker {
+    color: var(--accent);
+  }
+
+  .prose-desk blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 1em;
+    color: var(--fg-muted);
+    font-style: italic;
+  }
+
+  .prose-desk :not(pre) > code {
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+  }
+
+  .prose-desk pre {
+    background-color: var(--surface-raised);
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+  }
+
+  .prose-desk img {
+    border: 2px solid var(--border);
+    border-radius: 3px;
+  }
+
+  .prose-desk hr {
+    border: 0;
+    border-top: 2px solid var(--border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

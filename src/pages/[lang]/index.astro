@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../../assets/profile/avatar.jpg';
+import desk from '../../assets/site/desk.jpg';
+import BlogCard from '../../components/BlogCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import type { Locale } from '../../i18n/ui';
+import { localeStaticPaths, localizedPath, useTranslations } from '../../i18n/utils';
+import { HOME_FEATURED_PROJECTS_LIMIT, HOME_POSTS_LIMIT } from '../../lib/consts';
+import { getFeaturedProjects, getPosts } from '../../lib/content';
+import { siteConfig } from '../../lib/config';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { lang } = Astro.props as { lang: Locale };
+const t = useTranslations(lang);
+
+const projects = await getFeaturedProjects(lang, HOME_FEATURED_PROJECTS_LIMIT);
+const posts = (await getPosts(lang)).slice(0, HOME_POSTS_LIMIT);
+---
+
+<BaseLayout lang={lang} title={siteConfig.name} description={t('site.description')} wide>
+  <section class="lamp-glow border-b-2 border-edge">
+    <div class="mx-auto w-full max-w-5xl px-4 py-12 sm:px-6 sm:py-16">
+      <div class="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
+        <div>
+          <div class="flex items-center gap-4">
+            <Image
+              src={avatar}
+              alt={siteConfig.author}
+              widths={[96, 192]}
+              sizes="5rem"
+              class="size-16 rounded-full border-2 border-accent object-cover sm:size-20"
+              loading="eager"
+            />
+            <div>
+              <p class="font-mono text-sm text-fg-muted">{t('home.greeting')}</p>
+              <p class="font-mono text-xl font-bold sm:text-2xl">{siteConfig.author}</p>
+            </div>
+          </div>
+
+          <h1 class="mt-6 text-3xl leading-tight sm:text-4xl">
+            {t('home.role')}
+          </h1>
+
+          <p class="mt-4 max-w-2xl text-fg-muted">{t('home.pitch')}</p>
+
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a
+              href={localizedPath(lang, 'projects')}
+              class="border-2 border-accent bg-accent px-4 py-2 font-mono text-sm text-accent-contrast hover:bg-accent-hover hover:border-accent-hover"
+            >
+              {t('home.ctaProjects')}
+            </a>
+            <a
+              href={localizedPath(lang, 'contact')}
+              class="border-2 border-edge px-4 py-2 font-mono text-sm hover:border-accent hover:text-accent"
+            >
+              {t('home.ctaContact')}
+            </a>
+          </div>
+        </div>
+
+        <div class="overflow-hidden border-2 border-edge lg:max-w-md">
+          <Image
+            src={desk}
+            alt={t('home.deskAlt')}
+            widths={[512, 1024]}
+            sizes="(min-width: 1024px) 28rem, 92vw"
+            class="w-full"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="mx-auto w-full max-w-5xl space-y-16 px-4 py-14 sm:px-6">
+    <section>
+      <div class="mb-6 flex items-baseline justify-between gap-4 border-b-2 border-edge pb-2">
+        <h2 class="text-2xl">
+          <span class="mr-2 text-accent" aria-hidden="true">##</span>
+          {t('home.latestProjects')}
+        </h2>
+        <a
+          href={localizedPath(lang, 'projects')}
+          class="shrink-0 font-mono text-xs text-fg-muted hover:text-accent"
+        >
+          {t('home.viewAllProjects')}
+          <span aria-hidden="true">-&gt;</span>
+        </a>
+      </div>
+
+      {
+        projects.length > 0 ? (
+          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => (
+              <ProjectCard lang={lang} project={project} headingLevel={3} />
+            ))}
+          </div>
+        ) : (
+          <p class="text-fg-muted">{t('projects.empty')}</p>
+        )
+      }
+    </section>
+
+    <section>
+      <div class="mb-6 flex items-baseline justify-between gap-4 border-b-2 border-edge pb-2">
+        <h2 class="text-2xl">
+          <span class="mr-2 text-accent" aria-hidden="true">##</span>
+          {t('home.latestPosts')}
+        </h2>
+        <a
+          href={localizedPath(lang, 'blog')}
+          class="shrink-0 font-mono text-xs text-fg-muted hover:text-accent"
+        >
+          {t('home.viewAllPosts')}
+          <span aria-hidden="true">-&gt;</span>
+        </a>
+      </div>
+
+      {
+        posts.length > 0 ? (
+          <div class="grid gap-5 sm:grid-cols-2">
+            {posts.map((post) => (
+              <BlogCard lang={lang} post={post} headingLevel={3} />
+            ))}
+          </div>
+        ) : (
+          <p class="text-fg-muted">{t('blog.empty')}</p>
+        )
+      }
+    </section>
+  </div>
+</BaseLayout>
