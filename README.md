@@ -1,450 +1,136 @@
 # 🌐 Portfolio
-
-A static personal portfolio built with Astro 7, Tailwind CSS 4 and MDX. Three languages
-(English, Spanish, Italian), a projects gallery, a blog, an interactive travel map and a
-contact form. No client-side framework, and the only JavaScript shipped is a theme toggle
-and the Leaflet map.
+Static personal portfolio built with Astro 7, Tailwind CSS 4 and MDX. Three languages
+(English, Spanish, Italian), projects, blog, travel map and contact form. No client-side
+framework; the only shipped JavaScript is a theme toggle and the Leaflet map.
 
 Because the source code carries no comments by design, this README is the documentation.
-If something in the codebase looks surprising, the explanation is here.
 
 ## 🚀 Quick start
-
 ```bash
 npm install
 cp .env.example .env.local
 npm run dev
 ```
 
-The dev server runs at `http://localhost:4321`. Visiting `/` redirects to `/en/`.
+Dev server: `http://localhost:4321`. `/` redirects to `/en/`.
 
-Copy `.env.example` to `.env.local` and fill in every value before running `npm run dev` or
-`npm run build`. The build fails with a clear error if any required variable is missing.
-`.env.local` is gitignored and must never be committed.
+Fill in every value in `.env.local` before `npm run dev` or `npm run build`. The build fails
+with a clear error if anything is missing. `.env.local` is gitignored.
 
-Images use Astro's asset pipeline and require **`sharp`** (already in `package.json`). If
-covers or diagrams show broken in dev, run `npm install` and restart the dev server — a stale
-`astro dev` process started before Sharp was installed will return 500 on `/_image` requests.
+Images use Astro's asset pipeline and require **`sharp`**. If covers break in dev, restart
+the dev server after `npm install` — a stale `astro dev` process returns 500 on `/_image`.
 
 ## 📜 Scripts
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Dev server with HMR |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve `dist/` locally |
+| `npm run check` | TypeScript and template diagnostics |
+| `npm run lint` / `lint:fix` | ESLint |
+| `npm run format` / `format:check` | Prettier |
 
-| Command                | What it does                                       |
-| ---------------------- | -------------------------------------------------- |
-| `npm run dev`          | Dev server with HMR at `localhost:4321`            |
-| `npm run build`        | Type-safe production build into `dist/`            |
-| `npm run preview`      | Serve the built `dist/` locally                    |
-| `npm run check`        | `astro check`: TypeScript and template diagnostics |
-| `npm run lint`         | ESLint across `.astro`, `.ts`, `.js`, `.mdx`       |
-| `npm run lint:fix`     | ESLint with auto-fix where possible                |
-| `npm run format`       | Prettier: format the whole project                 |
-| `npm run format:check` | Prettier: verify formatting without writing files  |
-
-Before pushing or deploying, run `npm run check && npm run lint && npm run build`.
+Before pushing or deploying: `npm run check && npm run lint && npm run build`.
 
 ## 🔐 Environment variables
+Validated at build time in `src/lib/config.ts`. See `.env.example` for the full list.
 
-Every variable is validated at build time by `src/lib/config.ts` using `astro/zod`. A
-missing or malformed value fails the build with a message naming the offending key, rather
-than rendering a page with `undefined` in it.
+| Variable | Required | Used for |
+| --- | --- | --- |
+| `PUBLIC_SITE_URL` | yes | Canonical URLs, sitemap, RSS, OG images |
+| `PUBLIC_SITE_NAME` | yes | Header, titles, feed |
+| `PUBLIC_AUTHOR_NAME` | yes | Author meta, RSS, footer |
+| `PUBLIC_CONTACT_EMAIL` | yes | Contact mailto link |
+| `PUBLIC_FORMSPREE_ENDPOINT` | yes | Contact form action |
+| `PUBLIC_GITHUB_URL` | yes | Social links |
+| `PUBLIC_LINKEDIN_URL` | yes | Social links |
+| `PUBLIC_TWITTER_URL` | no | Omitted when unset |
 
-| Variable                    | Required | Format       | Used for                                             |
-| --------------------------- | -------- | ------------ | ---------------------------------------------------- |
-| `PUBLIC_SITE_URL`           | yes      | URL          | Canonical URLs, sitemap, RSS, absolute OG image URLs |
-| `PUBLIC_SITE_NAME`          | yes      | non-empty    | Header wordmark, page title suffix, feed title       |
-| `PUBLIC_AUTHOR_NAME`        | yes      | non-empty    | `author` meta tag, RSS author, footer copyright      |
-| `PUBLIC_CONTACT_EMAIL`      | yes      | email        | The mailto link on the contact page                  |
-| `PUBLIC_FORMSPREE_ENDPOINT` | yes      | URL          | The contact form `action`                            |
-| `PUBLIC_GITHUB_URL`         | yes      | URL          | Social links in footer and contact page              |
-| `PUBLIC_LINKEDIN_URL`       | yes      | URL          | Social links in footer and contact page              |
-| `PUBLIC_TWITTER_URL`        | no       | URL or empty | Optional; the link is omitted entirely when unset    |
-
-### 🔓 None of these are secrets
-
-`output: 'static'` means the entire site is HTML and JS generated at build time. Every
-environment value is **inlined into the shipped output**, and the `PUBLIC_` prefix does not
-change that. Anyone can read them with View Source.
-
-What `src/lib/config.ts` buys you is centralised, validated, non-hardcoded, gitignored
-configuration, so the same codebase can be deployed to staging and production with
-different values. It buys you nothing in terms of confidentiality.
-
-If you later need a real secret, such as a mail API key, it cannot live in this repo. It
-requires a serverless function on a host like Vercel or Netlify, which is also the point at
-which you would add an Astro adapter and stop being fully static.
-
-`astro.config.mjs` cannot read `import.meta.env`, because the config is evaluated before
-Vite's env plugin runs. It uses Vite's `loadEnv` instead, which is why `PUBLIC_SITE_URL`
-appears to be read twice.
+All `PUBLIC_*` values are inlined into the static output — they are configuration, not
+secrets. `PUBLIC_SITE_URL` must be the real origin with **no trailing slash**.
 
 ## 📁 Project structure
-
 ```
-public/
-├── _headers                security headers (Netlify / Cloudflare Pages)
-└── favicon.svg
 src/
-├── assets/
-│   ├── projects/           project cover images (automation.png, pipeline.png, …)
-│   └── travels/<country>/  per-country photos + optional cover.png
-├── components/             Astro components, all zero-JS except ThemeToggle and TravelMap
+├── assets/              images (projects, travels)
+├── components/
 ├── content/
-│   ├── blog/{en,es,it}/    MDX posts
+│   ├── blog/{en,es,it}/     MDX posts
 │   └── projects/{en,es,it}/ Markdown projects
-├── data/travels.json       travel entries, pure data
-├── i18n/
-│   ├── ui.ts               typed UI string dictionary
-│   └── utils.ts            useTranslations, locale path helpers
-├── layouts/                BaseLayout, BlogLayout
-├── lib/
-│   ├── blog-categories.ts  postmortem / infrastructure / craft / automation keys
-│   ├── config.ts           validated env
-│   ├── consts.ts           shared limits (home sections, reading WPM, OG size)
-│   ├── content.ts          the only place that calls getCollection()
-│   ├── flags.ts            inlines country flag SVGs at build time
-│   ├── json-ld.ts          Person / WebSite / BlogPosting schema builders
-│   └── utils.ts            date formatting, sorting, excerpts
-├── pages/
-│   ├── robots.txt.ts       dynamic robots.txt from PUBLIC_SITE_URL
-│   ├── 404.astro
-│   └── [lang]/             every page, emitted once per locale
-├── styles/global.css       Tailwind v4 theme, all design tokens
-├── content.config.ts       collection schemas and loaders
-└── env.d.ts                types for import.meta.env
-images/originals/           gitignored upload backup (not served)
+├── data/travels.json
+├── i18n/ui.ts           UI strings (typed per locale)
+├── layouts/
+├── lib/                 config, content, consts, flags, json-ld, utils
+├── pages/[lang]/        all routes, one file per page × three locales
+└── styles/global.css
+public/_headers          security headers (Netlify / Cloudflare Pages)
 ```
 
 ## 🌍 Internationalisation
+Every URL is prefixed: `/en/`, `/es/`, `/it/`. Pages live under `src/pages/[lang]/` and
+emit all locales via `getStaticPaths()`.
 
-English is the default locale and **every** URL is prefixed: `/en/`, `/es/`, `/it/`. The
-bare `/` is a static redirect to `/en/`.
-
-### 📄 One file per page, not three
-
-Astro's documented i18n layout expects physical `src/pages/en/`, `src/pages/es/` and
-`src/pages/it/` directories, which means writing every page three times. This project uses
-a single `src/pages/[lang]/*.astro` per page whose `getStaticPaths()` emits all three
-locales instead. The output URLs are identical.
-
-The tradeoff: Astro's built-in `i18n.fallback` option works by mirroring page _files_
-between locale folders, so it does not apply to dynamic `[lang]` routes. That is fine here,
-because content needs per-entry fallback rather than per-page fallback, which is
-implemented in `src/lib/content.ts`.
-
-### 🗣️ UI strings
-
-`src/i18n/ui.ts` holds a dictionary keyed by locale. English is the source of truth: its
-key set becomes the `UIKey` type, and the Spanish and Italian objects are typed as
-`Record<UIKey, string>`. A missing translation is therefore a **compile error**, not a
-blank space on the page. Run `npm run check` to catch it.
-
-### 🔗 Content translation and fallback
-
-Blog and project entries live in a locale folder and carry `lang` and `translationKey` in
-frontmatter. Listings show only the active locale; when an entry has no translation for
-that locale, the English one is shown with a visible notice.
-
-`translationKey` is what ties translations together, and it is what makes localised slugs
-work. `/es/blog/<localised-slug>` correctly links to `/en/blog/the-cron-job-that-lied`
-because the language switcher resolves through the key rather than swapping a path segment.
-
-The post `comments-that-earn-their-keep` is deliberately **not** translated into Italian and
-is kept as `draft: true`, so it is visible only in dev. Visiting
-`/it/blog/comments-that-earn-their-keep` locally exercises the English fallback with the
-notice banner. Do not "fix" it by adding an Italian translation without first adding another
-untranslated entry, or the fallback path stops being covered in dev.
-
-### ➕ Adding a fourth language
-
-1. Add the code to `locales` in `src/i18n/ui.ts` and add entries to `localeNames` and
-   `ogLocales`.
-2. Add a matching dictionary object. TypeScript will list every key you still owe.
-3. Add the code to `i18n.locales` and the sitemap `i18n.locales` map in `astro.config.mjs`.
-4. Create `src/content/blog/<code>/` and `src/content/projects/<code>/`. Anything you do not
-   translate falls back to English automatically.
-
-Routing, `hreflang`, the RSS feed and the language switcher all derive from `locales`, so
-nothing else needs touching.
+- **UI strings:** `src/i18n/ui.ts` — English keys are the source of truth; missing
+  translations are compile errors.
+- **Content:** blog and project entries use `lang` + `translationKey` in frontmatter.
+  Listings prefer the active locale; missing translations fall back to English with a
+  notice. The language switcher resolves through `translationKey`, not path segments.
+- **Adding a locale:** extend `locales` in `ui.ts` and `astro.config.mjs`, add dictionary
+  keys, create `content/blog/<code>/` and `content/projects/<code>/`.
 
 ## ✏️ Adding content
 
 ### 📦 A project
+`src/content/projects/<locale>/<name>.md` — see an existing entry for the full frontmatter
+shape. Key fields: `translationKey` (shared across locales), `slug` (may differ per locale),
+`cover`, optional `diagram` / `diagramAlt`, `featured`, `order`, `draft`.
 
-Create `src/content/projects/<locale>/<name>.md`:
+### 📝 A blog post
+`src/content/blog/<locale>/<name>.mdx` — same pattern with `category`, `pubDate`, optional
+`cover` and `draft`. Categories: `postmortem`, `infrastructure`, `craft`, `automation`
+(`src/lib/blog-categories.ts`). MDX posts can import `Callout` from
+`src/components/Callout.astro`.
 
-```md
----
-title: Thing I Built
-description: One sentence for the card and the meta description.
-lang: en
-translationKey: thing-i-built
-slug: thing-i-built
-stack: [AWS, ECS, Terraform]
-repoUrl: https://github.com/agustinafassina/Aws.Solutions.Architecture/tree/main/deploy-services
-cover: ../../../assets/projects/pipeline.png
-coverAlt: Describe the image for screen readers.
-diagram: ../../../assets/projects/deploy-services-diagram.jpg
-diagramAlt: Optional architecture diagram shown on the detail page.
-featured: true
-order: 1
-startedOn: 2026-01-20
----
+Home shows the latest posts up to `HOME_POSTS_LIMIT`; featured projects up to
+`HOME_FEATURED_PROJECTS_LIMIT` (both in `src/lib/consts.ts`).
 
-The body is markdown and renders on the detail page.
-```
+### 🗺️ A travel entry
+One object in `src/data/travels.json` plus images under `src/assets/travels/<country>/`.
+Coordinates and `countryCode` (ISO 3166-1 alpha-2) are shared; copy lives under
+`translations` and `photos[].alt` per locale. Upload originals to `images/originals/`
+(gitignored).
 
-`translationKey` must match across locales. `slug` may be localised. `cover` is a path
-relative to the markdown file and is type-checked, so a typo fails the build. `diagram` and
-`diagramAlt` are optional and render below the cover on the detail page. `order` sorts
-ascending and ties break by `startedOn` descending. Set `featured: true` to surface a card
-on the home page (up to `HOME_FEATURED_PROJECTS_LIMIT` in `src/lib/consts.ts`). Set
-`draft: true` to hide an entry from production builds while keeping it visible in dev.
-
-Featured projects today are AWS architecture guides sourced from
-[Aws.Solutions.Architecture](https://github.com/agustinafassina/Aws.Solutions.Architecture)
-(`deploy-services`, `ec2-bastion-and-private-rds`, `ecs-fargate-vs-ec2`). Placeholder
-entries (Form Harvester, Ship Gate, Card Catalogue) remain for layout reference with
-`featured: false`.
-
-### 📝 An article
-
-Same idea in `src/content/blog/<locale>/<name>.mdx`, with `category` and `pubDate` instead
-of `stack` and `startedOn`, and an optional `updatedDate`. `category` must be one of the
-keys in `src/lib/blog-categories.ts` (`postmortem`, `infrastructure`, `craft`, `automation`);
-labels and descriptions are translated in `src/i18n/ui.ts`. Being MDX, posts can import
-components:
-
-```mdx
-import Callout from '../../../components/Callout.astro';
-
-<Callout variant="warning" title="Careful">
-  Renders as a styled aside.
-</Callout>
-```
-
-`Callout` accepts `variant` of `note`, `warning` or `success`.
-
-Set `draft: true` to hide a post from production builds while keeping it visible in dev —
-same behaviour as projects. The home page shows the latest posts up to `HOME_POSTS_LIMIT`
-in `src/lib/consts.ts` (currently 3); the full archive lives at `/[lang]/blog`.
-
-Published postmortems today: `cron-job-that-lied`, `security-group-that-outlived-the-ticket`,
-`access-key-in-the-gist`, `rds-migration-that-locked-payments` — all three locales each.
-The craft post `comments-that-earn-their-keep` remains a draft placeholder.
-
-### 🗺️ A country
-
-One entry in `src/data/travels.json`. Coordinates are written once and shared by all
-locales, so they cannot drift:
-
-```json
-{
-  "id": "peru",
-  "country": "Peru",
-  "countryCode": "pe",
-  "lat": -13.5319,
-  "lng": -71.9675,
-  "visitedOn": "2025-07-04",
-  "photos": [
-    {
-      "src": "travels/peru/cusco-plaza.jpg",
-      "alt": {
-        "en": "Plaza de Armas in Cusco at golden hour",
-        "es": "…",
-        "it": "…"
-      }
-    }
-  ],
-  "translations": {
-    "en": { "title": "Cusco, Peru", "summary": "…" },
-    "es": { "title": "…", "summary": "…" },
-    "it": { "title": "…", "summary": "…" }
-  }
-}
-```
-
-Then drop images at `src/assets/travels/peru/`. Paths in `photos[].src` are relative to
-`src/assets/`. An optional `cover.png` in the same folder is prepended as the first carousel
-slide automatically.
-
-Upload originals to `images/originals/<country>/` for safekeeping; that folder is
-gitignored. Convert HEIC to JPG before adding to `src/assets/`.
-
-The map pin needs no work: `countryCode` is an ISO 3166-1 alpha-2 code and `src/lib/flags.ts`
-reads the matching SVG out of `flag-icons` at build time. An unknown code fails the build
-with a message naming it.
-
-## 🎨 Design
-
-The whole look is derived from the illustration at `src/assets/desk.jpg` rather than chosen
-independently, so the site is art-directed by a single existing asset.
-
-The palette was sampled from the actual pixels of that image. The illustration turned out to
-be overwhelmingly warm, dominated by oranges and browns in the hue 18-30 range against a deep
-indigo night, with no real teal or green anywhere except the continents on the wall map. The
-tokens in `src/styles/global.css` reflect what was measured rather than what a "cosy dark
-theme" is assumed to look like.
-
-Dark mode is the default because the illustrated scene is at night; light mode is the same
-room in daylight. That makes the toggle meaningful rather than decorative.
-
-The illustration also doubles as the site map. The whiteboard is projects, the pinned wall map
-is travels, the bookshelf is the blog, the window over Buenos Aires is contact. `PageHeader.astro`
-crops to the relevant region with `object-position`, so four section identities cost no extra
-assets. Crops are used at thumbnail scale on purpose: the source is 1024px wide and upscaling
-it goes soft.
-
-### 🌓 Theming
-
-Tailwind v4 is configured in CSS, not in a `tailwind.config.js`, which no longer exists.
-Colours are declared twice: as raw CSS variables on `:root` and `.dark`, then re-exported
-through `@theme inline` so Tailwind generates utilities that reference the variables instead
-of baking in a fixed value. That is what lets `bg-surface` switch with the theme.
-
-Dark mode needs an explicit `@custom-variant dark (&:where(.dark, .dark *))`; the v3
-`darkMode: 'class'` option is gone.
-
-An inline script in `<head>` reads `localStorage` before first paint to avoid a flash of the
-wrong theme. It must stay inline and un-deferred. This is also why `<ClientRouter />` is not
-used: view transitions re-run the DOM swap and reliably break no-flash theme scripts, and
-"smooth" is handled with CSS instead.
-
-## ⚡ Performance notes
-
-The only JavaScript on the site is the theme toggle, which is small enough that Astro inlines
-it, and Leaflet, which loads on `/[lang]/travels/` and nowhere else. Home, blog, projects and
-contact ship no module scripts at all.
-
-Fonts are self-hosted variable fonts via Fontsource, avoiding a Google Fonts round trip.
-
-Country flags are **not** loaded via `flag-icons`' stylesheet. Importing it would have cost
-28 KB of CSS and caused Vite to copy all 271 flag SVGs (2 MB) into `dist` to serve five of
-them. `src/lib/flags.ts` reads only the flags actually referenced and inlines them as data
-URIs, so there are no extra requests and no unused assets.
-
-Images are declared through the `image()` schema helper and rendered with `<Image />`, so they
-are type-checked, converted to WebP and emitted at multiple widths.
-
-## 🗄️ Data layer and the path to a dashboard
-
-Content is never hardcoded into templates. Each collection declares a loader and a schema in
-`src/content.config.ts`, and the format is chosen per collection based on what the data is:
-
-- **blog**: MDX. Prose that needs components.
-- **projects**: Markdown with frontmatter. Structured metadata plus a prose body.
-- **travels**: one JSON file read with the `file()` loader. Pure data with no prose, so
-  fifteen markdown files with empty bodies would be pointless.
-
-### 🛡️ The insulation layer
-
-`src/lib/content.ts` is the **only** module that calls `getCollection()`. Pages call
-`getPosts(lang)`, `getProjects(lang)`, `getFeaturedProjects(lang)` and `getTravels(lang)`.
-Locale filtering and English fallback live in exactly one place.
-
-This is what makes a future dashboard cheap. Swapping the source means changing the loader in
-`content.config.ts` and, at most, `content.ts`. No page changes at all:
-
-```ts
-loader: async () => {
-  const res = await fetch('https://dashboard.example/api/projects');
-  return (await res.json()).map((p) => ({ id: p.slug, ...p }));
-};
-```
-
-The usual thing that breaks that migration is body rendering, and it is already handled: a
-custom loader receives `renderMarkdown()` in its context, so markdown coming out of a database
-can be stored as `rendered` and `render()` plus `<Content />` keep working unchanged.
-
-### 🔴 Why not live collections
-
-Live collections (`src/live.config.ts`, `getLiveCollection()`) fetch per request with no
-rebuild, which is the real endgame for a dashboard. They are out of scope here because they
-require an adapter, meaning the site stops being static, and they support neither MDX nor
-image optimisation. Worth revisiting once the dashboard actually exists.
-
-### ⚠️ A trap worth knowing about
-
-The `glob()` loader derives an entry `id` from the **filename**, not the path. With content
-split into locale folders, `projects/en/ship-gate.md`, `projects/es/ship-gate.md` and
-`projects/it/ship-gate.md` all resolve to the id `ship-gate` and silently overwrite each
-other, leaving only the last one. It surfaces as a `Duplicate id` warning in the build log and
-as mysteriously missing pages.
-
-Both collections therefore pass an explicit `generateId` that keeps the locale directory in
-the id. Do not remove it.
-
-## 🔍 SEO
-
-- Per-page `title`, `description`, `keywords`, canonical URL and Open Graph tags.
-- `hreflang` alternates for all three locales plus `x-default` on every page, resolved through
-  `translationKey` so they stay correct across localised slugs.
-- `og:image` derived from the desk illustration, generated at exactly 1200x630 and referenced
-  absolutely, which is required by every scraper.
-- JSON-LD (`Person` + `WebSite` on home, `BlogPosting` on blog posts) via `src/lib/json-ld.ts`.
-- One RSS feed per locale at `/[lang]/rss.xml`, linked from `<head>` and the footer.
-- `sitemap-index.xml` with i18n alternates, produced by `@astrojs/sitemap`.
-- `robots.txt` generated at build time from `PUBLIC_SITE_URL` (`src/pages/robots.txt.ts`).
-- `404.astro` for hosts that serve a custom 404.
+## 🏗️ Architecture notes
+- `src/lib/content.ts` is the only module that calls `getCollection()`. Pages use
+  `getPosts`, `getProjects`, `getFeaturedProjects`, `getTravels`.
+- Blog/projects loaders use a custom `generateId` that includes the locale folder — do not
+  remove it, or entries with the same filename across locales will collide.
+- `draft: true` hides content in production builds; dev still shows it.
 
 ## 🚢 Deployment
+Static output in `dist/`. Works on Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, etc.
 
-The build output in `dist/` is plain static files and works on any static host: Netlify,
-Vercel, Cloudflare Pages, GitHub Pages, S3 plus CloudFront.
+- Build: `npm run build`
+- Output: `dist/`
+- Node: **22.12+** (Astro 7 requirement)
 
-- Build command: `npm run build`
-- Publish directory: `dist`
-- Node: 22.12 or newer, which Astro 7 requires
+Set all `PUBLIC_*` variables in the host dashboard before the first deploy.
 
-### 🔑 Environment variables on the host
+**Formspree:** create a form at [formspree.io](https://formspree.io/), set
+`PUBLIC_FORMSPREE_ENDPOINT`. Honeypot field `_gotcha` is already wired in `contact.astro`.
 
-Set every `PUBLIC_*` variable in the host dashboard **before the first deploy**. The build
-reads them at compile time and inlines them into the static output.
+**Headers:** `public/_headers` is picked up automatically on Netlify and Cloudflare Pages.
+Vercel needs a `vercel.json` (not configured yet).
 
-| Variable | Local (`.env.local`) | Production (host dashboard) |
-| --- | --- | --- |
-| `PUBLIC_SITE_URL` | `http://localhost:4321` | Real public origin, **no trailing slash** |
-| `PUBLIC_SITE_NAME` | `Agustina Fassina` | Same |
-| `PUBLIC_AUTHOR_NAME` | `Agustina Fassina` | Same |
-| `PUBLIC_CONTACT_EMAIL` | Your public contact email | Same |
-| `PUBLIC_FORMSPREE_ENDPOINT` | Formspree form URL | Same |
-| `PUBLIC_GITHUB_URL` | `https://github.com/agustinafassina` | Same |
-| `PUBLIC_LINKEDIN_URL` | `https://www.linkedin.com/in/agustina-fassina-458247163` | Same |
-| `PUBLIC_TWITTER_URL` | Omit (optional) | Omit unless you use X |
-
-`PUBLIC_SITE_URL` must be the real public origin with no trailing slash, or canonical URLs,
-the sitemap, the feeds and the OG image URL will all point somewhere wrong.
-
-To preview a production build locally with a real origin:
+Preview with a real origin:
 
 ```bash
 PUBLIC_SITE_URL=https://your-domain.com npm run build
 npm run preview
 ```
 
-### 📬 Formspree (contact form)
-
-1. Create a form at [formspree.io](https://formspree.io/) (free tier is enough).
-2. Copy the endpoint URL (`https://formspree.io/f/…`) into `PUBLIC_FORMSPREE_ENDPOINT`.
-3. In the Formspree dashboard, enable spam filtering and/or reCAPTCHA.
-4. The honeypot field `_gotcha` is already wired in `contact.astro`.
-
-### 🖥️ Host-specific notes
-
-| Host | Env vars | Security headers |
-| --- | --- | --- |
-| **Netlify** | Site settings → Environment variables | `public/_headers` is picked up automatically |
-| **Cloudflare Pages** | Settings → Environment variables | `public/_headers` is picked up automatically |
-| **Vercel** | Project → Settings → Environment Variables | Add `vercel.json` headers (not done yet) |
-| **GitHub Pages** | Repository → Settings → Secrets and variables → Actions | Configure headers via Actions or a reverse proxy |
-
-The `/` to `/en/` redirect is emitted as a static HTML page with a meta refresh, so it works
-without host configuration. If your host supports real redirects, a 301 from `/` to `/en/` is
-faster and worth configuring.
-
 ## 📋 Conventions
-
-- No comments in `.astro`, `.ts`, `.mjs`, `.css` or `.json` source. Explanation belongs here.
-  Code examples inside blog posts are content, not code, and are exempt.
-- Every component declares a typed `Props` interface.
-- Pages never call `getCollection()`; they go through `src/lib/content.ts`.
-- Colours are referenced through semantic tokens such as `bg-surface`, `text-fg-muted` and
-  `border-edge`. No raw hex values in components, so the light and dark themes stay in sync.
+- No comments in source — explanation belongs here.
+- Components declare a typed `Props` interface.
+- Pages never call `getCollection()` directly.
+- Use semantic colour tokens (`bg-surface`, `text-fg-muted`, `border-edge`), not raw hex.
