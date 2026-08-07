@@ -224,9 +224,50 @@
     border-radius: 3px;
   }
 
+  .prose-desk video {
+    width: 100%;
+    border: 2px solid var(--border);
+    border-radius: 3px;
+    background-color: var(--surface-raised);
+  }
+
   .prose-desk hr {
     border: 0;
     border-top: 2px solid var(--border);
+  }
+
+  .prose-desk table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    border: 2px solid var(--border);
+  }
+
+  .prose-desk th,
+  .prose-desk td {
+    border: 1px solid var(--border);
+    padding: 0.55em 0.75em;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+
+  .prose-desk th {
+    background-color: var(--surface-raised);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .prose-desk td {
+    background-color: var(--surface);
+  }
+
+  .prose-desk tbody tr:nth-child(even) td {
+    background-color: var(--surface-raised);
   }
 }
 
