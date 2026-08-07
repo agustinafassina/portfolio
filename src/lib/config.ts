@@ -53,9 +53,7 @@ export const siteConfig = {
 export const socialLinks = [
   { key: 'github', label: 'GitHub', url: env.PUBLIC_GITHUB_URL },
   { key: 'linkedin', label: 'LinkedIn', url: env.PUBLIC_LINKEDIN_URL },
-  ...(env.PUBLIC_TWITTER_URL
-    ? [{ key: 'twitter', label: 'X', url: env.PUBLIC_TWITTER_URL }]
-    : []),
+  ...(env.PUBLIC_TWITTER_URL ? [{ key: 'twitter', label: 'X', url: env.PUBLIC_TWITTER_URL }] : []),
 ] as const;
 
 export type SocialLink = (typeof socialLinks)[number];

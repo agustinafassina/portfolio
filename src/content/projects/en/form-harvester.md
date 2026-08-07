@@ -13,8 +13,8 @@ repoUrl: https://github.com/example/form-harvester
 demoUrl: https://example.com/form-harvester
 cover: ../../../assets/projects/automation.png
 coverAlt: A CRT monitor running an automation script next to a robot arm stamping a stack of forms
-featured: true
-order: 1
+featured: false
+order: 10
 startedOn: 2024-02-10
 ---
 

@@ -4,7 +4,7 @@ description: Un backup nocturno reportó éxito todas las noches mientras escrib
 lang: es
 translationKey: cron-job-that-lied
 slug: el-cron-que-mintio
-category: Postmortem
+category: postmortem
 pubDate: 2026-05-14
 cover: ../../../assets/projects/pipeline.png
 coverAlt: Una cinta transportadora de cajas pasando por arcos hacia una lámpara verde de visto bueno
@@ -31,14 +31,14 @@ Hay dos fallas apiladas una sobre otra acá, y cada una por separado habría sid
 sobrevivible.
 
 La primera es el pipeline. En un pipeline de shell el estado de salida es el estado del
-*último* comando, así que `pg_dump` podía morirse al instante y `gzip` igual iba a tener
+_último_ comando, así que `pg_dump` podía morirse al instante y `gzip` igual iba a tener
 éxito comprimiendo el stream vacío que recibió. El pipeline sale con cero. La segunda es
 que `echo` se ejecuta incondicionalmente, así que esa línea del log nunca fue evidencia de
 nada excepto de que el script llegó a su última línea.
 
 <Callout variant="warning" title="La trampa">
-  Un mensaje de éxito que no está condicionado al éxito es peor que ningún mensaje, porque
-  convierte una ausencia de información en un falso positivo.
+  Un mensaje de éxito que no está condicionado al éxito es peor que ningún mensaje, porque convierte
+  una ausencia de información en un falso positivo.
 </Callout>
 
 ## Qué lo arregla de verdad
@@ -66,8 +66,8 @@ correcto, solo cómo se ve uno obviamente roto. Los chequeos groseros que corren
 noches le ganan a los chequeos sofisticados que nadie escribe.
 
 <Callout variant="success" title="El hábito">
-  Verificá la cosa que produjiste, no el hecho de que terminaste de producirla. Los códigos
-  de salida describen procesos; a vos te importan los artefactos.
+  Verificá la cosa que produjiste, no el hecho de que terminaste de producirla. Los códigos de
+  salida describen procesos; a vos te importan los artefactos.
 </Callout>
 
 ## La parte que me sigue dando vueltas

@@ -15,26 +15,50 @@
         }
       },
       {
+        "src": "travels/mexico/caribbean-sailing.jpg",
+        "alt": {
+          "en": "A sailboat on bright turquoise Caribbean water under a dramatic stormy sky",
+          "es": "Un velero en aguas turquesa del Caribe bajo un cielo tormentoso",
+          "it": "Una barca a vela su acque turchesi dei Caraibi sotto un cielo tempestoso"
+        }
+      },
+      {
         "src": "travels/mexico/mexico-city.jpg",
         "alt": {
           "en": "Panoramic view over Mexico City",
           "es": "Vista panorámica de Ciudad de México",
           "it": "Vista panoramica di Città del Messico"
         }
+      },
+      {
+        "src": "travels/mexico/chichen-itza.jpg",
+        "alt": {
+          "en": "El Castillo pyramid at Chichén Itzá under a bright blue sky",
+          "es": "La pirámide de El Castillo en Chichén Itzá bajo un cielo azul intenso",
+          "it": "La piramide di El Castillo a Chichén Itzá sotto un cielo blu intenso"
+        }
+      },
+      {
+        "src": "travels/mexico/tulum-scooters.jpg",
+        "alt": {
+          "en": "Colourful rental scooters lined up outside a shop in Tulum",
+          "es": "Scooters de alquiler de colores alineados frente a un local en Tulum",
+          "it": "Scooter a noleggio colorati in fila davanti a un negozio a Tulum"
+        }
       }
     ],
     "translations": {
       "en": {
-        "title": "Teotihuacán & Mexico City, Mexico",
-        "summary": "Hot-air balloons drifting over the pyramids just after sunrise, followed by the colours, food and constant movement of Mexico City."
+        "title": "Teotihuacán, Mexico City, Chichén Itzá & Tulum, Mexico",
+        "summary": "Balloons and pyramids at Teotihuacán, the scale of Mexico City, Mayan ruins at Chichén Itzá, turquoise Caribbean waters and colourful streets in Tulum."
       },
       "es": {
-        "title": "Teotihuacán y Ciudad de México, México",
-        "summary": "Globos aerostáticos flotando sobre las pirámides apenas salió el sol, seguidos por los colores, la comida y el movimiento constante de Ciudad de México."
+        "title": "Teotihuacán, Ciudad de México, Chichén Itzá y Tulum, México",
+        "summary": "Globos y pirámides en Teotihuacán, la escala de Ciudad de México, ruinas mayas en Chichén Itzá, aguas turquesa del Caribe y calles coloridas en Tulum."
       },
       "it": {
-        "title": "Teotihuacán e Città del Messico, Messico",
-        "summary": "Mongolfiere sospese sopra le piramidi poco dopo l alba, seguite dai colori, dal cibo e dal movimento continuo di Città del Messico."
+        "title": "Teotihuacán, Città del Messico, Chichén Itzá e Tulum, Messico",
+        "summary": "Mongolfiere e piramidi a Teotihuacán, la scala di Città del Messico, rovine maya a Chichén Itzá, acque turchesi dei Caraibi e strade colorate a Tulum."
       }
     }
   },
@@ -85,6 +109,30 @@
         }
       },
       {
+        "src": "travels/poland/warsaw-skyline.jpg",
+        "alt": {
+          "en": "The Palace of Culture and Science framed by modern glass towers on a snowy day",
+          "es": "El Palacio de la Cultura y la Ciencia enmarcado por torres modernas de cristal en un día nevado",
+          "it": "Il Palazzo della Cultura e della Scienza incorniciato da torri moderne di vetro in una giornata di neve"
+        }
+      },
+      {
+        "src": "travels/poland/warsaw-fireworks.jpg",
+        "alt": {
+          "en": "Fireworks bursting above the Palace of Culture and Science at night",
+          "es": "Fuegos artificiales estallando sobre el Palacio de la Cultura y la Ciencia de noche",
+          "it": "Fuochi d artificio sopra il Palazzo della Cultura e della Scienza di notte"
+        }
+      },
+      {
+        "src": "travels/poland/warsaw-square.jpg",
+        "alt": {
+          "en": "Warsaw Old Town Market Square covered in snow",
+          "es": "La Plaza del Mercado de la Ciudad Vieja de Varsovia cubierta de nieve",
+          "it": "La Piazza del Mercato della Città Vecchia di Varsavia coperta di neve"
+        }
+      },
+      {
         "src": "travels/poland/auschwitz-birkenau.jpg",
         "alt": {
           "en": "Railway tracks leading toward the entrance of Auschwitz-Birkenau",
@@ -96,15 +144,15 @@
     "translations": {
       "en": {
         "title": "Warsaw & Auschwitz-Birkenau, Poland",
-        "summary": "Warsaw's reconstructed streets and modern skyline, followed by a sobering visit to Auschwitz-Birkenau: a place of remembrance that demands time, silence and reflection."
+        "summary": "Warsaw in winter — the Palace of Culture from every angle, fireworks over the skyline and the Old Town under snow — followed by a sobering visit to Auschwitz-Birkenau."
       },
       "es": {
         "title": "Varsovia y Auschwitz-Birkenau, Polonia",
-        "summary": "Las calles reconstruidas y el perfil moderno de Varsovia, seguidos por una visita movilizadora a Auschwitz-Birkenau: un lugar de memoria que exige tiempo, silencio y reflexión."
+        "summary": "Varsovia en invierno: el Palacio de la Cultura desde todos los ángulos, fuegos artificiales sobre el skyline y la Ciudad Vieja bajo la nieve, seguidos por una visita sobria a Auschwitz-Birkenau."
       },
       "it": {
         "title": "Varsavia e Auschwitz-Birkenau, Polonia",
-        "summary": "Le strade ricostruite e lo skyline moderno di Varsavia, seguiti da una visita intensa ad Auschwitz-Birkenau: un luogo della memoria che richiede tempo, silenzio e riflessione."
+        "summary": "Varsavia d inverno: il Palazzo della Cultura da ogni angolazione, fuochi d artificio sullo skyline e la Città Vecchia sotto la neve, seguiti da una visita intensa ad Auschwitz-Birkenau."
       }
     }
   },
@@ -147,11 +195,43 @@
     "lng": 9.0852,
     "photos": [
       {
+        "src": "travels/italy/rome.jpg",
+        "alt": {
+          "en": "A traveller looking up at the Colosseum in Rome",
+          "es": "Una viajera mirando hacia el Coliseo de Roma",
+          "it": "Una viaggiatrice che guarda il Colosseo a Roma"
+        }
+      },
+      {
+        "src": "travels/italy/milan-duomo.jpg",
+        "alt": {
+          "en": "The illuminated Duomo di Milano at night seen from the piazza",
+          "es": "El Duomo de Milán iluminado de noche visto desde la plaza",
+          "it": "Il Duomo di Milano illuminato di notte visto dalla piazza"
+        }
+      },
+      {
         "src": "travels/italy/como.jpeg",
         "alt": {
           "en": "Hillside neighbourhoods above Lake Como on a sunny day",
           "es": "Barrios sobre las colinas junto al lago de Como en un día soleado",
           "it": "Quartieri sulle colline sopra il Lago di Como in una giornata di sole"
+        }
+      },
+      {
+        "src": "travels/italy/como-hills.jpg",
+        "alt": {
+          "en": "Villages scattered across the green hills above Lake Como",
+          "es": "Pueblos dispersos por las colinas verdes sobre el lago de Como",
+          "it": "Paesi sparsi sulle colline verdi sopra il Lago di Como"
+        }
+      },
+      {
+        "src": "travels/italy/como-panorama.jpg",
+        "alt": {
+          "en": "A wide view of Lake Como and the mountains beyond",
+          "es": "Una vista amplia del lago de Como y las montañas al fondo",
+          "it": "Una vista ampia del Lago di Como e delle montagne sullo sfondo"
         }
       },
       {
@@ -161,20 +241,28 @@
           "es": "Un canal de Venecia bordeado de edificios coloridos",
           "it": "Un canale di Venezia fiancheggiato da edifici colorati"
         }
+      },
+      {
+        "src": "travels/italy/venice-canal.jpg",
+        "alt": {
+          "en": "Gondolas and colourful palazzi along a canal near the Rialto Bridge",
+          "es": "Góndolas y palacios coloridos a lo largo de un canal cerca del Puente de Rialto",
+          "it": "Gondole e palazzi colorati lungo un canale vicino al Ponte di Rialto"
+        }
       }
     ],
     "translations": {
       "en": {
-        "title": "Lake Como & Venice, Italy",
-        "summary": "Green hills packed with villages around Lake Como, then Venice, where the water replaces the streets and every canal feels like a shortcut."
+        "title": "Rome, Milan, Lake Como & Venice, Italy",
+        "summary": "The Colosseum at golden hour, Milan's cathedral lit up at night, green hills around Lake Como and two very different canals in Venice."
       },
       "es": {
-        "title": "Lago de Como y Venecia, Italia",
-        "summary": "Colinas verdes llenas de pueblos junto al lago de Como y después Venecia, donde el agua reemplaza a las calles y cada canal parece un atajo."
+        "title": "Roma, Milán, Lago de Como y Venecia, Italia",
+        "summary": "El Coliseo a la hora dorada, la catedral de Milán iluminada de noche, colinas verdes alrededor del lago de Como y dos canales muy distintos en Venecia."
       },
       "it": {
-        "title": "Lago di Como e Venezia, Italia",
-        "summary": "Colline verdi piene di paesi intorno al Lago di Como, poi Venezia, dove l acqua sostituisce le strade e ogni canale sembra una scorciatoia."
+        "title": "Roma, Milano, Lago di Como e Venezia, Italia",
+        "summary": "Il Colosseo all ora dorata, il duomo di Milano illuminato di notte, colline verdi intorno al Lago di Como e due canali molto diversi a Venezia."
       }
     }
   },
@@ -326,20 +414,36 @@
           "es": "Un pasaje de piedra mojado en la Ciudad Vieja de Edimburgo enmarcado por un arco oscuro",
           "it": "Un passaggio di pietra bagnato nella Città Vecchia di Edimburgo incorniciato da un arco scuro"
         }
+      },
+      {
+        "src": "travels/scotland/st-giles-cathedral.jpg",
+        "alt": {
+          "en": "St Giles' Cathedral and the Mercat Cross on the Royal Mile",
+          "es": "La catedral de San Gil y la Cruz del Mercado en la Royal Mile",
+          "it": "La cattedrale di San Giles e la Croce del Mercato sulla Royal Mile"
+        }
+      },
+      {
+        "src": "travels/scotland/edinburgh-street.jpg",
+        "alt": {
+          "en": "Historic gravestones in a cemetery with Edinburgh's Old Town rising behind",
+          "es": "Lápidas históricas en un cementerio con la Ciudad Vieja de Edimburgo al fondo",
+          "it": "Lapidi storiche in un cimitero con la Città Vecchia di Edimburgo sullo sfondo"
+        }
       }
     ],
     "translations": {
       "en": {
         "title": "Edinburgh, Scotland",
-        "summary": "Stone closes, sudden views of the castle and just enough rain to make the Old Town look exactly as dramatic as it should."
+        "summary": "Stone closes, St Giles' crown steeple on the Royal Mile and a cemetery where the Old Town rises just behind the headstones."
       },
       "es": {
         "title": "Edimburgo, Escocia",
-        "summary": "Pasajes de piedra, vistas repentinas del castillo y la lluvia justa para que la Ciudad Vieja se viera tan dramática como debía."
+        "summary": "Pasajes de piedra, la aguja en forma de corona de San Gil en la Royal Mile y un cementerio donde la Ciudad Vieja se alza justo detrás de las lápidas."
       },
       "it": {
         "title": "Edimburgo, Scozia",
-        "summary": "Vicoli di pietra, scorci improvvisi del castello e abbastanza pioggia da rendere la Città Vecchia teatrale come dovrebbe essere."
+        "summary": "Vicoli di pietra, la guglia a corona di San Giles sulla Royal Mile e un cimitero dove la Città Vecchia si erge proprio dietro le lapidi."
       }
     }
   },

@@ -13,8 +13,8 @@ repoUrl: https://github.com/example/form-harvester
 demoUrl: https://example.com/form-harvester
 cover: ../../../assets/projects/automation.png
 coverAlt: Un monitor CRT ejecutando un script de automatización junto a un brazo robótico sellando una pila de formularios
-featured: true
-order: 1
+featured: false
+order: 10
 startedOn: 2024-02-10
 ---
 

@@ -3,6 +3,7 @@ import { getImage } from 'astro:assets';
 import ogDefault from '../assets/site/og-default.jpg';
 import { OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from '../lib/consts';
 import { siteConfig } from '../lib/config';
+import { buildArticleJsonLd, buildHomeJsonLd, isHomePath } from '../lib/json-ld';
 import { locales, ogLocales, type Locale } from '../i18n/ui';
 import { switchLocalePath } from '../i18n/utils';
 
@@ -16,6 +17,8 @@ interface Props {
   type?: 'website' | 'article';
   publishedTime?: Date;
   modifiedTime?: Date;
+  articleCategory?: string;
+  headline?: string;
   alternates?: Partial<Record<Locale, string>>;
 }
 
@@ -29,6 +32,8 @@ const {
   type = 'website',
   publishedTime,
   modifiedTime,
+  articleCategory,
+  headline,
   alternates,
 } = Astro.props;
 
@@ -52,6 +57,22 @@ const alternateLinks = locales.map((locale) => ({
 }));
 
 const defaultAlternate = alternateLinks.find((entry) => entry.locale === 'en');
+
+const jsonLd =
+  type === 'article' && publishedTime
+    ? buildArticleJsonLd({
+        lang,
+        title: headline ?? title,
+        description,
+        canonical,
+        imageUrl: ogImageUrl,
+        publishedTime,
+        modifiedTime,
+        category: articleCategory,
+      })
+    : isHomePath(Astro.url.pathname)
+      ? buildHomeJsonLd({ lang, description })
+      : null;
 ---
 
 <title>{title}</title>
@@ -60,11 +81,7 @@ const defaultAlternate = alternateLinks.find((entry) => entry.locale === 'en');
 <meta name="author" content={siteConfig.author} />
 <link rel="canonical" href={canonical} />
 
-{
-  alternateLinks.map(({ locale, href }) => (
-    <link rel="alternate" hreflang={locale} href={href} />
-  ))
-}
+{alternateLinks.map(({ locale, href }) => <link rel="alternate" hreflang={locale} href={href} />)}
 {
   defaultAlternate ? (
     <link rel="alternate" hreflang="x-default" href={defaultAlternate.href} />
@@ -102,3 +119,5 @@ const defaultAlternate = alternateLinks.find((entry) => entry.locale === 'en');
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
 <meta name="twitter:image:alt" content={imageAlt ?? title} />
+
+{jsonLd ? <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> : null}

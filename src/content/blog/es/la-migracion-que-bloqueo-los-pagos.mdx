@@ -1,0 +1,120 @@
+---
+title: La migración que bloqueó los pagos cuarenta minutos
+description: Una migración de índices en RDS parecía correcta en el runbook y en el dashboard. La tabla payments no estuvo de acuerdo durante cuarenta minutos.
+lang: es
+translationKey: rds-migration-that-locked-payments
+slug: la-migracion-que-bloqueo-los-pagos
+category: postmortem
+pubDate: 2026-08-01
+cover: ../../../assets/projects/indexer.png
+coverAlt: Un cajón de archivo siendo indexado con pestañas numeradas mientras una cola de comprobantes de pago espera en el mostrador
+---
+
+import Callout from '../../../components/Callout.astro';
+
+La migración estaba en el calendario hace semanas. Agregar dos índices en `payments`,
+hacer backfill de una columna nullable, deployar el código que la lee. La ventana de
+mantenimiento abrió a las 22:00. A las 22:04 el gráfico de CPU de RDS estaba plano, la
+replicación sana, CloudWatch en verde de punta a punta.
+
+A las 22:06 cada checkout en Europa devolvía 500.
+
+## Qué hizo el script en realidad
+
+El archivo de migración parecía inocente. Lo habían revisado. Había corrido en staging
+sobre un snapshot del viernes sin quejarse:
+
+```sql
+ALTER TABLE payments ADD COLUMN settlement_id UUID;
+
+UPDATE payments SET settlement_id = gen_random_uuid() WHERE settlement_id IS NULL;
+
+CREATE INDEX idx_payments_settlement ON payments(settlement_id);
+CREATE INDEX idx_payments_customer_created ON payments(customer_id, created_at DESC);
+```
+
+Staging tenía cuatro millones de filas y terminó en once minutos. Producción tenía
+noventa y dos millones. Esa diferencia importaba, pero no por el motivo que esperábamos.
+
+El `UPDATE` era lento y aburrido — batchable, visible en `pg_stat_activity`, fácil de
+abortar. Los índices eran el problema. Ninguno usaba `CONCURRENTLY`. En PostgreSQL, un
+`CREATE INDEX` común toma un lock `ACCESS EXCLUSIVE`. Lecturas y escrituras en `payments`
+quedan en cola detrás. La tabla no se corrompe. Simplemente no está disponible, todo el
+tiempo que tarde el build del índice.
+
+Nuestro pool de conexiones no vio "base bloqueada." Vio timeouts. La API reintentó. Los
+reintentos se apilaron. RDS se veía bien porque la base hacía exactamente lo diseñado: una
+sesión con un lock y todos los demás esperando.
+
+<Callout variant="warning" title="La trampa">
+  Una migración que funciona en staging sobre un snapshot no prueba que sea segura en
+  producción. Los snapshots son más chicos, más tranquilos, y nadie está del otro lado
+  del pool esperando.
+</Callout>
+
+## Cómo el dashboard siguió en verde
+
+Tres señales mintieron por omisión, no por error.
+
+**CPU y storage libre de RDS** estaban cómodos. Los builds de índice son I/O-heavy pero
+no siempre CPU-heavy. Un gráfico de CPU plano no significa que la app pueda escribir filas.
+
+**El lag de réplica** se mantuvo bajo un segundo. La réplica no era la que recibía
+escrituras. Los usuarios no leían datos viejos — no leían nada.
+
+**El runner de migraciones** reportó el paso tres de cuatro como "en progreso." Era
+exacto e inútil. Nadie había cableado una alerta sobre `wait_event = 'Lock'` para la
+relación `payments`, porque nunca la habíamos necesitado.
+
+Los cuarenta minutos terminaron cuando alguien corrió `SELECT * FROM pg_locks` desde el
+bastion, encontró el build del índice y lo canceló. Re-corrimos ambos índices con
+`CONCURRENTLY` en las dos horas siguientes. Sin más impacto al cliente. La columna y el
+backfill ya habían terminado antes del lock — solo los índices había que rehacerlos.
+
+## Qué cambiamos
+
+**Esa noche:**
+
+- Separamos la migración en fases: cambio de schema, backfill en batches, índices al
+  final — cada fase en su propia revisión deployable.
+- Agregamos `SET lock_timeout = '5s'` al inicio de cada archivo de migración. Una
+  migración que no puede tomar un lock debería fallar rápido, no secuestrar la tabla.
+
+**Esa semana:**
+
+- Política de refresh de staging: restaurar un snapshot de prod mensualmente y correr
+  migraciones contra conteos de filas que se parezcan a la realidad, no a un fixture recortado.
+- Checklist pre-migración en la plantilla del ticket: estrategia de índices
+  (`CONCURRENTLY` o justificar por qué no), duración estimada del lock, pasos de rollback,
+  quién mira `pg_stat_activity`.
+
+**El hábito que quedó:**
+
+```sql
+-- preámbulo del runner de migraciones, cada archivo
+SET lock_timeout = '5s';
+SET statement_timeout = '30min';
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_payments_settlement
+  ON payments(settlement_id);
+```
+
+y un lint en CI que falla si aparece `CREATE INDEX` sin `CONCURRENTLY` fuera de un bloque
+explícito `/* migration:offline-window */` que exige un segundo revisor.
+
+<Callout variant="success" title="El hábito">
+  Dimensioná la migración contra el tráfico de producción, no contra el snapshot de staging.
+  Si el lock puede durar más que tu paciencia, puede durar más que tu ventana de mantenimiento.
+</Callout>
+
+## La parte que me sigue dando vueltas
+
+Se siguió el runbook. La ventana fue aprobada. El script había funcionado en otro lado.
+Cada casilla estaba marcada excepto la que preguntaba si noventa y dos millones de filas
+iban a esperar en silencio mientras construíamos un índice por el camino lento.
+
+RDS no se rompió. Le pedimos que mantuviera un lock en horas cercanas al pico y cumplió.
+La falla fue SQL aburrido en un archivo que staging ya había perdonado.
+
+Si tu prueba de que una migración es segura es que las métricas de infra se ven normales,
+estás monitoreando el servidor, no la experiencia de las filas adentro.

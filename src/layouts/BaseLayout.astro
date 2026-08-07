@@ -20,6 +20,8 @@ interface Props {
   type?: 'website' | 'article';
   publishedTime?: Date;
   modifiedTime?: Date;
+  articleCategory?: string;
+  headline?: string;
   alternates?: Partial<Record<Locale, string>>;
   wide?: boolean;
 }
@@ -34,6 +36,8 @@ const {
   type,
   publishedTime,
   modifiedTime,
+  articleCategory,
+  headline,
   alternates,
   wide = false,
 } = Astro.props;
@@ -73,6 +77,8 @@ const pageKeywords = keywords ?? t('site.keywords');
       type={type}
       publishedTime={publishedTime}
       modifiedTime={modifiedTime}
+      articleCategory={articleCategory}
+      headline={headline}
       alternates={alternates}
     />
 
@@ -82,7 +88,9 @@ const pageKeywords = keywords ?? t('site.keywords');
         try {
           const stored = localStorage.getItem('theme');
           if (stored === 'light' || stored === 'dark') theme = stored;
-        } catch {}
+        } catch {
+          // localStorage may be unavailable in private browsing.
+        }
         document.documentElement.classList.toggle('dark', theme === 'dark');
         document.documentElement.dataset.theme = theme;
       })();

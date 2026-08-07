@@ -12,7 +12,7 @@ repoUrl: https://github.com/example/card-catalogue
 demoUrl: https://example.com/card-catalogue
 cover: ../../../assets/projects/indexer.png
 coverAlt: Un cassetto di schedario in legno aperto con schede luminose che si dispongono in una griglia sopra di esso
-order: 3
+order: 12
 startedOn: 2023-03-05
 ---
 

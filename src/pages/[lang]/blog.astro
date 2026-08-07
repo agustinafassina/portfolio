@@ -3,6 +3,7 @@ import BlogCard from '../../components/BlogCard.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Locale } from '../../i18n/ui';
+import { blogCategories, blogCategoryAboutKey, blogCategoryLabelKey } from '../../lib/blog-categories';
 import { localeStaticPaths, localizedPath, useTranslations } from '../../i18n/utils';
 import { getPosts } from '../../lib/content';
 
@@ -15,7 +16,28 @@ const posts = await getPosts(lang);
 ---
 
 <BaseLayout lang={lang} title={t('blog.title')} description={t('blog.description')}>
-  <PageHeader lang={lang} title={t('blog.title')} description={t('blog.description')} section="blog" />
+  <PageHeader
+    lang={lang}
+    title={t('blog.title')}
+    description={t('blog.description')}
+    section="blog"
+  />
+
+  <section class="mb-10 border-2 border-edge bg-surface p-4 sm:p-5" aria-labelledby="blog-categories">
+    <h2 id="blog-categories" class="font-mono text-xs tracking-widest text-fg-muted uppercase">
+      {t('blog.categories')}
+    </h2>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {
+        blogCategories.map((category) => (
+          <li class="border border-edge bg-surface-raised px-3 py-2">
+            <p class="font-mono text-sm text-accent">{t(blogCategoryLabelKey(category))}</p>
+            <p class="mt-1 text-sm text-fg-muted">{t(blogCategoryAboutKey(category))}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 
   <p class="mb-6 font-mono text-xs text-fg-muted">
     <a href={localizedPath(lang, 'rss.xml')} class="hover:text-accent">

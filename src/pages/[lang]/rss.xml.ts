@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { locales, ui, type Locale } from '../../i18n/ui';
+import { blogCategoryLabelKey } from '../../lib/blog-categories';
 import { getPosts } from '../../lib/content';
 import { siteConfig } from '../../lib/config';
 
@@ -25,7 +26,7 @@ export async function GET(context: APIContext) {
       description: post.entry.data.description,
       pubDate: post.entry.data.pubDate,
       link: post.href,
-      categories: [post.entry.data.category],
+      categories: [ui[lang][blogCategoryLabelKey(post.entry.data.category)]],
       author: siteConfig.author,
     })),
   });

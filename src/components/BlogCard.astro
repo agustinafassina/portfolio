@@ -1,6 +1,7 @@
 ---
 import type { Locale } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
+import { blogCategoryLabelKey } from '../lib/blog-categories';
 import type { ResolvedPost } from '../lib/content';
 import { formatDate, isoDate } from '../lib/utils';
 
@@ -20,7 +21,7 @@ const HeadingTag = headingLevel === 2 ? 'h2' : 'h3';
   <div class="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-fg-muted">
     <time datetime={isoDate(data.pubDate)}>{formatDate(data.pubDate, lang)}</time>
     <span class="border border-edge bg-surface-raised px-1.5 py-0.5 text-fg-muted">
-      {data.category}
+      {t(blogCategoryLabelKey(data.category))}
     </span>
     {
       post.isFallback ? (

@@ -1,0 +1,108 @@
+---
+title: La access key che aveva AdministratorAccess
+description: Una IAM access key è finita in un gist pubblico con permessi admin completi. L abbiamo ruotata in undici minuti. La parte spaventosa è quanto tempo ci è rimasta.
+lang: it
+translationKey: access-key-in-the-gist
+slug: la-access-key-che-aveva-administratoraccess
+category: postmortem
+pubDate: 2026-06-22
+cover: ../../../assets/projects/pipeline.png
+coverAlt: Un nastro trasportatore di casse etichettate che passa attraverso tre archi di controllo verso una spia verde di verifica
+---
+
+import Callout from '../../../components/Callout.astro';
+
+Un contractor ha incollato un esempio di curl in un gist pubblico per chiedere aiuto con un
+upload su S3. L esempio includeva `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` e un one-liner
+che funzionava. Quello che il gist non diceva era che la key apparteneva a un account di
+servizio chiamato `deploy-bot`, e che aveva `AdministratorAccess` perché qualcuno stava
+"solo provando qualcosa" tre mesi prima.
+
+GitGuardian ci ha mandato una mail alle 02:14 di un martedì. Alle 02:25 la key era morta.
+Alle 06:00 sapevamo il danno: niente. Alle 10:00 sapevamo perché è stata per lo più fortuna.
+
+## Come ci è arrivata
+
+Il contractor non ha esfiltrato nulla. Ha copiato uno snippet funzionante da una pagina
+interna del wiki scritta sei mesi prima, quando crearono `deploy-bot`. La pagina del wiki
+era sbagliata il giorno in cui la scrissero e nessuno l ha più riaperta.
+
+La key di per sé era a posto alla creazione — scope su push ECR e deploy ECS su un cluster.
+Poi un platform engineer le ha attaccato `AdministratorAccess` durante un deploy del venerdì
+che andava male, ha giurato di rimuoverla, ha aperto un ticket, chiuso il ticket quando il
+deploy è andato verde, e non ha più toccato IAM.
+
+Il gist è stato pubblico per quattro giorni prima che lo scanner lo trovasse. Non sappiamo se
+qualcun altro l ha visto.
+
+<Callout variant="warning" title="La trappola">
+  Il minimo privilegio non sopravvive al "solo per ora." L admin temporaneo è come si
+  presenta l admin permanente.
+</Callout>
+
+## Come sono sembrati quegli undici minuti di risposta
+
+Questo è l ordine che ha contato, non quello che sembrava soddisfacente:
+
+1. **Disattivare la key** — non cancellare ancora; vuoi il trail.
+2. **CloudTrail lookup** su `AccessKeyId` per gli ultimi 90 giorni — filtrare prima senza
+   `errorCode`, poi leggere tutto.
+3. **Assumere compromissione** su tutto ciò che il principal ha toccato — bucket S3, env var
+   Lambda, path Secrets Manager. Ruotare ciò che era leggibile, non ciò che sembra sospetto.
+4. **Emettere una nuova key** solo dopo aver capito il blast radius — una sostituzione
+   affrettata con la stessa policy ripete il problema.
+
+La finestra CloudTrail mostrava chiamate `Describe*` da un ISP residenziale in un altro paese,
+poi niente. Poteva essere uno scanner. Poteva essere qualcuno attento. Abbiamo trattato
+entrambi allo stesso modo.
+
+## Cosa avremmo dovuto avere prima delle 02:14
+
+| Controllo | Cosa avrebbe cambiato |
+| --- | --- |
+| **Niente key a lunga durata su umani o bot** | OIDC da CI ad AWS — il gist avrebbe avuto un token che scade in minuti |
+| **Permission boundary su `deploy-bot`** | L attach admin sarebbe fallito all API |
+| **Allarme età access key** | La key aveva 94 giorni; non avevamo alert |
+| **Secret scanning sul wiki interno** | Il wiki era la vera fuga; il gist l amplificatore |
+
+La policy IAM che è rimasta:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": "iam:*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalTag/role": "iam-admin"
+        }
+      }
+    }
+  ]
+}
+```
+
+Un permission boundary su ogni principal non-admin. `deploy-bot` non può darsi admin anche se
+qualcuno gli attacca per errore una policy più ampia.
+
+<Callout variant="success" title="L abitudine">
+  Se una credenziale può fare più della job description di chi la detiene, il permesso in
+  eccesso è un incidente in attesa di un incolla.
+</Callout>
+
+## La parte a cui continuo a pensare
+
+Abbiamo festeggiato la rotazione in undici minuti. La sicurezza ha amato il runbook. Il
+management ha amato la slide della timeline.
+
+Il vero fallimento aveva tre mesi ed era invisibile: una policy admin che nessuno ricordava
+di aver attaccato, su una key che nessuno ricordava di aver creato, copiata da una pagina che
+nessuno ricordava di aver scritto. Il gist è stato solo il momento in cui il debito è diventato
+visibile.
+
+Ruota in fretta. Ma il lavoro che previene il prossimo è noiosa igiene IAM — boundary, niente
+key a lunga durata, e trattare `AdministratorAccess` come un ascia antincendio: dietro il
+vetro, loggata, e rimessa subito a posto.

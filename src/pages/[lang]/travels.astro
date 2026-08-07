@@ -37,7 +37,9 @@ const galleryTravels = travels.filter((travel) => travel.photos.length > 0);
         <TravelMap lang={lang} travels={travels} />
 
         <h2 class="mt-14 mb-6 border-b-2 border-edge pb-2 text-2xl">
-          <span class="mr-2 text-accent" aria-hidden="true">##</span>
+          <span class="mr-2 text-accent" aria-hidden="true">
+            ##
+          </span>
           {t('travels.gallery')}
         </h2>
 
@@ -127,7 +129,9 @@ const galleryTravels = travels.filter((travel) => travel.photos.length > 0);
                   />
                   <h3 class="text-base">{travel.title}</h3>
                 </div>
-                {travel.summary ? <p class="flex-1 text-sm text-fg-muted">{travel.summary}</p> : null}
+                {travel.summary ? (
+                  <p class="flex-1 text-sm text-fg-muted">{travel.summary}</p>
+                ) : null}
                 {travel.visitedOn ? (
                   <time
                     datetime={isoDate(travel.visitedOn)}

@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import type { Locale } from '../i18n/ui';
 import { localizedPath, useTranslations } from '../i18n/utils';
+import { blogCategoryLabelKey } from '../lib/blog-categories';
 import type { ResolvedPost } from '../lib/content';
 import { formatDate, isoDate, readingTime } from '../lib/utils';
 
@@ -20,28 +21,30 @@ const { data, body } = post.entry;
 <BaseLayout
   lang={lang}
   title={data.title}
+  headline={data.title}
   description={data.description}
   image={data.cover}
   imageAlt={data.coverAlt}
   type="article"
   publishedTime={data.pubDate}
   modifiedTime={data.updatedDate}
+  articleCategory={t(blogCategoryLabelKey(data.category))}
   alternates={alternates}
 >
   <article class="mx-auto max-w-3xl">
-    <a
-      href={localizedPath(lang, 'blog')}
-      class="font-mono text-xs text-fg-muted hover:text-accent"
-    >
+    <a href={localizedPath(lang, 'blog')} class="font-mono text-xs text-fg-muted hover:text-accent">
       <span aria-hidden="true">&lt;-</span>
       {t('blog.backToList')}
     </a>
 
     <header class="mt-6 border-b-2 border-edge pb-6">
       <div class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-fg-muted">
-        <span class="border border-edge bg-surface-raised px-1.5 py-0.5">{data.category}</span>
+        <span class="border border-edge bg-surface-raised px-1.5 py-0.5">
+          {t(blogCategoryLabelKey(data.category))}
+        </span>
         <time datetime={isoDate(data.pubDate)}>
-          {t('blog.publishedOn')} {formatDate(data.pubDate, lang)}
+          {t('blog.publishedOn')}
+          {formatDate(data.pubDate, lang)}
         </time>
         {
           data.updatedDate ? (

@@ -74,6 +74,24 @@ const { Content } = await render(project.entry);
       loading="eager"
     />
 
+    {
+      data.diagram ? (
+        <figure class="mt-8">
+          <Image
+            src={data.diagram}
+            alt={data.diagramAlt ?? `${data.title} architecture diagram`}
+            widths={[640, 1024, 1536]}
+            sizes="(min-width: 768px) 48rem, 92vw"
+            class="w-full border-2 border-edge"
+            loading="lazy"
+          />
+          {data.diagramAlt ? (
+            <figcaption class="mt-2 font-mono text-xs text-fg-muted">{data.diagramAlt}</figcaption>
+          ) : null}
+        </figure>
+      ) : null
+    }
+
     <dl class="mt-8 grid gap-4 border-2 border-edge bg-surface p-4 sm:grid-cols-2">
       <div>
         <dt class="mb-1.5 font-mono text-xs tracking-widest text-fg-muted uppercase">

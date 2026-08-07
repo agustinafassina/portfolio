@@ -4,7 +4,7 @@ description: A nightly backup reported success every single night while writing 
 lang: en
 translationKey: cron-job-that-lied
 slug: the-cron-job-that-lied
-category: Postmortem
+category: postmortem
 pubDate: 2026-05-14
 cover: ../../../assets/projects/pipeline.png
 coverAlt: A conveyor belt of crates passing through gates toward a green checkmark lamp
@@ -30,15 +30,15 @@ echo "backup completed"
 There are two failures stacked on top of each other here, and each one alone would have
 been survivable.
 
-The first is the pipeline. In a shell pipeline the exit status is the status of the *last*
+The first is the pipeline. In a shell pipeline the exit status is the status of the _last_
 command, so `pg_dump` could die instantly and `gzip` would still succeed at compressing
 the empty stream it received. The pipeline exits zero. The second is that `echo` runs
 unconditionally, so the log line was never evidence of anything except that the script
 reached its final line.
 
 <Callout variant="warning" title="The trap">
-  A success message that is not conditional on success is worse than no message, because
-  it converts an absence of information into a false positive.
+  A success message that is not conditional on success is worse than no message, because it converts
+  an absence of information into a false positive.
 </Callout>
 
 ## What actually fixes it
@@ -66,8 +66,8 @@ backup looks like, only what an obviously broken one looks like. Crude checks th
 every night beat sophisticated checks that nobody writes.
 
 <Callout variant="success" title="The habit">
-  Verify the thing you produced, not the fact that you finished producing it. Exit codes
-  describe processes; you care about artifacts.
+  Verify the thing you produced, not the fact that you finished producing it. Exit codes describe
+  processes; you care about artifacts.
 </Callout>
 
 ## The part I keep thinking about

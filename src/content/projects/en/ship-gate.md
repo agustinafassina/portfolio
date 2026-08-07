@@ -12,8 +12,8 @@ stack:
 repoUrl: https://github.com/example/ship-gate
 cover: ../../../assets/projects/pipeline.png
 coverAlt: A conveyor belt of labelled crates passing through three arched gates toward a green checkmark lamp
-featured: true
-order: 2
+featured: false
+order: 11
 startedOn: 2023-08-21
 ---
 

@@ -4,7 +4,7 @@ description: Un backup notturno ha riportato successo ogni singola notte scriven
 lang: it
 translationKey: cron-job-that-lied
 slug: il-cron-che-ha-mentito
-category: Postmortem
+category: postmortem
 pubDate: 2026-05-14
 cover: ../../../assets/projects/pipeline.png
 coverAlt: Un nastro trasportatore di casse che passa attraverso archi verso una lampada verde di conferma
@@ -30,15 +30,15 @@ echo "backup completed"
 Qui ci sono due guasti impilati uno sull altro, e ciascuno da solo sarebbe stato
 sopravvivibile.
 
-Il primo è la pipeline. In una pipeline di shell lo stato di uscita è quello dell *ultimo*
+Il primo è la pipeline. In una pipeline di shell lo stato di uscita è quello dell _ultimo_
 comando, quindi `pg_dump` poteva morire all istante e `gzip` avrebbe comunque compresso con
 successo lo stream vuoto che aveva ricevuto. La pipeline esce con zero. Il secondo è che
 `echo` viene eseguito incondizionatamente, quindi quella riga di log non è mai stata prova
 di nulla se non del fatto che lo script era arrivato alla sua ultima riga.
 
 <Callout variant="warning" title="La trappola">
-  Un messaggio di successo che non è condizionato al successo è peggio di nessun messaggio,
-  perché converte un assenza di informazione in un falso positivo.
+  Un messaggio di successo che non è condizionato al successo è peggio di nessun messaggio, perché
+  converte un assenza di informazione in un falso positivo.
 </Callout>
 
 ## Cosa lo risolve davvero
@@ -66,8 +66,8 @@ backup corretto, solo come sia fatto uno palesemente rotto. I controlli grezzi c
 ogni notte battono i controlli sofisticati che nessuno scrive.
 
 <Callout variant="success" title="L abitudine">
-  Verifica la cosa che hai prodotto, non il fatto di aver finito di produrla. I codici di
-  uscita descrivono processi; a te interessano gli artefatti.
+  Verifica la cosa che hai prodotto, non il fatto di aver finito di produrla. I codici di uscita
+  descrivono processi; a te interessano gli artefatti.
 </Callout>
 
 ## La parte a cui continuo a pensare

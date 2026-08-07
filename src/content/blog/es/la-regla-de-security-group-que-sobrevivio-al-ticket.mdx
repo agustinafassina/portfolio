@@ -1,0 +1,103 @@
+---
+title: La regla de security group que sobrevivió al ticket
+description: Un puerto PostgreSQL abierto temporalmente para debugging siguió en producción seis semanas después de cerrar el ticket. La base nunca fue comprometida — y eso casi lo empeoró.
+lang: es
+translationKey: security-group-that-outlived-the-ticket
+slug: la-regla-de-security-group-que-sobrevivio-al-ticket
+category: postmortem
+pubDate: 2026-07-18
+cover: ../../../assets/projects/automation.png
+coverAlt: Un monitor CRT ejecutando un script de automatización junto a un brazo robótico sellando una pila de formularios
+---
+
+import Callout from '../../../components/Callout.astro';
+
+El ticket decía "acceso temporal a RDS de staging para pruebas de migración." Alguien
+agregó una regla inbound en el security group de la base: TCP 5432 desde la IP de oficina
+con `/32`. La migración terminó el jueves. La regla quedó. El lunes alguien la amplió a
+`0.0.0.0/0` mientras debuggeaba un problema de VPN, probó conectividad, se distrajo con un
+deploy y nunca la volvió a achicar.
+
+La encontramos seis semanas después en una auditoría de rutina, no porque algo hubiera salido
+mal.
+
+## Cómo siguió abierta
+
+Tres cosas tenían que fallar a la vez, y las tres fallaron.
+
+La primera fue el proceso. El ticket tenía un checkbox de "remover acceso temporal" y nadie
+lo marcó, porque el trabajo ya había seguido y el acceso parecía inofensivo — era staging,
+los datos estaban anonimizados, el riesgo se sentía abstracto.
+
+La segunda es que la regla se agregó en la consola de AWS, no en Terraform. Los siguientes
+tres `terraform plan` no mostraron drift en ese security group porque Terraform nunca había
+tenido esa regla. El plan estaba limpio. Los planes limpios reconfortan y a veces mienten.
+
+La tercera fue el monitoreo. Teníamos GuardDuty, Security Hub, un scan semanal. Ninguno
+estaba configurado para alertar por "nueva regla ingress en security group de RDS." Hubieran
+detectado explotación. No estaban mirando la ventana abierta.
+
+<Callout variant="warning" title="La trampa">
+  Un control que solo detecta abuso no detecta exposición. Podés estar comprometido por minutos;
+  podés estar expuesto por meses.
+</Callout>
+
+## Cómo se veía la regla
+
+Más o menos así, al lado de las reglas legítimas:
+
+```
+Type        Protocol   Port   Source
+PostgreSQL  TCP        5432   0.0.0.0/0        ← la que nadie tenía registrada
+PostgreSQL  TCP        5432   sg-app-prod      ← la real
+PostgreSQL  TCP        5432   sg-bastion       ← la real
+```
+
+La base seguía con `Publicly accessible: No`. La subnet era privada. Pero el security group
+es la puerta, y la habíamos dejado sin llave del lado de internet porque `0.0.0.0/0` no le
+importa tu diseño de subnets.
+
+## Qué cambiamos
+
+**Ese día:** sacamos la regla, rotamos la contraseña de la base, exportamos los eventos de
+CloudTrail de las seis semanas (nada sospechoso — pequeñas misericordias).
+
+**Esa semana:**
+
+- Importamos el security group a Terraform para que el próximo cambio manual aparezca como
+  drift.
+- Agregamos una regla de EventBridge sobre `AuthorizeSecurityGroupIngress` para cualquier
+  SG asociado a RDS. Mensaje a Slack, no pager — queríamos señal sin llorar lobo en cada
+  cambio legítimo del bastion.
+- Documentamos el acceso por bastion como el único camino aprobado para conexiones humanas
+  a la base.
+
+**El hábito que quedó:**
+
+```hcl
+lifecycle {
+  prevent_destroy = true
+}
+```
+
+en la instancia RDS, y un check en CI que falla si algún `aws_security_group_rule` usa
+`cidr_blocks = ["0.0.0.0/0"]` en el puerto 5432. Grosero. Atrapa el error que realmente
+cometimos.
+
+<Callout variant="success" title="El hábito">
+  El acceso temporal necesita vencimiento — en el ticket, en Terraform, o en un recordatorio
+  en el calendario. "Lo saco después" es cómo después se convierte en seis semanas.
+</Callout>
+
+## La parte que me sigue dando vueltas
+
+Nadie fue descuidado de la forma que encaja en una narrativa de villano. La gente iba rápido,
+la regla funcionaba, la app estaba bien, el panel estaba en verde. El modo de falla fue
+aburrido: cambio manual, ticket cerrado, plan de Terraform limpio, ningún incidente que
+dispare una revisión.
+
+Los postmortems suelen empezar cuando algo se rompe. Este empezó porque algo _no_ se rompió,
+y por eso la exposición duró lo suficiente como para importar.
+
+Si tu única prueba de que la seguridad funciona es que nadie te atacó todavía, estás
+midiendo suerte, no postura.

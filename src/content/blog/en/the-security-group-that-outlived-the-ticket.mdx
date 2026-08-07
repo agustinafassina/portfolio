@@ -1,0 +1,100 @@
+---
+title: The security group rule that outlived the ticket
+description: A temporary PostgreSQL port opened for debugging stayed in production for six weeks after the ticket closed. The database was never breached — which almost made it worse.
+lang: en
+translationKey: security-group-that-outlived-the-ticket
+slug: the-security-group-that-outlived-the-ticket
+category: postmortem
+pubDate: 2026-07-18
+cover: ../../../assets/projects/automation.png
+coverAlt: A CRT monitor running an automation script next to a robot arm stamping a stack of forms
+---
+
+import Callout from '../../../components/Callout.astro';
+
+The ticket said "temporary access to staging RDS for migration testing." Someone added an
+inbound rule on the database security group: TCP 5432 from a `/32` office IP. The migration
+finished on Thursday. The rule stayed. On Monday someone widened it to `0.0.0.0/0` while
+troubleshooting a VPN issue, tested connectivity, got distracted by a deploy, and never
+narrowed it back.
+
+We found it six weeks later during a routine audit, not because anything had gone wrong.
+
+## How it stayed open
+
+Three things had to fail at once, and all three did.
+
+The first was process. The ticket had a checkbox for "remove temporary access" and nobody
+checked it, because the work had moved on and the access felt harmless — it was staging,
+the data was anonymised, the risk felt abstract.
+
+The second was that the rule was added in the AWS console, not in Terraform. Our next three
+`terraform plan` runs showed no drift on that security group because Terraform had never
+owned the rule in the first place. The plan was clean. Clean plans are comforting and
+sometimes lying.
+
+The third was monitoring. We had GuardDuty, we had Security Hub, we had a weekly scan.
+None of them were configured to page on "new ingress rule on RDS security group." They
+would have noticed exploitation. They were not looking for the open window.
+
+<Callout variant="warning" title="The trap">
+  A control that only detects abuse does not detect exposure. You can run compromised for
+  minutes; you can run exposed for months.
+</Callout>
+
+## What the rule actually looked like
+
+Roughly this, sitting next to the legitimate rules:
+
+```
+Type        Protocol   Port   Source
+PostgreSQL  TCP        5432   0.0.0.0/0        ← the one nobody owned
+PostgreSQL  TCP        5432   sg-app-prod      ← the real one
+PostgreSQL  TCP        5432   sg-bastion       ← the real one
+```
+
+The database still had `Publicly accessible: No`. The subnet was private. But the security
+group is the gate, and we had left it unlocked on the internet side because `0.0.0.0/0`
+does not care about your subnet design.
+
+## What we changed
+
+**Same day:** removed the rule, rotated the database password, exported the CloudTrail events
+for the six-week window (nothing suspicious — small mercies).
+
+**That week:**
+
+- Imported the security group into Terraform so the next manual edit shows up as drift.
+- Added an EventBridge rule on `AuthorizeSecurityGroupIngress` for any SG attached to RDS.
+  Slack message, not a page — we wanted signal without crying wolf on every legitimate
+  bastion change.
+- Bastion access documented as the only approved path for human database connections.
+
+**The habit that stuck:**
+
+```hcl
+lifecycle {
+  prevent_destroy = true
+}
+```
+
+on the RDS instance, and a CI check that fails if any `aws_security_group_rule` resource
+uses `cidr_blocks = ["0.0.0.0/0"]` on port 5432. Crude. Catches the mistake we actually
+made.
+
+<Callout variant="success" title="The habit">
+  Temporary access needs an expiry — in the ticket, in Terraform, or in a calendar reminder.
+  "I'll remove it later" is how later becomes six weeks.
+</Callout>
+
+## The part I keep thinking about
+
+Nobody was careless in a way that fits a villain narrative. People were moving fast, the
+rule worked, the app was fine, the dashboard was green. The failure mode was boring:
+manual change, closed ticket, clean Terraform plan, no incident to trigger a review.
+
+Postmortems usually start when something breaks. This one started because something
+_didn't_ break, and that is exactly why the exposure lasted long enough to matter.
+
+If your only proof that security works is that nobody has attacked you yet, you are
+measuring luck, not posture.

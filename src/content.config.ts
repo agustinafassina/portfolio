@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { blogCategories } from './lib/blog-categories';
 import { locales } from './i18n/ui';
 
 const localeEnum = z.enum(locales);
@@ -20,7 +21,7 @@ const blog = defineCollection({
       lang: localeEnum,
       translationKey: z.string().min(1),
       slug: z.string().min(1),
-      category: z.string().min(1),
+      category: z.enum(blogCategories),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       cover: image().optional(),
@@ -47,6 +48,8 @@ const projects = defineCollection({
       demoUrl: z.url().optional(),
       cover: image(),
       coverAlt: z.string().min(1),
+      diagram: image().optional(),
+      diagramAlt: z.string().optional(),
       featured: z.boolean().default(false),
       order: z.number().int().default(0),
       startedOn: z.coerce.date(),

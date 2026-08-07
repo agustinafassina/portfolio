@@ -1,0 +1,105 @@
+---
+title: La regola security group che ha sopravvissuto al ticket
+description: Una porta PostgreSQL aperta temporaneamente per il debug è rimasta in produzione per sei settimane dopo la chiusura del ticket. Il database non è mai stato compromesso — e questo l ha quasi peggiorato.
+lang: it
+translationKey: security-group-that-outlived-the-ticket
+slug: la-regola-security-group-che-ha-sopravvissuto-al-ticket
+category: postmortem
+pubDate: 2026-07-18
+cover: ../../../assets/projects/automation.png
+coverAlt: Un monitor CRT che esegue uno script di automazione accanto a un braccio robotico che timbra una pila di moduli
+---
+
+import Callout from '../../../components/Callout.astro';
+
+Il ticket diceva "accesso temporaneo a RDS di staging per test di migrazione." Qualcuno
+ha aggiunto una regola inbound sul security group del database: TCP 5432 da un IP ufficio
+con `/32`. La migrazione è finita giovedì. La regola è rimasta. Lunedì qualcuno l ha
+allargata a `0.0.0.0/0` mentre debuggava un problema VPN, ha testato la connettività, si è
+distratto con un deploy e non l ha mai ristretta.
+
+L abbiamo trovata sei settimane dopo durante un audit di routine, non perché qualcosa fosse
+andato storto.
+
+## Come è rimasta aperta
+
+Tre cose dovevano fallire insieme, e tutte e tre sono fallite.
+
+La prima è stata il processo. Il ticket aveva una checkbox "rimuovi accesso temporaneo" e
+nessuno l ha spuntata, perché il lavoro era andato avanti e l accesso sembrava innocuo —
+era staging, i dati erano anonimizzati, il rischio sembrava astratto.
+
+La seconda è che la regola è stata aggiunta nella console AWS, non in Terraform. I successivi
+tre `terraform plan` non hanno mostrato drift su quel security group perché Terraform non
+aveva mai posseduto quella regola. Il plan era pulito. I plan puliti rassicurano e a volte
+mentono.
+
+La terza è stato il monitoraggio. Avevamo GuardDuty, Security Hub, una scansione settimanale.
+Nessuno era configurato per avvisare su "nuova regola ingress su security group RDS." Avrebbero
+rilevato lo sfruttamento. Non guardavano la finestra aperta.
+
+<Callout variant="warning" title="La trappola">
+  Un controllo che rileva solo l abuso non rileva l esposizione. Puoi essere compromesso per
+  minuti; puoi essere esposto per mesi.
+</Callout>
+
+## Com era fatta la regola
+
+Più o meno così, accanto alle regole legittime:
+
+```
+Type        Protocol   Port   Source
+PostgreSQL  TCP        5432   0.0.0.0/0        ← quella che nessuno possedeva
+PostgreSQL  TCP        5432   sg-app-prod      ← quella vera
+PostgreSQL  TCP        5432   sg-bastion       ← quella vera
+```
+
+Il database aveva ancora `Publicly accessible: No`. La subnet era privata. Ma il security
+group è il cancello, e l avevamo lasciato sbloccato verso internet perché `0.0.0.0/0` non
+si cura del tuo design di subnet.
+
+## Cosa abbiamo cambiato
+
+**Quel giorno:** rimossa la regola, ruotata la password del database, esportati gli eventi
+CloudTrail delle sei settimane (niente di sospetto — piccole misericordie).
+
+**Quella settimana:**
+
+- Importato il security group in Terraform così la prossima modifica manuale appare come
+  drift.
+- Aggiunta una regola EventBridge su `AuthorizeSecurityGroupIngress` per ogni SG collegato
+  a RDS. Messaggio Slack, non pager — volevamo segnale senza gridare al lupo a ogni cambio
+  legittimo del bastion.
+- Documentato l accesso via bastion come unico percorso approvato per connessioni umane al
+  database.
+
+**L abitudine rimasta:**
+
+```hcl
+lifecycle {
+  prevent_destroy = true
+}
+```
+
+sull istanza RDS, e un check CI che fallisce se una risorsa `aws_security_group_rule` usa
+`cidr_blocks = ["0.0.0.0/0"]` sulla porta 5432. Grezzo. Intercetta l errore che abbiamo
+davvero fatto.
+
+<Callout variant="success" title="L abitudine">
+  L accesso temporaneo ha bisogno di una scadenza — nel ticket, in Terraform, o in un
+  promemoria sul calendario. "Lo tolgo dopo" è come il dopo diventa sei settimane.
+</Callout>
+
+## La parte a cui continuo a pensare
+
+Nessuno è stato negligente nel modo che calza in una narrativa da cattivo. La gente andava
+veloce, la regola funzionava, l app era a posto, la dashboard era verde. Il modo di fallire
+è stato noioso: modifica manuale, ticket chiuso, plan Terraform pulito, nessun incidente che
+scateni una revisione.
+
+I postmortem di solito iniziano quando qualcosa si rompe. Questo è iniziato perché qualcosa
+_non_ si è rotto, ed è esattamente per questo che l esposizione è durata abbastanza da
+contare.
+
+Se la tua unica prova che la sicurezza funziona è che nessuno ti ha ancora attaccato, stai
+misurando fortuna, non postura.

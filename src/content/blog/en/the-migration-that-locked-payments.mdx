@@ -1,0 +1,120 @@
+---
+title: The migration that locked payments for forty minutes
+description: A routine index migration on RDS looked fine in the runbook and on the dashboard. The payments table disagreed for forty minutes.
+lang: en
+translationKey: rds-migration-that-locked-payments
+slug: the-migration-that-locked-payments
+category: postmortem
+pubDate: 2026-08-01
+cover: ../../../assets/projects/indexer.png
+coverAlt: A filing cabinet drawer being indexed with numbered tabs while a queue of payment slips waits at the counter
+---
+
+import Callout from '../../../components/Callout.astro';
+
+The migration was on the calendar for weeks. Add two indexes on `payments`, backfill a
+nullable column, deploy the code that reads it. The maintenance window opened at 22:00.
+By 22:04 the RDS CPU graph was flat, replication was healthy, and CloudWatch showed
+green across the board.
+
+By 22:06 every checkout in Europe was returning 500.
+
+## What the script actually did
+
+The migration file looked innocent. It had been reviewed. It had run in staging on a
+Friday snapshot without complaint:
+
+```sql
+ALTER TABLE payments ADD COLUMN settlement_id UUID;
+
+UPDATE payments SET settlement_id = gen_random_uuid() WHERE settlement_id IS NULL;
+
+CREATE INDEX idx_payments_settlement ON payments(settlement_id);
+CREATE INDEX idx_payments_customer_created ON payments(customer_id, created_at DESC);
+```
+
+Staging had four million rows and finished in eleven minutes. Production had ninety-two
+million. That difference mattered, but not for the reason we expected.
+
+The `UPDATE` was slow and boring — batchable, visible in `pg_stat_activity`, easy to
+abort. The indexes were the problem. Neither used `CONCURRENTLY`. On PostgreSQL, a plain
+`CREATE INDEX` takes an `ACCESS EXCLUSIVE` lock. Reads and writes on `payments` queue
+behind it. The table is not corrupted. It is simply unavailable, for as long as the
+index build takes.
+
+Our connection pool did not see "database locked." It saw timeouts. The API retried.
+Retries piled up. RDS looked fine because the database was working exactly as designed:
+one session held a lock everyone else was waiting on.
+
+<Callout variant="warning" title="The trap">
+  A migration that succeeds in staging on a snapshot is not proof that it is safe in
+  production. Snapshots are smaller, quieter, and nobody is waiting on the other side of
+  the pool.
+</Callout>
+
+## How the dashboard stayed green
+
+Three signals lied by omission, not by error.
+
+**RDS CPU and free storage** were comfortable. Index builds are I/O-heavy but not always
+CPU-heavy. A flat CPU graph does not mean your app can write rows.
+
+**Replica lag** stayed under a second. The replica was not the one taking writes. Users
+were not reading stale data — they were not reading at all.
+
+**The migration runner** reported step three of four as "in progress." That was accurate
+and useless. Nobody had wired an alert on `wait_event = 'Lock'` for the `payments`
+relation, because we had never needed one before.
+
+The forty minutes ended when someone ran `SELECT * FROM pg_locks` from the bastion,
+found the index build, and cancelled it. We re-ran both indexes with `CONCURRENTLY` over
+the next two hours. No further customer impact. The column and the backfill had already
+completed before the lock — only the indexes had to be redone.
+
+## What we changed
+
+**That night:**
+
+- Split the migration into phases: schema change, backfill in batches, indexes last —
+  each phase in its own deployable revision.
+- Added `SET lock_timeout = '5s'` at the top of every migration file. A migration that
+  cannot get a lock should fail fast, not hold the table hostage.
+
+**That week:**
+
+- Staging refresh policy: restore a prod snapshot monthly and run migrations against row
+  counts that resemble reality, not a trimmed fixture.
+- Pre-migration checklist in the ticket template: index strategy (`CONCURRENTLY` or
+  justify why not), estimated lock duration, rollback steps, who is watching
+  `pg_stat_activity`.
+
+**The habit that stuck:**
+
+```sql
+-- migration runner preamble, every file
+SET lock_timeout = '5s';
+SET statement_timeout = '30min';
+
+CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_payments_settlement
+  ON payments(settlement_id);
+```
+
+and a CI lint that fails if `CREATE INDEX` appears without `CONCURRENTLY` outside an
+explicit `/* migration:offline-window */` block that requires a second reviewer.
+
+<Callout variant="success" title="The habit">
+  Size the migration against production traffic, not against the staging snapshot. If the
+  lock can outlive your patience, it can outlive your maintenance window.
+</Callout>
+
+## The part I keep thinking about
+
+The runbook was followed. The window was approved. The script had worked somewhere else.
+Every box was ticked except the one that asked whether ninety-two million rows would wait
+quietly while we built an index the slow way.
+
+RDS did not break. We asked it to hold a lock during peak-adjacent hours and it
+complied. The failure was boring SQL in a file that staging had already forgiven.
+
+If your proof that a migration is safe is that the infrastructure metrics look normal,
+you are monitoring the server, not the experience of the rows inside it.

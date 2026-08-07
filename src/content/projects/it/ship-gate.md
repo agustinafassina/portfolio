@@ -12,8 +12,8 @@ stack:
 repoUrl: https://github.com/example/ship-gate
 cover: ../../../assets/projects/pipeline.png
 coverAlt: Un nastro trasportatore di casse etichettate che passa attraverso tre archi verso una lampada verde di conferma
-featured: true
-order: 2
+featured: false
+order: 11
 startedOn: 2023-08-21
 ---
 

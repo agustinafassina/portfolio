@@ -12,7 +12,7 @@ repoUrl: https://github.com/example/card-catalogue
 demoUrl: https://example.com/card-catalogue
 cover: ../../../assets/projects/indexer.png
 coverAlt: Un cajón de fichero de madera abierto con fichas iluminadas acomodándose en una grilla por encima
-order: 3
+order: 12
 startedOn: 2023-03-05
 ---
 

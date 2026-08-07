@@ -26,7 +26,10 @@ export function flagDataUri(countryCode: string): string {
   }
 
   const uri = `data:image/svg+xml,${encodeURIComponent(
-    svg.replace(/<\?xml[^>]*\?>/g, '').replace(/\s+/g, ' ').trim(),
+    svg
+      .replace(/<\?xml[^>]*\?>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim(),
   )}`;
 
   cache.set(code, uri);

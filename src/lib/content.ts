@@ -199,8 +199,7 @@ async function translationHrefs(
   const hrefs = {} as Record<Locale, string>;
 
   for (const lang of locales) {
-    const resolved =
-      collection === 'blog' ? await getPosts(lang) : await getProjects(lang);
+    const resolved = collection === 'blog' ? await getPosts(lang) : await getProjects(lang);
     const match = resolved.find((item) => item.translationKey === translationKey);
     hrefs[lang] = match ? match.href : localizedPath(lang, segment);
   }

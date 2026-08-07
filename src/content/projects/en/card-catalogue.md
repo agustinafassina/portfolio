@@ -12,7 +12,7 @@ repoUrl: https://github.com/example/card-catalogue
 demoUrl: https://example.com/card-catalogue
 cover: ../../../assets/projects/indexer.png
 coverAlt: An open wooden card catalogue drawer with glowing index cards arranging themselves into a grid above it
-order: 3
+order: 12
 startedOn: 2023-03-05
 ---
 

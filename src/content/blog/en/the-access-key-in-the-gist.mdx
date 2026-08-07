@@ -1,0 +1,107 @@
+---
+title: The access key that had AdministratorAccess
+description: An IAM access key landed in a public gist with full admin permissions. We rotated it in eleven minutes. The scary part was how long it had been there.
+lang: en
+translationKey: access-key-in-the-gist
+slug: the-access-key-in-the-gist
+category: postmortem
+pubDate: 2026-06-22
+cover: ../../../assets/projects/pipeline.png
+coverAlt: A conveyor belt of labelled crates passing through three arched gates toward a green checkmark lamp
+---
+
+import Callout from '../../../components/Callout.astro';
+
+A contractor pasted a curl example into a public gist to ask for help with an S3 upload.
+The example included `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and a one-liner that
+worked. What the gist did not mention was that the key belonged to a service account
+named `deploy-bot`, and that account had `AdministratorAccess` attached because someone
+had been "just testing something" three months earlier.
+
+GitGuardian emailed us at 02:14 on a Tuesday. By 02:25 the key was dead. By 06:00 we
+knew the damage: nothing. By 10:00 we knew why that was mostly luck.
+
+## How it got there
+
+The contractor did not exfiltrate anything. They copied a working snippet from an
+internal wiki page that had been written six months ago when `deploy-bot` was first
+created. The wiki page was wrong the day it was written and nobody had opened it since.
+
+The key itself was fine when created — scoped to ECR push and ECS deploy on one cluster.
+Then a platform engineer attached `AdministratorAccess` during a Friday deploy that was
+going badly, swore they would remove it, opened a ticket, closed the ticket when the
+deploy went green, and never touched IAM again.
+
+The gist was public for four days before the scanner found it. We do not know if anyone
+else did.
+
+<Callout variant="warning" title="The trap">
+  Least privilege does not survive "just for now." Temporary admin is how permanent admin
+  introduces itself.
+</Callout>
+
+## What eleven minutes of response looked like
+
+This is the order that mattered, not the order that felt satisfying:
+
+1. **Deactivate the key** — not delete yet; you want the trail.
+2. **CloudTrail lookup** on `AccessKeyId` for the last 90 days — filter `errorCode` absent
+   first, then read everything.
+3. **Assume compromise** on anything the principal touched — S3 buckets, Lambda env vars,
+   Secrets Manager paths. Rotate what was readable, not what looks suspicious.
+4. **Issue a new key** only after the blast radius is understood — a rushed replacement
+   with the same policy repeats the problem.
+
+Our CloudTrail window showed `Describe*` calls from a residential ISP in another country,
+then nothing. Could have been a scanner. Could have been someone being careful. We treated
+both the same.
+
+## What we should have had before 02:14
+
+| Control | What it would have changed |
+| --- | --- |
+| **No long-lived keys on humans or bots** | OIDC from CI to AWS — the gist would have had a token that expired in minutes |
+| **Permission boundary on `deploy-bot`** | Admin attach would have failed at the API |
+| **Access key age alarm** | Key was 94 days old; we had no alert |
+| **Secret scanning on internal wiki** | The wiki was the real leak; the gist was the amplifier |
+
+The IAM policy that actually stuck:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Deny",
+      "Action": "iam:*",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalTag/role": "iam-admin"
+        }
+      }
+    }
+  ]
+}
+```
+
+A permission boundary on every non-admin principal. `deploy-bot` cannot grant itself
+admin even if someone attaches a broader policy by mistake.
+
+<Callout variant="success" title="The habit">
+  If a credential can do more than the job description of the thing that holds it, the
+  excess permission is a incident waiting for a paste command.
+</Callout>
+
+## The part I keep thinking about
+
+We celebrated the eleven-minute rotation. Security liked the runbook. Leadership liked
+the timeline slide.
+
+The actual failure was three months old and invisible: an admin policy nobody remembered
+attaching, on a key nobody remembered creating, copied from a page nobody remembered
+writing. The gist was just the moment the debt became visible.
+
+Rotate fast. But the work that prevents the next one is boring IAM hygiene — boundaries,
+no long-lived keys, and treating `AdministratorAccess` like a fire axe: behind glass,
+logged, and put back immediately.

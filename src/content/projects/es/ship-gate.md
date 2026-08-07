@@ -12,8 +12,8 @@ stack:
 repoUrl: https://github.com/example/ship-gate
 cover: ../../../assets/projects/pipeline.png
 coverAlt: Una cinta transportadora de cajas etiquetadas pasando por tres arcos hacia una lámpara verde de visto bueno
-featured: true
-order: 2
+featured: false
+order: 11
 startedOn: 2023-08-21
 ---
 

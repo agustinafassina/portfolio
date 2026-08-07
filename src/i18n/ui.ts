@@ -63,6 +63,18 @@ const en = {
   'blog.publishedOn': 'Published',
   'blog.updatedOn': 'Updated',
   'blog.category': 'Category',
+  'blog.categories': 'What I write about',
+  'blog.category.postmortem': 'Postmortem',
+  'blog.category.postmortem.about': 'Things that broke in production — and what we changed after.',
+  'blog.category.infrastructure': 'Infrastructure',
+  'blog.category.infrastructure.about':
+    'AWS and architecture decisions: when to pick a pattern, and when to walk away.',
+  'blog.category.craft': 'Craft',
+  'blog.category.craft.about':
+    'Opinions on how we work: comments, runbooks, reviews and habits that survive 3am.',
+  'blog.category.automation': 'Automation',
+  'blog.category.automation.about':
+    'Scripts, pipelines, cron jobs and IaC — the boring glue that keeps systems running.',
   'blog.backToList': 'Back to all posts',
   'blog.empty': 'No posts yet.',
   'blog.tableOfContents': 'On this page',
@@ -122,7 +134,8 @@ const es: Record<UIKey, string> = {
   'site.tagline': 'DevOps, infraestructura cloud, automatización y chinches en el mapa.',
   'site.description':
     'Portfolio de Agustina Fassina: infraestructura, operaciones cloud, automatización de plataformas y sistemas confiables.',
-  'site.keywords': 'devops, automatización, cloud, infraestructura, ingeniería de plataformas, portfolio',
+  'site.keywords':
+    'devops, automatización, cloud, infraestructura, ingeniería de plataformas, portfolio',
 
   'home.greeting': 'Hola, soy',
   'home.role': 'DevOps · Infraestructura Cloud y Automatización · Argentina 🇦🇷',
@@ -138,8 +151,10 @@ const es: Record<UIKey, string> = {
     'Un escritorio ilustrado de noche con un mapa del mundo, una pizarra y Buenos Aires por la ventana',
 
   'illustration.desk.projects': 'Una pizarra con un diagrama de despliegue dibujado a mano',
-  'illustration.desk.travels': 'Un mapa del mundo en la pared con chinchetas marcando ciudades visitadas',
-  'illustration.desk.blog': 'Una repisa con libros y una libreta abierta sobre un escritorio de madera',
+  'illustration.desk.travels':
+    'Un mapa del mundo en la pared con chinchetas marcando ciudades visitadas',
+  'illustration.desk.blog':
+    'Una repisa con libros y una libreta abierta sobre un escritorio de madera',
   'illustration.desk.contact': 'Una ventana con vista a Buenos Aires de noche',
 
   'projects.title': 'Proyectos',
@@ -158,6 +173,19 @@ const es: Record<UIKey, string> = {
   'blog.publishedOn': 'Publicado',
   'blog.updatedOn': 'Actualizado',
   'blog.category': 'Categoría',
+  'blog.categories': 'De qué escribo',
+  'blog.category.postmortem': 'Postmortem',
+  'blog.category.postmortem.about':
+    'Cosas que se rompieron en producción — y qué cambiamos después.',
+  'blog.category.infrastructure': 'Infraestructura',
+  'blog.category.infrastructure.about':
+    'Decisiones de AWS y arquitectura: cuándo elegir un patrón y cuándo no.',
+  'blog.category.craft': 'Oficio',
+  'blog.category.craft.about':
+    'Opiniones sobre cómo trabajar: comentarios, runbooks, reviews y hábitos que sobreviven a las 3am.',
+  'blog.category.automation': 'Automatización',
+  'blog.category.automation.about':
+    'Scripts, pipelines, cron jobs e IaC — el pegamento aburrido que mantiene los sistemas en pie.',
   'blog.backToList': 'Volver a todos los posts',
   'blog.empty': 'Todavía no hay posts.',
   'blog.tableOfContents': 'En esta página',
@@ -199,7 +227,8 @@ const es: Record<UIKey, string> = {
   'lang.label': 'Cambiar idioma',
   'lang.current': 'Idioma actual',
 
-  'common.fallbackNotice': 'Esta entrada todavía no está traducida, se muestra la versión en inglés.',
+  'common.fallbackNotice':
+    'Esta entrada todavía no está traducida, se muestra la versión en inglés.',
   'common.skipToContent': 'Saltar al contenido',
   'common.notFound': 'Página no encontrada',
 };
@@ -231,7 +260,8 @@ const it: Record<UIKey, string> = {
     'Una scrivania illustrata di notte con una mappa del mondo, una lavagna e Buenos Aires dalla finestra',
 
   'illustration.desk.projects': 'Una lavagna con un diagramma di deploy disegnato a mano',
-  'illustration.desk.travels': 'Una mappa del mondo appuntata al muro con spilli sulle città visitate',
+  'illustration.desk.travels':
+    'Una mappa del mondo appuntata al muro con spilli sulle città visitate',
   'illustration.desk.blog': 'Una mensola con libri e un taccuino aperto su una scrivania in legno',
   'illustration.desk.contact': 'Una finestra con vista su Buenos Aires di notte',
 
@@ -251,6 +281,19 @@ const it: Record<UIKey, string> = {
   'blog.publishedOn': 'Pubblicato',
   'blog.updatedOn': 'Aggiornato',
   'blog.category': 'Categoria',
+  'blog.categories': 'Di cosa scrivo',
+  'blog.category.postmortem': 'Postmortem',
+  'blog.category.postmortem.about':
+    'Cose che si sono rotte in produzione — e cosa abbiamo cambiato dopo.',
+  'blog.category.infrastructure': 'Infrastruttura',
+  'blog.category.infrastructure.about':
+    'Decisioni AWS e architettura: quando scegliere un pattern e quando lasciar perdere.',
+  'blog.category.craft': 'Mestiere',
+  'blog.category.craft.about':
+    'Opinioni su come lavorare: commenti, runbook, review e abitudini che sopravvivono alle 3 di notte.',
+  'blog.category.automation': 'Automazione',
+  'blog.category.automation.about':
+    'Script, pipeline, cron job e IaC — la colla noiosa che tiene in piedi i sistemi.',
   'blog.backToList': 'Torna a tutti gli articoli',
   'blog.empty': 'Ancora nessun articolo.',
   'blog.tableOfContents': 'In questa pagina',
