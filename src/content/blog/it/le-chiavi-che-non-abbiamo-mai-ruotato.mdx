@@ -1,0 +1,125 @@
+---
+title: Le chiavi che non abbiamo mai ruotato
+description: La policy diceva rotazione ogni novanta giorni. La access key più vecchia dell'account ne aveva 412. Cosa abbiamo misurato, cosa abbiamo automatizzato, e perché ruotare da soli non è sicurezza.
+lang: it
+translationKey: keys-that-never-rotated
+slug: le-chiavi-che-non-abbiamo-mai-ruotato
+category: infrastructure
+pubDate: 2026-08-05
+cover: ../../../assets/projects/automation.png
+coverAlt: Un monitor CRT che esegue uno script di automazione accanto a un braccio robotico che timbra una pila di moduli
+---
+
+import Callout from '../../../components/Callout.astro';
+
+La nostra policy IAM diceva che le access key dovevano ruotare ogni novanta giorni. La
+pagina Confluence lo diceva in tre lingue. La key attiva più vecchia aveva **412 giorni**,
+e chiamava ancora `GetObject` ogni notte da una Lambda che non aveva più un owner.
+
+Non l'abbiamo trovata per un breach. L'abbiamo trovata perché finalmente abbiamo listato
+`AccessKeyLastUsed` su tutto l'account e ordinato per età. Lo spreadsheet era abbastanza
+imbarazzante da far sì che la rotazione smettesse di essere una slide e diventasse un lavoro.
+
+## Cosa significa di solito "ruotiamo le key"
+
+Nella maggior parte dei team significa una di tre cose, e nessuna è un sistema:
+
+1. **Qualcuno se ne ricorda** dopo una mail di awareness
+2. **Esiste un ticket** senza owner e con una data già slittata due volte
+3. **La CI ha un secret** ruotato una volta, quando la pipeline era verde, e mai più
+
+Ruotare senza misurare è teatro. Puoi crederti sicuro mentre ogni credenziale long-lived
+dell'account sopravvive in silenzio alla persona che l'ha creata.
+
+<Callout variant="warning" title="La trappola">
+  Una policy di rotazione che nessuno può interrogare non è un controllo. È documentazione.
+</Callout>
+
+## Cosa abbiamo iniziato a misurare
+
+Prima di toccare qualsiasi key, abbiamo esportato un inventario settimanale. Tre campi
+contavano più degli altri:
+
+| Campo | Perché conta |
+| --- | --- |
+| **Età (giorni dalla create)** | Cattura key che non sono mai entrate in un loop di rotazione |
+| **Last used** | Separa key morte da quelle vive che stai per rompere |
+| **Owner / principal** | Umani vs service user vs fantasmi di "deploy condiviso" |
+
+Il bucket spaventoso non era "vecchie e inutilizzate." Quelle sono facili: disattiva,
+aspetta, elimina. Quello spaventoso era **vecchie e ancora usate** — job notturni,
+integrazioni vendor, un tool di staging diventato produzione senza cambiare l'utente IAM.
+
+Sono quelle key che ti insegnano perché gli script ingenui "cancella tutto oltre i 90 giorni"
+causano outage, e perché poi i team smettono di ruotare per sempre.
+
+## Il pattern a due key che ha funzionato
+
+Per ogni principal che aveva ancora bisogno di una key long-lived (il resto lo stiamo
+spostando su OIDC), la rotazione è diventata una danza a due key:
+
+1. **Creare** una seconda key attiva sullo stesso utente
+2. **Deployare** la nuova key su ogni consumer (Secrets Manager, variabile CI, l'unico
+   `.env` che ne aveva ancora uno)
+3. **Verificare** che CloudTrail / log dell'app mostrino traffico solo sulla nuova key
+4. **Disattivare** la key vecchia — non eliminare ancora
+5. **Aspettare** un ciclo di business completo (noi usavamo sette giorni)
+6. **Eliminare** la key inattiva
+
+Disattivare prima di eliminare è la differenza tra un errore reversibile e un incidente
+nel weekend. Se qualcosa tiene ancora il secret vecchio, riaccendi la key e trovi il
+consumer mancato. La delete è l'ultimo passo, non quello coraggioso.
+
+```text
+Giorno 0    crea key B, deploy B
+Giorno 1–2  conferma che last-used passa a B
+Giorno 3    disattiva key A
+Giorno 10   elimina key A se non ci sono caller
+```
+
+## Allarmi che si guadagnano il posto
+
+Abbiamo smesso di fidarci del wiki e cablato tre check — la stessa forma che espongono i
+moduli IAM del nostro
+[AWS Security Dashboard](/it/projects/aws-dashboard):
+
+- **Key più vecchia di 90 giorni** — warning; oltre 180 — page al team owner
+- **Key mai usata dopo 30 giorni** — candidata alla delete, non alla rotazione
+- **Manca la seconda key attiva durante una finestra di rotazione** — odore di processo;
+  qualcuno ha creato e swappato in un solo passo senza rollback
+
+L'età da sola è uno strumento grezzo. Età **più** last-used è come separi igiene da eroismo.
+
+<Callout variant="success" title="L'abitudine">
+  Se non puoi elencare ogni access key, la sua età e quando è stata usata l'ultima volta
+  in meno di un minuto, non hai una policy di rotazione. Hai una speranza.
+</Callout>
+
+## Ruotare non è tutta la storia
+
+Uccidere una key di 412 giorni fa bene. Non sistema i motivi per cui è vissuta così a lungo:
+
+| Fix | Perché ruotare da soli fallisce senza questo |
+| --- | --- |
+| **Preferire ruoli / OIDC alle key statiche** | Niente da ruotare se la CI assume un ruolo |
+| **Least privilege sul principal** | Una key admin ruotata è ancora una key admin |
+| **Secret in un manager, non in git o gist** | Ruotare non aiuta se il secret è copiato a mano in cinque posti |
+| **Tag owner sugli utenti IAM** | Gli orfani non si ruotano; si dimenticano |
+
+Avevamo già vissuto un
+[gist pubblico con AdministratorAccess](/it/blog/la-access-key-che-aveva-administratoraccess).
+Quell'incidente era raggio d'esplosione e velocità. Questo era il fallimento più silenzioso:
+credenziali che restano valide perché a nessuno pagano per farle scadere.
+
+## Cosa installerei il giorno uno
+
+Se domani alzi un account AWS nuovo:
+
+1. Vietare key long-lived per gli umani — solo SSO / Identity Center
+2. Vietare key long-lived per la CI — OIDC verso AWS
+3. Dove una key è inevitabile, esigere rotazione dual-key con disattiva-prima-di-eliminare
+4. Alert su età e last-used dal giorno uno, non dopo il primo spreadsheet di audit
+
+Ruotare è necessario. La visibilità è ciò che lo rende reale. L'obiettivo non è un rituale
+perfetto di novanta giorni — è un account dove una key di 412 giorni non possa esistere
+senza che nessuno se ne accorga.

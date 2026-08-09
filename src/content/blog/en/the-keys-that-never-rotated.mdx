@@ -1,0 +1,124 @@
+---
+title: The keys that never rotated
+description: Ninety-day rotation was written in the policy. The oldest access key in the account was 412 days old. What we measured, what we automated, and why rotation alone is not security.
+lang: en
+translationKey: keys-that-never-rotated
+slug: the-keys-that-never-rotated
+category: infrastructure
+pubDate: 2026-08-05
+cover: ../../../assets/projects/automation.png
+coverAlt: A CRT monitor running an automation script next to a robot arm stamping a stack of forms
+---
+
+import Callout from '../../../components/Callout.astro';
+
+Our IAM policy said access keys must rotate every ninety days. Our Confluence page said the
+same thing in three languages. Our oldest active key was **412 days** old, still calling
+`GetObject` every night from a Lambda that nobody owned anymore.
+
+We did not find it because of a breach. We found it because we finally listed
+`AccessKeyLastUsed` across the account and sorted by age. The spreadsheet was embarrassing
+enough that rotation stopped being a slide and became a job.
+
+## What "we rotate keys" usually means
+
+In most teams it means one of three things, none of which are a system:
+
+1. **Someone remembers** after a security awareness email
+2. **A ticket exists** with no owner and a due date that slipped twice
+3. **CI has a secret** that was rotated once, when the pipeline was green, and never again
+
+Rotation without measurement is theatre. You can believe you are secure while every
+long-lived credential in the account quietly outlives the person who created it.
+
+<Callout variant="warning" title="The trap">
+  A rotation policy that nobody can query is not a control. It is documentation.
+</Callout>
+
+## What we started measuring
+
+Before changing any key, we exported a weekly inventory. Three fields mattered more than
+the rest:
+
+| Field | Why it matters |
+| --- | --- |
+| **Age (days since create)** | Catches keys that never entered a rotation loop |
+| **Last used** | Distinguishes dead keys from live ones you are about to break |
+| **Owner / principal** | Humans vs service users vs "shared deploy" ghosts |
+
+The scary bucket was not "old and unused." Unused keys are easy: deactivate, wait, delete.
+The scary bucket was **old and still used** — nightly jobs, vendor integrations, a staging
+tool that had become production without changing its IAM user.
+
+Those are the keys that teach you why naive "delete everything over 90 days" scripts cause
+outages, and why teams then stop rotating forever.
+
+## The dual-key pattern that actually worked
+
+For every principal that still needed a long-lived key (we are moving the rest to OIDC),
+rotation became a two-key dance:
+
+1. **Create** a second active key on the same user
+2. **Deploy** the new key to every consumer (Secrets Manager, CI variable, `.env` in the
+   one place that still had one)
+3. **Verify** CloudTrail / app logs show traffic on the new key only
+4. **Deactivate** the old key — do not delete yet
+5. **Wait** one full business cycle (we used seven days)
+6. **Delete** the inactive key
+
+Deactivate-before-delete is the difference between a reversible mistake and a weekend
+incident. If something still holds the old secret, you turn the key back on and find the
+missed consumer. Deletion is the last step, not the brave one.
+
+```text
+Day 0   create key B, deploy B
+Day 1–2 confirm last-used moves to B
+Day 3   deactivate key A
+Day 10  delete key A if no callers
+```
+
+## Alarms that earn their keep
+
+We stopped relying on the wiki and wired three checks — the same shape our
+[AWS Security Dashboard](/en/projects/aws-dashboard) IAM modules surface:
+
+- **Key older than 90 days** — warning; older than 180 — page the owning team
+- **Key never used after 30 days** — candidate for deletion, not rotation
+- **Second active key missing during a rotation window** — process smell; someone created
+  and swapped in one step with no rollback
+
+Age alone is a blunt instrument. Age **plus** last-used is how you separate hygiene from
+heroics.
+
+<Callout variant="success" title="The habit">
+  If you cannot list every access key, its age, and when it was last used in under a
+  minute, you do not have a rotation policy. You have a hope.
+</Callout>
+
+## Rotation is not the whole story
+
+Killing a 412-day-old key feels good. It does not fix the reasons it lived that long:
+
+| Fix | Why rotation alone fails without it |
+| --- | --- |
+| **Prefer roles / OIDC over static keys** | Nothing to rotate if CI assumes a role |
+| **Least privilege on the principal** | A rotated admin key is still an admin key |
+| **Secrets in a manager, not in git or gists** | Rotation does not help if the secret is copied into five places by hand |
+| **Owner tags on IAM users** | Orphans do not get rotated; they get forgotten |
+
+We had already lived through a
+[public gist with AdministratorAccess](/en/blog/the-access-key-in-the-gist). That incident
+was about blast radius and speed. This one was about the quieter failure: credentials that
+stay valid because nobody is paid to make them expire.
+
+## What I would install on day one
+
+If you are standing up a new AWS account tomorrow:
+
+1. Ban long-lived keys for humans — SSO / Identity Center only
+2. Ban long-lived keys for CI — OIDC to AWS
+3. Where a key is unavoidable, require dual-key rotation with deactivate-before-delete
+4. Alert on age and last-used from day one, not after the first audit spreadsheet
+
+Rotation is necessary. Visibility is what makes it real. The goal is not a perfect
+ninety-day ritual — it is an account where a 412-day key cannot exist unnoticed.
