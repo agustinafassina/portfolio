@@ -139,6 +139,22 @@
           "es": "Vías ferroviarias que conducen hacia la entrada de Auschwitz-Birkenau",
           "it": "Binari ferroviari che conducono verso l ingresso di Auschwitz-Birkenau"
         }
+      },
+      {
+        "src": "travels/poland/poland.jpg",
+        "alt": {
+          "en": "Winter selfie in Warsaw Old Town Market Square with snow on the ground",
+          "es": "Selfie de invierno en la Plaza del Mercado de la Ciudad Vieja de Varsovia con nieve",
+          "it": "Selfie invernale nella Piazza del Mercato della Città Vecchia di Varsavia con neve"
+        }
+      },
+      {
+        "src": "travels/poland/poland-centro2.jpg",
+        "alt": {
+          "en": "A gravel path between brick barracks and barbed wire at Auschwitz-Birkenau",
+          "es": "Un camino de grava entre barracones de ladrillo y alambradas en Auschwitz-Birkenau",
+          "it": "Un sentiero di ghiaia tra baracche di mattoni e filo spinato ad Auschwitz-Birkenau"
+        }
       }
     ],
     "translations": {
@@ -170,20 +186,68 @@
           "es": "El Cristo Redentor visto desde abajo contra un cielo azul",
           "it": "Il Cristo Redentore visto dal basso contro un cielo azzurro"
         }
+      },
+      {
+        "src": "travels/brazil/brasil.jpg",
+        "alt": {
+          "en": "Aerial view of Lagoa Rodrigo de Freitas with Rio and the Atlantic beyond",
+          "es": "Vista aérea de la Lagoa Rodrigo de Freitas con Río y el Atlántico al fondo",
+          "it": "Vista aerea della Lagoa Rodrigo de Freitas con Rio e l Atlantico sullo sfondo"
+        }
+      },
+      {
+        "src": "travels/brazil/brasil2.jpg",
+        "alt": {
+          "en": "Sunset over the ocean with a bright sun path on the water",
+          "es": "Atardecer sobre el océano con un camino de sol en el agua",
+          "it": "Tramonto sull oceano con un sentiero di sole sull acqua"
+        }
+      },
+      {
+        "src": "travels/brazil/brasil-buzios.jpg",
+        "alt": {
+          "en": "Boats silhouetted at sunset in a bay near Búzios",
+          "es": "Botes en silueta al atardecer en una bahía cerca de Búzios",
+          "it": "Barche in controluce al tramonto in una baia vicino a Búzios"
+        }
+      },
+      {
+        "src": "travels/brazil/brasil-dogs.jpg",
+        "alt": {
+          "en": "A dog poking through a Mar do Cabo beach cutout board in Arraial do Cabo",
+          "es": "Un perro asomando por un cartel de playa Mar do Cabo en Arraial do Cabo",
+          "it": "Un cane che spunta da un cartellone spiaggia Mar do Cabo ad Arraial do Cabo"
+        }
+      },
+      {
+        "src": "travels/brazil/brasil-norte.jpg",
+        "alt": {
+          "en": "Walking toward the sea past a wooden boat on a bright Brazilian beach",
+          "es": "Caminando hacia el mar junto a un bote de madera en una playa brasileña soleada",
+          "it": "Camminando verso il mare accanto a una barca di legno su una spiaggia brasiliana"
+        }
+      },
+      {
+        "src": "travels/brazil/cataratas-brasil.jpg",
+        "alt": {
+          "en": "In a yellow poncho at Iguazu Falls under mist and grey skies",
+          "es": "Con poncho amarillo en las Cataratas del Iguazú entre niebla y cielo gris",
+          "it": "Con un poncho giallo alle Cascate dell Iguazú tra nebbia e cielo grigio"
+        }
       }
     ],
     "translations": {
       "en": {
-        "title": "Rio de Janeiro, Brazil",
-        "summary": "Rio from above: mountains dropping into the sea, neighbourhoods filling every gap and Christ the Redeemer watching over it all."
+        "title": "Rio, Búzios, Arraial do Cabo & Iguazu, Brazil",
+        "summary": "Christ the Redeemer and Lagoa from above, sunsets on the coast of Búzios and Arraial do Cabo, and the mist of Iguazu Falls in a yellow poncho."
       },
       "es": {
-        "title": "Río de Janeiro, Brasil",
-        "summary": "Río desde arriba: montañas que caen al mar, barrios ocupando cada espacio y el Cristo Redentor mirando todo desde lo alto."
+        "title": "Río, Búzios, Arraial do Cabo e Iguazú, Brasil",
+        "summary": "El Cristo Redentor y la Lagoa desde arriba, atardeceres en la costa de Búzios y Arraial do Cabo, y la niebla de las Cataratas del Iguazú con poncho amarillo."
       },
       "it": {
-        "title": "Rio de Janeiro, Brasile",
-        "summary": "Rio dall alto: montagne che scendono verso il mare, quartieri in ogni spazio e il Cristo Redentore che osserva tutto."
+        "title": "Rio, Búzios, Arraial do Cabo e Iguazú, Brasile",
+        "summary": "Il Cristo Redentore e la Lagoa dall alto, tramonti sulla costa di Búzios e Arraial do Cabo, e la nebbia delle Cascate dell Iguazú col poncho giallo."
       }
     }
   },
@@ -248,6 +312,30 @@
           "en": "Gondolas and colourful palazzi along a canal near the Rialto Bridge",
           "es": "Góndolas y palacios coloridos a lo largo de un canal cerca del Puente de Rialto",
           "it": "Gondole e palazzi colorati lungo un canale vicino al Ponte di Rialto"
+        }
+      },
+      {
+        "src": "travels/italy/italia-1.jpg",
+        "alt": {
+          "en": "The Leaning Tower and cathedral on the grass of Piazza dei Miracoli in Pisa",
+          "es": "La Torre Inclinada y la catedral sobre el césped de la Piazza dei Miracoli en Pisa",
+          "it": "La Torre Pendente e il duomo sul prato della Piazza dei Miracoli a Pisa"
+        }
+      },
+      {
+        "src": "travels/italy/italia-2.jpg",
+        "alt": {
+          "en": "A sunlit alley with wrought-iron balconies and a green hill at the end",
+          "es": "Un callejón soleado con balcones de hierro forjado y una colina verde al fondo",
+          "it": "Un vicolo soleggiato con balconi in ferro battuto e una collina verde in fondo"
+        }
+      },
+      {
+        "src": "travels/italy/italia-3.jpg",
+        "alt": {
+          "en": "Fallen Icarus sculpture before the Temple of Concordia in Agrigento, Sicily",
+          "es": "Escultura del Ícaro caído ante el Templo de la Concordia en Agrigento, Sicilia",
+          "it": "Scultura di Icaro caduto davanti al Tempio della Concordia ad Agrigento, Sicilia"
         }
       }
     ],
@@ -740,6 +828,22 @@
           "en": "A rain-soaked street glowing beneath the fog in Pas de la Casa",
           "es": "Una calle mojada por la lluvia iluminada bajo la niebla en Pas de la Casa",
           "it": "Una strada bagnata dalla pioggia illuminata nella nebbia a Pas de la Casa"
+        }
+      },
+      {
+        "src": "travels/andorra/pas-de-la-casa-4.jpg",
+        "alt": {
+          "en": "Pas de la Casa nestled in a Pyrenean valley under cloudy skies",
+          "es": "Pas de la Casa en un valle de los Pirineos bajo un cielo nublado",
+          "it": "Pas de la Casa in una valle dei Pirenei sotto un cielo nuvoloso"
+        }
+      },
+      {
+        "src": "travels/andorra/pas-de-la-casa-5.jpg",
+        "alt": {
+          "en": "A misty street in Pas de la Casa with Hotel Terranova and mountain peaks behind",
+          "es": "Una calle con niebla en Pas de la Casa con el Hotel Terranova y cumbres al fondo",
+          "it": "Una strada nebbiosa a Pas de la Casa con l Hotel Terranova e le cime sullo sfondo"
         }
       }
     ],
