@@ -2,6 +2,7 @@
 import type { Locale } from '../i18n/ui';
 import { localizedPath, useTranslations } from '../i18n/utils';
 import { siteConfig, socialLinks } from '../lib/config';
+import { SITE_VERSION } from '../lib/consts';
 
 interface Props {
   lang: Locale;
@@ -24,7 +25,7 @@ const footerNav = (
 const rssHref = localizedPath(lang, 'rss.xml');
 ---
 
-<footer class="border-t-2 border-edge bg-surface">
+<footer class="relative z-10 border-t-2 border-edge bg-surface">
   <div
     class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-start md:justify-between"
   >
@@ -79,7 +80,11 @@ const rssHref = localizedPath(lang, 'rss.xml');
       class="mx-auto flex w-full max-w-5xl flex-col gap-1 px-4 py-4 font-mono text-xs text-fg-muted sm:flex-row sm:justify-between sm:px-6"
     >
       <p>&copy; {year} {siteConfig.author}. {t('footer.rights')}</p>
-      <p>{t('footer.builtWith')}</p>
+      <p>
+        {t('footer.builtWith')}
+        <span aria-hidden="true"> · </span>
+        <span>v{SITE_VERSION}</span>
+      </p>
     </div>
   </div>
 </footer>

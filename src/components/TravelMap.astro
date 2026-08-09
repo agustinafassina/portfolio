@@ -27,7 +27,7 @@ const markers = travels.map((travel) => ({
 }));
 ---
 
-<div class="border-2 border-edge bg-surface">
+<div class="relative z-0 overflow-hidden border-2 border-edge bg-surface">
   <div
     id="travel-map"
     role="application"
@@ -41,6 +41,10 @@ const markers = travels.map((travel) => ({
 
 <style is:global>
   #travel-map {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    overflow: hidden;
     background-color: var(--surface-raised);
   }
 
@@ -53,7 +57,9 @@ const markers = travels.map((travel) => ({
       contrast(1.05);
   }
 
+  #travel-map.leaflet-container,
   #travel-map .leaflet-container {
+    z-index: 0;
     font-family: var(--font-sans);
     background-color: var(--surface-raised);
   }
