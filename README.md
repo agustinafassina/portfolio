@@ -2,7 +2,6 @@
 Static personal portfolio built with Astro 7, Tailwind CSS 4 and MDX. Three languages
 (English, Spanish, Italian), projects, blog, travel map and contact form. No client-side
 framework; the only shipped JavaScript is a theme toggle and the Leaflet map.
-
 Because the source code carries no comments by design, this README is the documentation.
 
 ## 🚀 Quick start
