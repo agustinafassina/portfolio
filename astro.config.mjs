@@ -5,7 +5,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
 
 const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
-const site = env.PUBLIC_SITE_URL || 'http://localhost:4321';
+const site =
+  process.env.PUBLIC_SITE_URL || env.PUBLIC_SITE_URL || 'http://localhost:4321';
 
 export default defineConfig({
   site,
