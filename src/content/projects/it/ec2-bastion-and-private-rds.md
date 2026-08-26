@@ -21,35 +21,38 @@ startedOn: 2024-04-15
 ---
 
 Parte di [Aws.Solutions.Architecture](https://github.com/agustinafassina/Aws.Solutions.Architecture).
-Questo pattern colloca **Amazon RDS in subnet private** senza endpoint pubblico, mentre gli
-sviluppatori si connettono tramite un **bastion EC2** con SSH e port forwarding locale
-(`ssh -L`).
 
-L applicazione gira su **EC2 con Docker** nella stessa VPC e parla con RDS sulla rete
-privata. L accesso umano non va mai laptop → RDS direttamente.
+Continuo a vedere la stessa scorciatoia nei team piccoli: aprire RDS a internet “un attimo”
+così qualcuno lancia una query dal laptop. Questa cartella è il pattern che uso al posto di
+quello.
 
-## Cosa copre l architettura
+**Amazon RDS** sta in subnet private, senza endpoint pubblico. Gli sviluppatori arrivano
+tramite un **bastion EC2** con SSH e port forwarding locale (`ssh -L`). L'app gira su
+**EC2 con Docker** nella stessa VPC e parla con RDS sulla rete privata. L'accesso umano non
+va mai laptop → RDS diretto.
+
+## Cosa copre l'architettura
 
 | Componente | Ruolo |
 | --- | --- |
 | **EC2 applicazione + Docker** | Esegue container (API, worker) come consumatore naturale di RDS |
 | **Amazon RDS** | Subnet private, `Publicly accessible = No` |
-| **Bastion EC2** | Jump host solo SSH; `-L` inoltra una porta locale all endpoint RDS |
+| **Bastion EC2** | Jump host solo SSH; `-L` inoltra una porta locale all'endpoint RDS |
 
 Flusso: **Dev → SSH al bastion → tunnel → RDS**. Strumenti come psql, mysql o DBeaver
-puntano a `127.0.0.1` sulla porta mappata; il tunnel termina dentro la VPC.
+puntano a `127.0.0.1` sulla porta mappata. Il tunnel termina dentro la VPC.
 
 ## Note di design
 
-- **Security group:** RDS accetta traffico dal SG applicazione e dal bastion sulla porta
-  del motore. Il bastion accetta solo TCP 22 da IP noti o range VPN.
+- **Security group:** RDS accetta traffico dal SG dell'app e dal bastion sulla porta del
+  motore. Il bastion accetta solo TCP 22 da IP noti o range VPN.
 - **Subnet:** RDS e app EC2 stanno in subnet private. NAT serve solo se serve uscita
-  internet—non per la connettività a RDS.
-- **Alternative documentate:** port forwarding con Session Manager senza esporre la 22,
-  o Client VPN per stare nella VPC senza bastion.
+  internet. Non ti serve NAT solo per parlare con RDS.
+- **Alternative nella guida:** port forwarding con Session Manager senza esporre la 22, o
+  Client VPN per stare nella VPC senza passare dal bastion.
 
 ## Perché esiste
 
-Aprire RDS a `0.0.0.0/0` resta comune nei team piccoli perché “è più facile.” Questa guida
-mostra l alternativa standard: ridurre la superficie d attacco, concentrare l accesso
-umano su un unico punto SSH auditato e tenere il traffico applicativo su routing privato.
+`0.0.0.0/0` sulla porta di un database resta comune perché sembra più veloce. Questa guida
+è l'alternativa standard: meno superficie d'attacco, un solo punto SSH auditato per gli
+umani, traffico applicativo su routing privato.

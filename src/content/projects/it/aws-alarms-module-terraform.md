@@ -24,20 +24,21 @@ startedOn: 2025-08-10
 Mi sono stancata di scoprire cambi rischiosi sull'account in un audit settimanale invece
 che nella posta.
 
-GuardDuty e Security Hub aiutano quando qualcosa già sembra sbagliato. A me serviva altro:
-una mail quando qualcuno crea un access key, apre un security group a internet, tocca
-CloudTrail o entra come root. Senza montare ogni regola a mano nella console.
+GuardDuty e Security Hub aiutano quando qualcosa già sembra sbagliato. A me serviva qualcosa
+di più semplice: una mail quando qualcuno crea un access key, apre un security group a
+internet, tocca CloudTrail o entra come root. Senza montare ogni regola a mano nella
+console.
 
 [Aws.Alarms.Module.Terraform](https://github.com/agustinafassina/Aws.Alarms.Module.Terraform)
-è lo stack che ho messo su per quello. Un modulo Terraform root crea un topic SNS (con
-sottoscrizioni email), regole EventBridge, metric filter su CloudWatch Logs, allarmi
+è lo stack che ho messo su per quello. Un modulo Terraform root crea un topic SNS con
+sottoscrizioni email, regole EventBridge, metric filter su CloudWatch Logs, allarmi
 CloudWatch e regole gestite di AWS Config.
 
 Non crea CloudTrail né il recorder di Config. Quelli devono già esserci. Passi il nome del
 log group e l'ARN del ruolo Config come variabili. Ho tenuto quel confine apposta: il
-modulo avvisa, non rifà il baseline dell'account.
+modulo avvisa. Non rifà il baseline dell'account.
 
-Ne ho scritto anche su [Medium](https://medium.com/@agustinafassina_92108).
+La stessa idea su [Medium](https://medium.com/@agustinafassina_92108).
 
 ## Cosa scatta
 
@@ -53,8 +54,9 @@ Gli security group aperti sono stati il caso scomodo. I CIDR annidati in `ipPerm
 CloudTrail non matchano bene nei pattern EventBridge, quindi quel segnale passa da un
 metric filter. Il rumore più ampio delle API SG/NACL resta su EventBridge.
 
-Se vuoi allarmi per risorsa (CPU, storage libero, connessioni), passi ID di istanza, nomi
-di bucket o identifier RDS. Quelle famiglie restano spente finché non riempi le liste.
+Vuoi allarmi di CPU, storage libero o connessioni su risorse specifiche? Passi ID di
+istanza, nomi di bucket o identifier RDS. Quelle famiglie restano spente finché non riempi
+le liste.
 
 ## Come si applica
 
@@ -77,4 +79,4 @@ Hub copre già.
 L'[AWS Security Dashboard](/it/projects/aws-dashboard) è pull: lo apri quando vuoi uno
 snapshot di postura. Questo modulo è push: l'account è cambiato, arriva la mail.
 
-Li uso entrambi. Uno risponde “cosa non va adesso?”. L'altro, “avvisami nel momento”.
+Li uso entrambi. Uno risponde “cosa non va adesso?”. L'altro, “avvisami quando succede”.

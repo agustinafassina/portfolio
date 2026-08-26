@@ -14,7 +14,7 @@ stack:
   - Tailwind CSS
 repoUrl: https://github.com/agustinafassina/Aws.Dashboard.App
 cover: ../../../assets/projects/aws-dashboard-cover.png
-coverAlt: Scrivania pixel-art con un monitor che mostra un flusso automatizzato di documenti — scansione e report di sicurezza AWS
+coverAlt: Scrivania pixel-art con un monitor che mostra un flusso automatizzato di documenti per scansione e report di sicurezza AWS
 diagram: ../../../assets/projects/aws-dashboard/workflow.png
 diagramAlt: Gli utenti si autenticano via Auth0, l'app Next.js instrada verso i moduli Vulnerabilities, IAM e Costs, ciascuno chiama la REST API AWS
 featured: true
@@ -22,51 +22,53 @@ order: 5
 startedOn: 2025-03-01
 ---
 
-Le console AWS sono ottime per sistemare una risorsa alla volta. Meno utili per rispondere a
-“quanto siamo esposti adesso?” su S3, EC2, RDS, IAM, Lambda, Inspector e Cost Explorer in
-un'unica vista. **AWS Security Dashboard** è un prodotto a due repo — un frontend
-**Next.js 15** e un'API di scansione **.NET 10** — che espone misconfigurazioni, credenziali
-obsolete e concentrazione dei costi rispetto a best practice consolidate.
+La console AWS va bene quando sai già quale risorsa aprire. Risponde male a “quanto siamo
+esposti adesso?” su S3, EC2, RDS, IAM, Lambda, Inspector e Cost Explorer in un posto solo.
 
-## L'ecosistema
+Ho costruito **AWS Security Dashboard** in due repo: una UI **Next.js 15** e un'API di
+scansione **.NET 10**. Espone misconfigurazioni, credenziali vecchie e concentrazione dei
+costi con check che mi interessano in review, non un muro di toggle CIS che nessuno guarda.
+
+## I pezzi
 
 | Pezzo | Repo | Ruolo |
 | --- | --- | --- |
-| **App** | [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) | UI protetta da Auth0 — dashboard, costi, IAM, vulnerabilità, controlli security, audit |
-| **API** | [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) | Backend REST — scansioni AWS SDK, architettura a strati, Swagger |
+| **App** | [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) | UI protetta da Auth0: dashboard, costi, IAM, vulnerabilità, controlli security, audit |
+| **API** | [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) | Backend REST: scansioni AWS SDK, architettura a strati, Swagger |
 
-Gli utenti accedono tramite Auth0. L'app chiama l'API con query per regione; l'API percorre la
-catena di credenziali AWS e restituisce finding strutturati che l'UI può graficare, filtrare
-ed esportare.
+Entri con Auth0. L'app chiama l'API con query per regione. L'API percorre la catena di
+credenziali AWS e restituisce finding strutturati che l'UI può graficare, filtrare ed
+esportare.
 
 ## Frontend
 
-Costruito con **Next.js 15** (App Router), **TypeScript**, **Tailwind CSS**, **NextUI**,
-**Auth0**, **TanStack Query** e **Recharts**.
+**Next.js 15** (App Router), **TypeScript**, **Tailwind CSS**, **NextUI**, **Auth0**,
+**TanStack Query** e **Recharts**.
 
-- **Route catch-all unica** — `home/[[...section]]` con viste keep-alive per cambi di sezione istantanei
-- **Sidebar collassabile** — larghezza persistita, prefetch al mount
-- **Temi chiaro / scuro** — toggle manuale con `next-themes`
-- **i18n** — inglese e spagnolo con dizionari; locale in cookie + `localStorage`
-- **Modulo costi** — overview per tag di progetto, vista analyze con metriche di concentrazione, biggest movers e modalità confronto
-- **Moduli Security** — porte aperte RDS/EC2, bucket S3 pubblici, crittografia mancante, Lambda pubblica, ACM in scadenza, security group inutilizzati, EBS non collegati
-- **Moduli IAM** — igiene access key, utenti senza MFA, policy rischiose/sovrapprivilegiate, grant admin, ruoli cross-account
-- **Inspector** — vulnerabilità raggruppate per repository ECR o istanza EC2
-- **Audit** — risorse senza tag di progetto, risorse raggruppate per tag di progetto
-- **Guida del sito** — pagina `/guide` bilingue collegata dal menu avatar
+- Route catch-all: `home/[[...section]]` con viste keep-alive per cambiare sezione in fretta
+- Sidebar collassabile con larghezza persistita e prefetch al mount
+- Temi chiaro / scuro con `next-themes`
+- Inglese e spagnolo via dizionari; locale in cookie + `localStorage`
+- Costi: overview per tag di progetto, vista analyze con concentrazione, biggest movers, confronto
+- Security: porte aperte RDS/EC2, S3 pubblico, crittografia mancante, Lambda pubblica, ACM in scadenza, SG inutilizzati, EBS non collegati
+- IAM: igiene access key, utenti senza MFA, policy rischiose o sovrapprivilegiate, grant admin, ruoli cross-account
+- Inspector raggruppato per repository ECR o istanza EC2
+- Audit su tag mancanti e risorse per tag di progetto
+- Pagina `/guide` bilingue dal menu avatar
 
-Il middleware cachea il JWT Auth0 in un cookie così le route protette evitano chiamate
-ridondanti a `getSession` a ogni navigazione.
+Il middleware cachea il JWT Auth0 in un cookie così le route protette non chiamano
+`getSession` a ogni navigazione.
 
 ## API
 
-Il backend è **.NET 10** con quattro progetti: **Aws.Api** (controller, middleware, Swagger),
-**Aws.Services** (orchestrazione), **Aws.Repository** (integrazione AWS SDK) e **Aws.Models**
-(DTO e configurazione).
+**.NET 10** in quattro progetti: **Aws.Api** (controller, middleware, Swagger),
+**Aws.Services** (orchestrazione), **Aws.Repository** (AWS SDK) e **Aws.Models** (DTO e
+config).
 
-Gli endpoint regionali accettano `?region=` (es. `us-east-1`). IAM e Cost Explorer sono
-globali. Le credenziali seguono la
-[catena predefinita dell'AWS SDK](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-locate.html) — variabili d'ambiente, `~/.aws/credentials` o ruolo IAM.
+Gli endpoint regionali accettano `?region=` (ad esempio `us-east-1`). IAM e Cost Explorer
+sono globali. Le credenziali seguono la
+[catena predefinita dell'AWS SDK](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-locate.html):
+variabili d'ambiente, `~/.aws/credentials` o un ruolo IAM.
 
 | Dominio | Cosa controlla |
 | --- | --- |
@@ -92,15 +94,14 @@ GET /api/v1/ec2/open-ports?region=us-east-1
 GET /api/v1/cost/by-project?startDate=2026-01-01&endDate=2026-01-31
 ```
 
-Le soglie configurabili sono in `appsettings.json` — liste CIDR pubbliche, età massima rotazione
-access key, retention minima backup RDS, limiti paginazione Inspector e origini CORS per il
-frontend. Include config Docker e Azure Pipelines per deploy container su ECR/ACR.
+Le soglie stanno in `appsettings.json`: liste CIDR pubbliche, età massima rotazione access
+key, retention minima backup RDS, limiti di paginazione Inspector e origini CORS per il
+frontend. Include Docker e Azure Pipelines per deploy container su ECR/ACR.
 
 ## Repository
 
-- [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) — dashboard Next.js
-- [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) — API REST .NET
+- [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) (dashboard Next.js)
+- [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) (API REST .NET)
 
-Repo pubblici — clona, punta l'API alle tue credenziali AWS, configura Auth0 sull'app, e hai
-una vista della postura di sicurezza che si aggiorna on demand invece di un audit trimestrale
-su spreadsheet.
+Entrambi pubblici. Clona, punta l'API alle tue credenziali AWS, configura Auth0 sull'app, e
+hai una vista di postura on demand invece di un audit trimestrale su spreadsheet.

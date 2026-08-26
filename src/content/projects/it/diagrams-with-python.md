@@ -1,6 +1,6 @@
 ---
 title: Diagrams with Python
-description: Diagrammi di infrastruttura AWS riproducibili come codice Python — versionati, rigenerabili e allineati a quanto definisci in Terraform.
+description: Diagrammi di infrastruttura AWS riproducibili come codice Python. Versionati, rigenerabili e allineati a quanto definisci in Terraform.
 lang: it
 translationKey: diagrams-with-python
 slug: diagrams-with-python
@@ -11,20 +11,21 @@ stack:
   - AWS
 repoUrl: https://github.com/agustinafassina/Diagrams.With.Python
 cover: ../../../assets/projects/diagrams-with-python-cover.png
-coverAlt: Diagramma di infrastruttura AWS e Azure DevOps generato da Python — VPC, ECS, RDS, pipeline CI/CD e layout multi-regione
+coverAlt: Diagramma di infrastruttura AWS e Azure DevOps generato da Python con VPC, ECS, RDS, pipeline CI/CD e layout multi-regione
 diagram: ../../../assets/projects/diagrams-with-python/ci-cd.png
-diagramAlt: Diagramma pipeline CI/CD — Bitbucket verso Azure DevOps verso AWS con branch QA e produzione separati
+diagramAlt: Diagramma pipeline CI/CD da Bitbucket ad Azure DevOps ad AWS con branch QA e produzione separati
 featured: true
 order: 4
 startedOn: 2025-06-01
 ---
 
-I diagrammi di architettura disegnati a mano invecchiano la settimana dopo l'export.
-Terraform resta allineato alla produzione; il PNG nella wiki no.
-[Diagrams with Python](https://github.com/agustinafassina/Diagrams.With.Python) è una
-raccolta di diagrammi di infrastruttura definiti come codice con
-[mingrammer/diagrams](https://diagrams.mingrammer.com/) — esegui uno script, ottieni un PNG,
-committa entrambi. Cambi la topologia, rilanci, la documentazione si aggiorna con essa.
+I diagrammi disegnati a mano invecchiano la settimana dopo l'export. Terraform resta
+allineato alla produzione. Il PNG nella wiki no.
+
+[Diagrams with Python](https://github.com/agustinafassina/Diagrams.With.Python) è come tengo
+quelle immagini oneste: diagrammi di infrastruttura come codice con
+[mingrammer/diagrams](https://diagrams.mingrammer.com/). Esegui uno script, ottieni un PNG,
+committa entrambi. Cambi la topologia, rilanci, la documentazione si muove con essa.
 
 ## Cosa c'è nel repo
 
@@ -34,7 +35,7 @@ posizione:
 
 | Cartella | Script | Cosa modella |
 | --- | --- | --- |
-| `samples/` | `project-2.py` … `project-5.py` | Piccole topologie AWS — VPC, ALB, ECS, RDS |
+| `samples/` | `project-2.py` … `project-5.py` | Piccole topologie AWS (VPC, ALB, ECS, RDS) |
 | `samples/` | `json-read.py` | Stesso layout, guidato da `config.json` invece di nodi hardcoded |
 | `ci-cd/` | `ci-cd-bitbucket-azure-aws.py` | Bitbucket → Azure DevOps → AWS (QA su `develop`, prod su `master`) |
 | `multi-region-dr/` | `route53-failover.py` | Failover Route 53 tra due regioni AWS |
@@ -44,14 +45,14 @@ posizione:
 | `with-docker/` | `with-dockers.py` | Layout deploy con Docker |
 | `big-diagram/` | `with-gateway.py` | Topologia estesa con gateway e `config.json` locale |
 
-I PNG generati finiscono in `examples/` (galleria condivisa) o accanto alla cartella dello script.
+I PNG generati finiscono in `examples/` (galleria condivisa) o accanto alla cartella dello
+script.
 
 ## Diagrammi guidati da JSON
 
-Hardcodare le etichette in Python va bene per schizzi una tantum. Per diagrammi che vuoi
-modificare senza toccare il codice, `samples/json-read.py` legge `config.json` — nome
-regione, etichette componenti, ruoli IAM, security group — e costruisce lo stesso layout
-Cluster/VPC in modo programmatico:
+Hardcodare le etichette in Python va bene per uno schizzo. Quando voglio ritoccare i testi
+senza toccare Python, `samples/json-read.py` legge `config.json` (nome regione, etichette
+componenti, ruoli IAM, security group) e costruisce lo stesso layout Cluster/VPC:
 
 ```python
 with Diagram(file_name, show=False):
@@ -64,12 +65,12 @@ with Diagram(file_name, show=False):
             # ...
 ```
 
-Cambi il JSON, rilanci, nuovo diagramma. Utile quando lo stesso script serve più ambienti
-o quando chi non è sviluppatore deve aggiornare le etichette.
+Cambi il JSON, rilanci, nuovo diagramma. Utile quando lo stesso script serve più ambienti,
+o quando chi non vive in Python deve aggiornare un'etichetta.
 
 ## Come eseguire
 
-Prerequisiti: Python 3.x, [Graphviz](https://graphviz.org/download/) nel PATH, e
+Servono Python 3.x, [Graphviz](https://graphviz.org/download/) nel PATH, e
 `pip install -r requirements.txt` (fissa `diagrams==0.25.1`).
 
 ```bash
@@ -80,15 +81,14 @@ python ci-cd/ci-cd-bitbucket-azure-aws.py
 # → examples/ci-cd-bitbucket-azure-aws.png
 ```
 
-Diagrams può anche emettere un file sorgente Graphviz accanto al PNG — si può eliminare e
-rigenerare alla prossima esecuzione.
+Diagrams può anche emettere un file sorgente Graphviz accanto al PNG. Si può eliminare; la
+prossima esecuzione lo rigenera.
 
 ## Perché esiste
 
-Questo repo è il complemento visivo del lavoro infrastructure-as-code — in particolare le
+Questo repo è il complemento visivo del lavoro infrastructure-as-code, in particolare le
 guide di
 [Aws.Solutions.Architecture](https://github.com/agustinafassina/Aws.Solutions.Architecture).
-Invece di mantenere export Lucidchart di cui nessuno si fida, tieni i diagrammi nel controllo
-versione accanto al Terraform che descrivono. I reviewer vedono la stessa topologia nel diff
-della PR; chi entra nel team rigenera PNG freschi invece di zoomare su una slide sfocata del
-trimestre scorso.
+Invece di export Lucidchart di cui nessuno si fida, i diagrammi stanno in git accanto al
+Terraform che descrivono. Chi fa review vede la stessa topologia nella PR. Chi entra nel
+team rigenera PNG freschi invece di zoomare su una slide sfocata del trimestre scorso.

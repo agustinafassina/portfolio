@@ -24,20 +24,20 @@ startedOn: 2025-08-10
 Me cansé de enterarme de cambios riesgosos en la cuenta en una auditoría semanal, y no en
 el mail.
 
-GuardDuty y Security Hub sirven cuando algo ya se ve mal. Yo necesitaba otra cosa: un
-aviso cuando alguien crea una access key, abre un security group a internet, toca
-CloudTrail o entra como root. Sin armar cada regla a mano en la consola.
+GuardDuty y Security Hub ayudan cuando algo ya se ve mal. Yo necesitaba algo más simple: un
+aviso cuando alguien crea una access key, abre un security group a internet, toca CloudTrail
+o entra como root. Sin armar cada regla a mano en la consola.
 
 [Aws.Alarms.Module.Terraform](https://github.com/agustinafassina/Aws.Alarms.Module.Terraform)
-es el stack que armé para eso. Un módulo raíz de Terraform levanta un topic SNS (con
-suscripciones por email), reglas de EventBridge, metric filters sobre CloudWatch Logs,
+es el stack que armé para eso. Un módulo raíz de Terraform levanta un topic SNS con
+suscripciones por email, reglas de EventBridge, metric filters sobre CloudWatch Logs,
 alarmas de CloudWatch y reglas administradas de AWS Config.
 
 No crea CloudTrail ni el recorder de Config. Eso tiene que existir de antes. Pasás el
 nombre del log group y el ARN del rol de Config por variables. Dejé ese límite a propósito:
-el módulo alerta, no rehace el baseline de la cuenta.
+el módulo alerta. No rehace el baseline de la cuenta.
 
-Lo conté también en [Medium](https://medium.com/@agustinafassina_92108).
+La misma idea en [Medium](https://medium.com/@agustinafassina_92108).
 
 ## Qué dispara
 
@@ -53,8 +53,9 @@ Los security groups abiertos fueron el caso raro. Los CIDR anidados en `ipPermis
 CloudTrail no matchean bien en patterns de EventBridge, así que esa señal va por metric
 filter. El ruido más amplio de APIs de SG/NACL sigue por EventBridge.
 
-Si querés alarmas por recurso (CPU, disco libre, conexiones), pasás IDs de instancia,
-buckets o identificadores de RDS. Esas familias quedan apagadas hasta que llenás las listas.
+¿Querés alarmas de CPU, disco libre o conexiones en recursos puntuales? Pasás IDs de
+instancia, buckets o identificadores de RDS. Esas familias quedan apagadas hasta que llenás
+las listas.
 
 ## Cómo se aplica
 
@@ -77,4 +78,4 @@ Security Hub ya cubre.
 El [AWS Security Dashboard](/es/projects/aws-dashboard) es pull: lo abrís cuando querés un
 snapshot de postura. Este módulo es push: la cuenta cambió, te llega el mail.
 
-Uso los dos. Uno responde “¿qué se ve mal ahora?”. El otro, “avisame en el momento”.
+Uso los dos. Uno responde “¿qué se ve mal ahora?”. El otro, “avisame cuando pasa”.
