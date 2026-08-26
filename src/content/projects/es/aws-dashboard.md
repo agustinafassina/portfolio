@@ -20,56 +20,53 @@ diagramAlt: Los usuarios se autentican vía Auth0, la app Next.js enruta a módu
 featured: true
 order: 0
 startedOn: 2025-03-01
+outcome: Un solo lugar con Auth0 para ver riesgos IAM, exposición abierta, hallazgos de Inspector y concentración de costos, sin saltar de consola en consola.
+problem: La consola de AWS responde “abrí este recurso”. Falla en “¿qué tan expuestos estamos ahora?” en S3, EC2, RDS, IAM, Lambda, Inspector y Cost Explorer.
+decision: Separé una UI Next.js de una API de escaneo .NET para que el browser nunca tenga credenciales AWS. La API camina la cuenta con el SDK detrás de Auth0.
+result: Quien revisa ve misconfigs y credenciales viejas en un dashboard, no un muro de toggles CIS que nadie mira.
 ---
+
+## Contexto
 
 La consola de AWS sirve cuando ya sabés qué recurso abrir. Responde mal a “¿qué tan
 expuestos estamos ahora?” en S3, EC2, RDS, IAM, Lambda, Inspector y Cost Explorer en un solo
 lugar.
 
-Armé **AWS Security Dashboard** en dos repos: una UI **Next.js 15** y una API de escaneo
-**.NET 10**. Expone misconfiguraciones, credenciales viejas y concentración de costos con
-checks que me importan en una review, no un muro de toggles CIS que nadie mira.
+Quería una vista de postura que sí abriría en una review: misconfigs, credenciales viejas y
+concentración de costos con checks que importan, no un muro de toggles CIS que nadie mira.
 
-## Las piezas
+## Restricciones
+
+- Nada de keys AWS en el browser. Nunca.
+- Preferir la cadena de credenciales por defecto del SDK (env, config compartido o rol IAM)
+  antes que un secret store custom para local y contenedores.
+- Poder soltar UI y scanner en cadencias distintas.
+- Mantener EN/ES sin meter un framework de i18n pesado en cada vista.
+
+## Decisión de arquitectura
+
+Separé el producto en dos repos públicos. El diagrama de arriba es el trust path: Auth0 en
+el borde, Next.js para la UI, .NET para los escaneos.
 
 | Pieza | Repo | Rol |
 | --- | --- | --- |
 | **App** | [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) | UI con Auth0: dashboard, costos, IAM, vulnerabilidades, controles de security, auditorías |
 | **API** | [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) | Backend REST: escaneos con AWS SDK, arquitectura en capas, Swagger |
 
-Entrá con Auth0. La app llama a la API con queries por región. La API recorre la cadena de
-credenciales AWS y devuelve hallazgos estructurados que la UI puede graficar, filtrar y
-exportar.
+¿Por qué no una sola app Next.js que hable con AWS solo desde el server? Quería un borde de
+API claro para otros clientes después, y un stack .NET como el que ya uso en backends. ¿Por
+qué no solo Security Hub? Hub sirve cuando ya está cableado. Este dashboard es la superficie
+“abrilo y mirá” para cuentas donde todavía necesito checks custom y costo por tag en la
+misma sesión.
 
-## Frontend
+**Frontend:** Next.js 15 (App Router), TypeScript, Tailwind, Auth0, TanStack Query,
+Recharts. Catch-all `home/[[...section]]` con vistas keep-alive, temas claro/oscuro y
+`/guide` bilingüe.
 
-**Next.js 15** (App Router), **TypeScript**, **Tailwind CSS**, **NextUI**, **Auth0**,
-**TanStack Query** y **Recharts**.
-
-- Ruta catch-all: `home/[[...section]]` con vistas keep-alive para cambiar de sección rápido
-- Sidebar colapsable con ancho persistido y prefetch al montar
-- Temas claro / oscuro con `next-themes`
-- Inglés y español por diccionarios; locale en cookie + `localStorage`
-- Costos: overview por tag de proyecto, vista analyze con concentración, biggest movers, comparación
-- Security: puertos abiertos RDS/EC2, S3 público, cifrado faltante, Lambda pública, ACM por vencer, SG sin uso, EBS sin adjuntar
-- IAM: higiene de access keys, users sin MFA, políticas riesgosas o sobreprivilegiadas, grants de admin, roles cross-account
-- Inspector agrupado por repositorio ECR o instancia EC2
-- Auditorías de tags faltantes y recursos por tag de proyecto
-- Página `/guide` bilingüe desde el menú del avatar
-
-El middleware cachea el JWT de Auth0 en una cookie para que las rutas protegidas no llamen
-`getSession` en cada navegación.
-
-## API
-
-**.NET 10** en cuatro proyectos: **Aws.Api** (controllers, middleware, Swagger),
-**Aws.Services** (orquestación), **Aws.Repository** (AWS SDK) y **Aws.Models** (DTOs y
-config).
-
-Los endpoints regionales reciben `?region=` (por ejemplo `us-east-1`). IAM y Cost Explorer
-son globales. Las credenciales siguen la
-[cadena por defecto del AWS SDK](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-locate.html):
-variables de entorno, `~/.aws/credentials` o un rol IAM.
+**API:** .NET 10 en cuatro proyectos (`Aws.Api`, `Aws.Services`, `Aws.Repository`,
+`Aws.Models`). Los endpoints regionales reciben `?region=`. IAM y Cost Explorer son
+globales. Las credenciales siguen la
+[cadena por defecto del AWS SDK](https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-locate.html).
 
 | Dominio | Qué revisa |
 | --- | --- |
@@ -86,8 +83,6 @@ variables de entorno, `~/.aws/credentials` o un rol IAM.
 | **Audits** | Recursos sin tag y recursos por tag de proyecto |
 | **Cost** | Costos agrupados por tag de proyecto vía Cost Explorer |
 
-Endpoints representativos:
-
 ```http
 GET /api/v1/security/summary?region=us-east-1&days=30
 GET /api/v1/iam/access-keys
@@ -95,16 +90,34 @@ GET /api/v1/ec2/open-ports?region=us-east-1
 GET /api/v1/cost/by-project?startDate=2026-01-01&endDate=2026-01-31
 ```
 
-Los umbrales viven en `appsettings.json`: listas de CIDR públicos, edad máxima de rotación
-de access keys, retención mínima de backup RDS, límites de paginación de Inspector y
-orígenes CORS para el frontend. Incluye Docker y Azure Pipelines para deploy en contenedor
-a ECR/ACR.
+## Seguridad / blast radius
 
-## Repositorios
+Auth0 cierra la UI. El browser nunca tiene credenciales AWS. La API camina la cadena en el
+server y solo devuelve hallazgos estructurados.
 
-- [Aws.Dashboard.App](https://github.com/agustinafassina/Aws.Dashboard.App) (dashboard Next.js)
-- [Aws.Dashboard.Api](https://github.com/agustinafassina/Aws.Dashboard.Api) (API REST .NET)
+El middleware cachea el JWT de Auth0 en una cookie para que las rutas protegidas no llamen
+`getSession` en cada navegación. Los umbrales (CIDR públicos, edad máxima de access keys,
+retención mínima de backup RDS, paginación de Inspector, orígenes CORS) viven en
+`appsettings.json`, no en el bundle del cliente.
 
-Los dos son públicos. Cloná, apuntá la API a tus credenciales AWS, configurá Auth0 en la
-app, y tenés una vista de postura on demand en lugar de una auditoría trimestral en
-spreadsheet.
+Blast radius si el rol de la API está sobreprivilegiado: cada dominio de escaneo queda
+legible. Least privilege en ese rol es parte del deploy, no un afterthought.
+
+## Ops
+
+Docker y Azure Pipelines salen listos para deploy en contenedor a ECR/ACR. Apuntá la API a
+credenciales, configurá Auth0 en la app, y tenés postura on demand en lugar de una auditoría
+trimestral en spreadsheet.
+
+Convive con [Alarmas AWS a nivel cuenta](/es/projects/aws-alarms-module-terraform): el
+dashboard es pull (“¿qué se ve mal ahora?”), el módulo Terraform es push (“avisame cuando
+pasa”).
+
+## Qué haría distinto
+
+- Cachear más agresivo las ventanas caras de Cost Explorer; esas queries se ponen caras si
+  refrescás sin pensar.
+- Meter un template de IAM read-only en el repo para que los permisos requeridos sean
+  obvios el día uno.
+- Sumar deep links a la consola AWS en los checks más ruidosos, para que el dashboard no
+  sea un callejón sin salida cuando hay que arreglar algo.

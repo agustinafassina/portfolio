@@ -13,13 +13,17 @@ stack:
   - AWS Config
 repoUrl: https://github.com/agustinafassina/Aws.Alarms.Module.Terraform
 cover: ../../../assets/projects/aws-alarms-terraform/architecture.png
-coverAlt: Architecture of account-level AWS alarms with EventBridge, metric filters, Config rules, and SNS
-diagram: ../../../assets/projects/aws-alarms-terraform/architecture.png
-diagramAlt: CloudTrail and Config feed EventBridge rules and CloudWatch metric filters. Alarms publish to SNS with email subscriptions.
+coverAlt: CloudTrail and Config feed EventBridge rules and CloudWatch metric filters. Alarms publish to SNS with email subscriptions.
 featured: true
 order: 1
 startedOn: 2025-08-10
+outcome: Email when someone creates an access key, opens a security group to the world, touches CloudTrail, or signs in as root.
+problem: Risky account changes showed up in weekly audits, not in the inbox. GuardDuty and Security Hub help after something already looks wrong.
+decision: One Terraform root for SNS, EventBridge, metric filters, alarms, and Config rules. The module alerts only. It does not create CloudTrail or the Config recorder.
+result: Account-level security signals land in email without wiring every rule by hand in the console.
 ---
+
+## Context
 
 I got tired of catching risky account changes in a weekly audit instead of in my inbox.
 
@@ -27,18 +31,29 @@ GuardDuty and Security Hub help once something already looks wrong. I needed som
 simpler: mail when someone creates an access key, opens a security group to the world,
 touches CloudTrail, or signs in as root. Without wiring every rule by hand in the console.
 
-[Aws.Alarms.Module.Terraform](https://github.com/agustinafassina/Aws.Alarms.Module.Terraform)
-is the stack I built for that. One Terraform root deploys an SNS topic with email
-subscriptions, EventBridge rules, CloudWatch Logs metric filters, CloudWatch alarms, and
-AWS Config managed rules.
-
-It does **not** create CloudTrail or the Config recorder. Those have to exist already. You
-pass the log group name and the Config role ARN as variables. I kept that line on purpose:
-the module alerts. It does not rebuild the account baseline.
-
 Same idea on [Medium](https://medium.com/@agustinafassina_92108).
 
-## What fires
+## Constraints
+
+- CloudTrail and the Config recorder already exist. The module does not rebuild the account
+  baseline.
+- One mailbox for the first version. SNS email subscriptions, not a full paging stack.
+- Noise has to be tunable per environment (`dev` / `stage` / `prod`) with `enable_*` flags.
+- Open security group detection has to work even when EventBridge patterns choke on nested
+  `ipPermissions` CIDRs.
+
+## Architecture decision
+
+[Aws.Alarms.Module.Terraform](https://github.com/agustinafassina/Aws.Alarms.Module.Terraform)
+is one Terraform root. The architecture image above is the shape: CloudTrail and Config feed
+EventBridge rules and CloudWatch Logs metric filters; alarms publish to SNS.
+
+You pass the log group name and the Config role ARN as variables. The module alerts. It
+does not recreate Trail or the recorder on purpose.
+
+Why not only Security Hub? Hub is pull and product-heavy. I wanted push mail for a small
+set of account-level events I care about on day one. Why not Lambda for every rule? Metric
+filters and EventBridge cover most of it with less runtime to babysit.
 
 Three paths, one mailbox:
 
@@ -55,7 +70,18 @@ Broader SG/NACL API noise still rides EventBridge.
 Want CPU, free storage, or connection alarms on specific resources? Pass instance IDs,
 bucket names, or RDS identifiers. Those families stay off until the lists are filled.
 
-## Applying it
+## Security / blast radius
+
+These alarms shrink the window between a bad change and someone noticing. They do not stop
+the change.
+
+If SNS subscriptions are never confirmed, the topic exists and the inbox stays quiet. That
+is an operational failure mode, not a Terraform one. I forgot it once. Once was enough.
+
+`enable_*` matters in real accounts: console-without-MFA is noisy under federation or
+break-glass, and you do not need a second page for something Security Hub already covers.
+
+## Ops
 
 ```bash
 terraform init
@@ -64,17 +90,16 @@ terraform apply -var-file=dev.tfvars
 ```
 
 There are `dev`, `stage`, and `prod` tfvars with different thresholds and which families
-are on. After the first apply, confirm every SNS email subscription. Until you do, the
-topic exists and the inbox stays quiet. I forgot that once. Once was enough.
+are on. After the first apply, confirm every SNS email subscription.
 
-Each family has an `enable_*` flag. That matters in real accounts: console-without-MFA is
-noisy under federation or break-glass, and you do not need a second page for something
-Security Hub already covers.
+This pairs with the [AWS Security Dashboard](/en/projects/aws-dashboard): push here, pull
+there. One answers “tell me when it happens.” The other answers “what looks wrong right
+now?”
 
-## How it pairs with the Security Dashboard
+## What I would do differently
 
-The [AWS Security Dashboard](/en/projects/aws-dashboard) is pull: open it when you want a
-posture snapshot. This module is push: the account changed, you get the mail.
-
-I use both. One answers “what looks wrong right now?” The other answers “tell me when it
-happens.”
+- Add a post-apply checklist in the README that forces SNS confirmation into muscle memory.
+- Document order-of-magnitude cost for metric filters plus Config evaluations so nobody
+  treats “account alarms” as free.
+- Wire a short runbook link into the SNS message body for the noisiest families (access
+  key create, open SG) so the mail is not a dead end.

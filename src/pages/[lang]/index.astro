@@ -85,20 +85,33 @@ const posts = (await getPosts(lang)).slice(0, HOME_POSTS_LIMIT);
         </h2>
         <a
           href={localizedPath(lang, 'projects')}
-          class="shrink-0 font-mono text-xs text-fg-muted hover:text-accent"
+          class="shrink-0 font-mono text-sm text-accent hover:text-accent-hover"
         >
           {t('home.viewAllProjects')}
-          <span aria-hidden="true">-&gt;</span>
+          <span aria-hidden="true"> -&gt;</span>
         </a>
       </div>
 
       {
         projects.length > 0 ? (
-          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <ProjectCard lang={lang} project={project} headingLevel={3} />
-            ))}
-          </div>
+          <>
+            <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {projects.map((project) => (
+                <ProjectCard lang={lang} project={project} headingLevel={3} />
+              ))}
+            </div>
+            <div class="mt-6">
+              <a
+                href={localizedPath(lang, 'projects')}
+                class="inline-flex border-2 border-edge px-4 py-2 font-mono text-sm hover:border-accent hover:text-accent"
+              >
+                {t('home.viewAllProjects')}
+                <span aria-hidden="true" class="ml-2">
+                  -&gt;
+                </span>
+              </a>
+            </div>
+          </>
         ) : (
           <p class="text-fg-muted">{t('projects.empty')}</p>
         )

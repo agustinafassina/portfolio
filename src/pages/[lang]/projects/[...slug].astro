@@ -32,6 +32,19 @@ const { data } = project.entry;
 
 const alternates = await getProjectTranslationHrefs(project.translationKey);
 const { Content } = await render(project.entry);
+
+const caseStudy = (
+  [
+    { key: 'outcome' as const, label: t('projects.outcome') },
+    { key: 'problem' as const, label: t('projects.problem') },
+    { key: 'decision' as const, label: t('projects.decision') },
+    { key: 'result' as const, label: t('projects.result') },
+  ] as const
+).filter((item) => Boolean(data[item.key]));
+
+const showDiagram =
+  Boolean(data.diagram) &&
+  data.diagram!.src !== data.cover.src;
 ---
 
 <BaseLayout
@@ -65,6 +78,21 @@ const { Content } = await render(project.entry);
       }
     </header>
 
+    {
+      caseStudy.length > 0 ? (
+        <dl class="mt-8 grid gap-4 border-2 border-l-8 border-edge border-l-accent bg-surface p-4 sm:grid-cols-2">
+          {caseStudy.map((item) => (
+            <div class={item.key === 'outcome' ? 'sm:col-span-2' : undefined}>
+              <dt class="mb-1.5 font-mono text-xs tracking-widest text-fg-muted uppercase">
+                {item.label}
+              </dt>
+              <dd class="text-sm leading-relaxed">{data[item.key]}</dd>
+            </div>
+          ))}
+        </dl>
+      ) : null
+    }
+
     <Image
       src={data.cover}
       alt={data.coverAlt}
@@ -75,10 +103,10 @@ const { Content } = await render(project.entry);
     />
 
     {
-      data.diagram ? (
+      showDiagram ? (
         <figure class="mt-8">
           <Image
-            src={data.diagram}
+            src={data.diagram!}
             alt={data.diagramAlt ?? `${data.title} architecture diagram`}
             widths={[640, 1024, 1536]}
             sizes="(min-width: 768px) 48rem, 92vw"

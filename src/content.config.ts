@@ -54,6 +54,10 @@ const projects = defineCollection({
       order: z.number().int().default(0),
       startedOn: z.coerce.date(),
       draft: z.boolean().default(false),
+      outcome: z.string().min(1).optional(),
+      problem: z.string().min(1).optional(),
+      decision: z.string().min(1).optional(),
+      result: z.string().min(1).optional(),
     }),
 });
 

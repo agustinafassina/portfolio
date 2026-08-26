@@ -1,6 +1,6 @@
 ---
 title: ECS Fargate vs EC2
-description: A decision guide for ECS launch types and task patterns: who provides the compute, and whether the workload is batch, event-driven, or always-on.
+description: "A decision guide for ECS launch types and task patterns: who provides the compute, and whether the workload is batch, event-driven, or always-on."
 lang: en
 translationKey: ecs-fargate-vs-ec2
 slug: ecs-fargate-vs-ec2
@@ -14,7 +14,7 @@ repoUrl: https://github.com/agustinafassina/Aws.Solutions.Architecture/tree/main
 cover: ../../../assets/projects/indexer.png
 coverAlt: An open wooden card catalogue drawer with glowing index cards arranging themselves into a grid above it
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
-diagramAlt: ECS Fargate vs EC2 launch types: same Docker images from ECR, different compute layers and task patterns
+diagramAlt: "ECS Fargate vs EC2 launch types: same Docker images from ECR, different compute layers and task patterns"
 featured: false
 order: 14
 startedOn: 2024-08-10

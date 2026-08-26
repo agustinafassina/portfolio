@@ -30,7 +30,7 @@ const en = {
   'site.keywords': 'devops, automation, cloud, infrastructure, platform engineering, portfolio',
 
   'home.greeting': "Hi, I'm",
-  'home.role': 'DevOps · Cloud Infrastructure & Automation · Argentina 🇦🇷',
+  'home.role': 'DevOps · Cloud Infrastructure & Automation',
   'home.pitch':
     'I started out in backend development, then moved deeper into servers, infrastructure and cloud ops: deployments, environments, performance and keeping services reliable. Today I build and run systems across different stacks, with a strong focus on automation and platform work.',
   'home.ctaProjects': 'See my work',
@@ -56,6 +56,10 @@ const en = {
   'projects.demo': 'Live demo',
   'projects.readMore': 'Read more',
   'projects.empty': 'No projects yet.',
+  'projects.outcome': 'Outcome',
+  'projects.problem': 'Problem',
+  'projects.decision': 'Decision',
+  'projects.result': 'Result',
 
   'blog.title': 'Blog',
   'blog.description':
@@ -139,7 +143,7 @@ const es: Record<UIKey, string> = {
     'devops, automatización, cloud, infraestructura, ingeniería de plataformas, portfolio',
 
   'home.greeting': 'Hola, soy',
-  'home.role': 'DevOps · Infraestructura Cloud y Automatización · Argentina 🇦🇷',
+  'home.role': 'DevOps · Infraestructura Cloud y Automatización',
   'home.pitch':
     'Empecé en desarrollo backend y después me fui metiendo de lleno en servidores, infraestructura y operaciones cloud: despliegues, entornos, rendimiento y servicios confiables. Hoy construyo y opero sistemas con distintos stacks, con un fuerte foco en automatización y trabajo de plataforma.',
   'home.ctaProjects': 'Ver mi trabajo',
@@ -167,6 +171,10 @@ const es: Record<UIKey, string> = {
   'projects.demo': 'Demo en vivo',
   'projects.readMore': 'Leer más',
   'projects.empty': 'Todavía no hay proyectos.',
+  'projects.outcome': 'Resultado',
+  'projects.problem': 'Problema',
+  'projects.decision': 'Decisión',
+  'projects.result': 'Impacto',
 
   'blog.title': 'Blog',
   'blog.description':
@@ -249,7 +257,7 @@ const it: Record<UIKey, string> = {
   'site.keywords': 'devops, automazione, cloud, infrastruttura, platform engineering, portfolio',
 
   'home.greeting': 'Ciao, sono',
-  'home.role': 'DevOps · Infrastruttura Cloud e Automazione · Argentina 🇦🇷',
+  'home.role': 'DevOps · Infrastruttura Cloud e Automazione',
   'home.pitch':
     'Ho iniziato nello sviluppo backend, poi mi sono concentrata sempre di più su server, infrastruttura e operazioni cloud: deploy, ambienti, prestazioni e affidabilità dei servizi. Oggi costruisco e gestisco sistemi con stack diversi, con una forte attenzione all automazione e al lavoro di piattaforma.',
   'home.ctaProjects': 'Guarda i miei lavori',
@@ -276,6 +284,10 @@ const it: Record<UIKey, string> = {
   'projects.demo': 'Demo dal vivo',
   'projects.readMore': 'Leggi di più',
   'projects.empty': 'Ancora nessun progetto.',
+  'projects.outcome': 'Esito',
+  'projects.problem': 'Problema',
+  'projects.decision': 'Decisione',
+  'projects.result': 'Impatto',
 
   'blog.title': 'Blog',
   'blog.description':
