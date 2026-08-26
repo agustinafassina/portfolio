@@ -16,7 +16,7 @@ repoUrl: https://github.com/agustinafassina/Perri.Sync.Dashboard.New
 cover: ../../../assets/projects/perri-sync-cover.png
 coverAlt: Perri.Sync WebGL game, Household World isometric home with chores, habits, and shared metrics
 featured: true
-order: 0
+order: 2
 startedOn: 2024-09-01
 ---
 

@@ -15,8 +15,8 @@ cover: ../../../assets/projects/automation.png
 coverAlt: Un monitor CRT che esegue uno script di automazione accanto a un braccio robotico che timbra una pila di moduli
 diagram: ../../../assets/projects/ec2-bastion-diagram.jpg
 diagramAlt: Lo sviluppatore si connette a RDS privato tramite un bastion EC2 con port forwarding SSH
-featured: true
-order: 2
+featured: false
+order: 13
 startedOn: 2024-04-15
 ---
 

@@ -18,7 +18,7 @@ coverAlt: Pixel-art desk with a monitor showing an automated document workflow f
 diagram: ../../../assets/projects/aws-dashboard/workflow.png
 diagramAlt: Users authenticate via Auth0, the Next.js app routes to Vulnerabilities, IAM, and Costs modules, each calling the AWS REST API
 featured: true
-order: 5
+order: 0
 startedOn: 2025-03-01
 ---
 

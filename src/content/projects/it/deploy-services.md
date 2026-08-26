@@ -16,8 +16,8 @@ cover: ../../../assets/projects/pipeline.png
 coverAlt: Un nastro trasportatore di casse etichettate che passa attraverso tre archi di controllo verso una spia verde di verifica
 diagram: ../../../assets/projects/deploy-services-diagram.jpg
 diagramAlt: Tre modelli di deploy AWS: container ECS sempre attivi, task Fargate con EventBridge e siti statici su S3
-featured: true
-order: 1
+featured: false
+order: 11
 startedOn: 2024-06-01
 ---
 

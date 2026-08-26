@@ -15,8 +15,8 @@ cover: ../../../assets/projects/indexer.png
 coverAlt: Un cassetto di schedario di legno aperto con schede indice luminose che si dispongono in una griglia sopra di esso
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
 diagramAlt: ECS Fargate vs EC2: stesse immagini Docker da ECR, diversi layer di compute e pattern di task
-featured: true
-order: 3
+featured: false
+order: 14
 startedOn: 2024-08-10
 ---
 

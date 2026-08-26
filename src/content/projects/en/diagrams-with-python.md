@@ -14,8 +14,8 @@ cover: ../../../assets/projects/diagrams-with-python-cover.png
 coverAlt: AWS and Azure DevOps infrastructure diagram generated from Python with VPC, ECS, RDS, CI/CD pipelines, and multi-region layout
 diagram: ../../../assets/projects/diagrams-with-python/ci-cd.png
 diagramAlt: CI/CD pipeline diagram from Bitbucket to Azure DevOps to AWS with separate QA and production branches
-featured: true
-order: 4
+featured: false
+order: 15
 startedOn: 2025-06-01
 ---
 

@@ -15,8 +15,8 @@ cover: ../../../assets/projects/indexer.png
 coverAlt: An open wooden card catalogue drawer with glowing index cards arranging themselves into a grid above it
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
 diagramAlt: ECS Fargate vs EC2 launch types: same Docker images from ECR, different compute layers and task patterns
-featured: true
-order: 3
+featured: false
+order: 14
 startedOn: 2024-08-10
 ---
 

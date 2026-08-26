@@ -18,7 +18,7 @@ coverAlt: Scrivania pixel-art con un monitor che mostra un flusso automatizzato 
 diagram: ../../../assets/projects/aws-dashboard/workflow.png
 diagramAlt: Gli utenti si autenticano via Auth0, l'app Next.js instrada verso i moduli Vulnerabilities, IAM e Costs, ciascuno chiama la REST API AWS
 featured: true
-order: 5
+order: 0
 startedOn: 2025-03-01
 ---
 

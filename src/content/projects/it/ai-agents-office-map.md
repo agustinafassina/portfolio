@@ -17,8 +17,8 @@ cover: ../../../assets/projects/ai-agents-office-map-cover.png
 coverAlt: Architettura di AI Agents Office Map con scena WebGL, store Zustand, proxy LiteLLM e modelli Ollama
 diagram: ../../../assets/projects/ai-agents-office-map/litellm-workflow.png
 diagramAlt: Flusso LiteLLM.Local dal client all'API LiteLLM fino a Ollama, con PostgreSQL per i log di utilizzo
-featured: true
-order: 1
+featured: false
+order: 10
 startedOn: 2025-10-01
 ---
 

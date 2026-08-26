@@ -16,7 +16,7 @@ repoUrl: https://github.com/agustinafassina/Perri.Sync.Dashboard.New
 cover: ../../../assets/projects/perri-sync-cover.png
 coverAlt: Gioco WebGL di Perri.Sync, Household World isometrico con faccende, abitudini e metriche condivise
 featured: true
-order: 0
+order: 2
 startedOn: 2024-09-01
 ---
 

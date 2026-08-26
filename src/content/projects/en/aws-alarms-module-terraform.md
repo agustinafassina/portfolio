@@ -17,7 +17,7 @@ coverAlt: Architecture of account-level AWS alarms with EventBridge, metric filt
 diagram: ../../../assets/projects/aws-alarms-terraform/architecture.png
 diagramAlt: CloudTrail and Config feed EventBridge rules and CloudWatch metric filters. Alarms publish to SNS with email subscriptions.
 featured: true
-order: 6
+order: 1
 startedOn: 2025-08-10
 ---
 

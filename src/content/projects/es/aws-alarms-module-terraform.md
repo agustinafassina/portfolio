@@ -17,7 +17,7 @@ coverAlt: Arquitectura de alarmas AWS a nivel cuenta con EventBridge, filtros de
 diagram: ../../../assets/projects/aws-alarms-terraform/architecture.png
 diagramAlt: CloudTrail y Config alimentan reglas de EventBridge y filtros de métricas CloudWatch. Las alarmas publican a SNS con suscripciones por email.
 featured: true
-order: 6
+order: 1
 startedOn: 2025-08-10
 ---
 

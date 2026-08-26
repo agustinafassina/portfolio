@@ -14,8 +14,8 @@ repoUrl: https://github.com/agustinafassina/Library.LibrarianChallenge.Game
 demoUrl: https://game-library.agustinafassina.com/
 cover: ../../../assets/projects/librarians-challenge-cover.png
 coverAlt: Cozy library shelves with colourful books being sorted for Librarian's Challenge
-featured: true
-order: 2
+featured: false
+order: 12
 startedOn: 2025-11-01
 ---
 

@@ -16,8 +16,8 @@ cover: ../../../assets/projects/pipeline.png
 coverAlt: A conveyor belt of labelled crates passing through three arched gates toward a green checkmark lamp
 diagram: ../../../assets/projects/deploy-services-diagram.jpg
 diagramAlt: Three AWS deployment models: always-on ECS containers, Fargate tasks triggered by EventBridge, and static S3 websites
-featured: true
-order: 1
+featured: false
+order: 11
 startedOn: 2024-06-01
 ---
 
