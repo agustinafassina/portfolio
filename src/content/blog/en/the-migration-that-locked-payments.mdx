@@ -36,7 +36,7 @@ CREATE INDEX idx_payments_customer_created ON payments(customer_id, created_at D
 Staging had four million rows and finished in eleven minutes. Production had ninety-two
 million. That difference mattered, but not for the reason we expected.
 
-The `UPDATE` was slow and boring — batchable, visible in `pg_stat_activity`, easy to
+The `UPDATE` was slow and boring: batchable, visible in `pg_stat_activity`, easy to
 abort. The indexes were the problem. Neither used `CONCURRENTLY`. On PostgreSQL, a plain
 `CREATE INDEX` takes an `ACCESS EXCLUSIVE` lock. Reads and writes on `payments` queue
 behind it. The table is not corrupted. It is simply unavailable, for as long as the
@@ -60,7 +60,7 @@ Three signals lied by omission, not by error.
 CPU-heavy. A flat CPU graph does not mean your app can write rows.
 
 **Replica lag** stayed under a second. The replica was not the one taking writes. Users
-were not reading stale data — they were not reading at all.
+were not reading stale data. They were not reading at all.
 
 **The migration runner** reported step three of four as "in progress." That was accurate
 and useless. Nobody had wired an alert on `wait_event = 'Lock'` for the `payments`
@@ -69,14 +69,14 @@ relation, because we had never needed one before.
 The forty minutes ended when someone ran `SELECT * FROM pg_locks` from the bastion,
 found the index build, and cancelled it. We re-ran both indexes with `CONCURRENTLY` over
 the next two hours. No further customer impact. The column and the backfill had already
-completed before the lock — only the indexes had to be redone.
+completed before the lock. Only the indexes had to be redone.
 
 ## What we changed
 
 **That night:**
 
-- Split the migration into phases: schema change, backfill in batches, indexes last —
-  each phase in its own deployable revision.
+- Split the migration into phases: schema change, backfill in batches, indexes last.
+  Each phase in its own deployable revision.
 - Added `SET lock_timeout = '5s'` at the top of every migration file. A migration that
   cannot get a lock should fail fast, not hold the table hostage.
 

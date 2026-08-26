@@ -1,6 +1,6 @@
 ---
 title: The security group rule that outlived the ticket
-description: A temporary PostgreSQL port opened for debugging stayed in production for six weeks after the ticket closed. The database was never breached — which almost made it worse.
+description: A temporary PostgreSQL port opened for debugging stayed in production for six weeks after the ticket closed. The database was never breached, which almost made it worse.
 lang: en
 translationKey: security-group-that-outlived-the-ticket
 slug: the-security-group-that-outlived-the-ticket
@@ -25,7 +25,7 @@ We found it six weeks later during a routine audit, not because anything had gon
 Three things had to fail at once, and all three did.
 
 The first was process. The ticket had a checkbox for "remove temporary access" and nobody
-checked it, because the work had moved on and the access felt harmless — it was staging,
+checked it, because the work had moved on and the access felt harmless. It was staging,
 the data was anonymised, the risk felt abstract.
 
 The second was that the rule was added in the AWS console, not in Terraform. Our next three
@@ -60,13 +60,13 @@ does not care about your subnet design.
 ## What we changed
 
 **Same day:** removed the rule, rotated the database password, exported the CloudTrail events
-for the six-week window (nothing suspicious — small mercies).
+for the six-week window (nothing suspicious, small mercies).
 
 **That week:**
 
 - Imported the security group into Terraform so the next manual edit shows up as drift.
 - Added an EventBridge rule on `AuthorizeSecurityGroupIngress` for any SG attached to RDS.
-  Slack message, not a page — we wanted signal without crying wolf on every legitimate
+  Slack message, not a page. We wanted signal without crying wolf on every legitimate
   bastion change.
 - Bastion access documented as the only approved path for human database connections.
 
@@ -83,7 +83,7 @@ uses `cidr_blocks = ["0.0.0.0/0"]` on port 5432. Crude. Catches the mistake we a
 made.
 
 <Callout variant="success" title="The habit">
-  Temporary access needs an expiry — in the ticket, in Terraform, or in a calendar reminder.
+  Temporary access needs an expiry: in the ticket, in Terraform, or in a calendar reminder.
   "I'll remove it later" is how later becomes six weeks.
 </Callout>
 

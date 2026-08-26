@@ -27,7 +27,7 @@ The contractor did not exfiltrate anything. They copied a working snippet from a
 internal wiki page that had been written six months ago when `deploy-bot` was first
 created. The wiki page was wrong the day it was written and nobody had opened it since.
 
-The key itself was fine when created — scoped to ECR push and ECS deploy on one cluster.
+The key itself was fine when created: scoped to ECR push and ECS deploy on one cluster.
 Then a platform engineer attached `AdministratorAccess` during a Friday deploy that was
 going badly, swore they would remove it, opened a ticket, closed the ticket when the
 deploy went green, and never touched IAM again.
@@ -44,12 +44,12 @@ else did.
 
 This is the order that mattered, not the order that felt satisfying:
 
-1. **Deactivate the key** — not delete yet; you want the trail.
-2. **CloudTrail lookup** on `AccessKeyId` for the last 90 days — filter `errorCode` absent
+1. **Deactivate the key** (do not delete yet; you want the trail).
+2. **CloudTrail lookup** on `AccessKeyId` for the last 90 days. Filter `errorCode` absent
    first, then read everything.
-3. **Assume compromise** on anything the principal touched — S3 buckets, Lambda env vars,
-   Secrets Manager paths. Rotate what was readable, not what looks suspicious.
-4. **Issue a new key** only after the blast radius is understood — a rushed replacement
+3. **Assume compromise** on anything the principal touched: S3 buckets, Lambda env vars,
+   Secrets Manager paths. Rotate what was readable, not only what looks suspicious.
+4. **Issue a new key** only after the blast radius is understood. A rushed replacement
    with the same policy repeats the problem.
 
 Our CloudTrail window showed `Describe*` calls from a residential ISP in another country,
@@ -60,7 +60,7 @@ both the same.
 
 | Control | What it would have changed |
 | --- | --- |
-| **No long-lived keys on humans or bots** | OIDC from CI to AWS — the gist would have had a token that expired in minutes |
+| **No long-lived keys on humans or bots** | OIDC from CI to AWS. The gist would have had a token that expired in minutes |
 | **Permission boundary on `deploy-bot`** | Admin attach would have failed at the API |
 | **Access key age alarm** | Key was 94 days old; we had no alert |
 | **Secret scanning on internal wiki** | The wiki was the real leak; the gist was the amplifier |
@@ -90,7 +90,7 @@ admin even if someone attaches a broader policy by mistake.
 
 <Callout variant="success" title="The habit">
   If a credential can do more than the job description of the thing that holds it, the
-  excess permission is a incident waiting for a paste command.
+  excess permission is an incident waiting for a paste command.
 </Callout>
 
 ## The part I keep thinking about
@@ -102,6 +102,6 @@ The actual failure was three months old and invisible: an admin policy nobody re
 attaching, on a key nobody remembered creating, copied from a page nobody remembered
 writing. The gist was just the moment the debt became visible.
 
-Rotate fast. But the work that prevents the next one is boring IAM hygiene — boundaries,
-no long-lived keys, and treating `AdministratorAccess` like a fire axe: behind glass,
+Rotate fast. But the work that prevents the next one is boring IAM hygiene: boundaries,
+no long-lived keys, and treating `AdministratorAccess` like a fire axe. Behind glass,
 logged, and put back immediately.

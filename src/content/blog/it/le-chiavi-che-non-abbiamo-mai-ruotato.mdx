@@ -47,7 +47,7 @@ contavano più degli altri:
 | **Owner / principal** | Umani vs service user vs fantasmi di "deploy condiviso" |
 
 Il bucket spaventoso non era "vecchie e inutilizzate." Quelle sono facili: disattiva,
-aspetta, elimina. Quello spaventoso era **vecchie e ancora usate** — job notturni,
+aspetta, elimina. Quello spaventoso era **vecchie e ancora usate**: job notturni,
 integrazioni vendor, un tool di staging diventato produzione senza cambiare l'utente IAM.
 
 Sono quelle key che ti insegnano perché gli script ingenui "cancella tutto oltre i 90 giorni"
@@ -62,7 +62,7 @@ spostando su OIDC), la rotazione è diventata una danza a due key:
 2. **Deployare** la nuova key su ogni consumer (Secrets Manager, variabile CI, l'unico
    `.env` che ne aveva ancora uno)
 3. **Verificare** che CloudTrail / log dell'app mostrino traffico solo sulla nuova key
-4. **Disattivare** la key vecchia — non eliminare ancora
+4. **Disattivare** la key vecchia. Non eliminare ancora
 5. **Aspettare** un ciclo di business completo (noi usavamo sette giorni)
 6. **Eliminare** la key inattiva
 
@@ -72,20 +72,20 @@ consumer mancato. La delete è l'ultimo passo, non quello coraggioso.
 
 ```text
 Giorno 0    crea key B, deploy B
-Giorno 1–2  conferma che last-used passa a B
+Giorno 1-2  conferma che last-used passa a B
 Giorno 3    disattiva key A
 Giorno 10   elimina key A se non ci sono caller
 ```
 
 ## Allarmi che si guadagnano il posto
 
-Abbiamo smesso di fidarci del wiki e cablato tre check — la stessa forma che espongono i
+Abbiamo smesso di fidarci del wiki e cablato tre check. La stessa forma che espongono i
 moduli IAM del nostro
 [AWS Security Dashboard](/it/projects/aws-dashboard):
 
-- **Key più vecchia di 90 giorni** — warning; oltre 180 — page al team owner
-- **Key mai usata dopo 30 giorni** — candidata alla delete, non alla rotazione
-- **Manca la seconda key attiva durante una finestra di rotazione** — odore di processo;
+- **Key più vecchia di 90 giorni**: warning; oltre 180: page al team owner
+- **Key mai usata dopo 30 giorni**: candidata alla delete, non alla rotazione
+- **Manca la seconda key attiva durante una finestra di rotazione**: odore di processo;
   qualcuno ha creato e swappato in un solo passo senza rollback
 
 L'età da sola è uno strumento grezzo. Età **più** last-used è come separi igiene da eroismo.
@@ -115,11 +115,11 @@ credenziali che restano valide perché a nessuno pagano per farle scadere.
 
 Se domani alzi un account AWS nuovo:
 
-1. Vietare key long-lived per gli umani — solo SSO / Identity Center
-2. Vietare key long-lived per la CI — OIDC verso AWS
+1. Vietare key long-lived per gli umani. Solo SSO / Identity Center
+2. Vietare key long-lived per la CI. OIDC verso AWS
 3. Dove una key è inevitabile, esigere rotazione dual-key con disattiva-prima-di-eliminare
 4. Alert su età e last-used dal giorno uno, non dopo il primo spreadsheet di audit
 
 Ruotare è necessario. La visibilità è ciò che lo rende reale. L'obiettivo non è un rituale
-perfetto di novanta giorni — è un account dove una key di 412 giorni non possa esistere
+perfetto di novanta giorni. È un account dove una key di 412 giorni non possa esistere
 senza che nessuno se ne accorga.

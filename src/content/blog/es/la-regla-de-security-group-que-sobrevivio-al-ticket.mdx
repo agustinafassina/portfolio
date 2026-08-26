@@ -1,6 +1,6 @@
 ---
 title: La regla de security group que sobrevivió al ticket
-description: Un puerto PostgreSQL abierto temporalmente para debugging siguió en producción seis semanas después de cerrar el ticket. La base nunca fue comprometida — y eso casi lo empeoró.
+description: Un puerto PostgreSQL abierto temporalmente para debugging siguió en producción seis semanas después de cerrar el ticket. La base nunca fue comprometida, y eso casi lo empeoró.
 lang: es
 translationKey: security-group-that-outlived-the-ticket
 slug: la-regla-de-security-group-que-sobrevivio-al-ticket
@@ -26,7 +26,7 @@ mal.
 Tres cosas tenían que fallar a la vez, y las tres fallaron.
 
 La primera fue el proceso. El ticket tenía un checkbox de "remover acceso temporal" y nadie
-lo marcó, porque el trabajo ya había seguido y el acceso parecía inofensivo — era staging,
+lo marcó, porque el trabajo ya había seguido y el acceso parecía inofensivo. Era staging,
 los datos estaban anonimizados, el riesgo se sentía abstracto.
 
 La segunda es que la regla se agregó en la consola de AWS, no en Terraform. Los siguientes
@@ -60,14 +60,14 @@ importa tu diseño de subnets.
 ## Qué cambiamos
 
 **Ese día:** sacamos la regla, rotamos la contraseña de la base, exportamos los eventos de
-CloudTrail de las seis semanas (nada sospechoso — pequeñas misericordias).
+CloudTrail de las seis semanas (nada sospechoso, pequeñas misericordias).
 
 **Esa semana:**
 
 - Importamos el security group a Terraform para que el próximo cambio manual aparezca como
   drift.
 - Agregamos una regla de EventBridge sobre `AuthorizeSecurityGroupIngress` para cualquier
-  SG asociado a RDS. Mensaje a Slack, no pager — queríamos señal sin llorar lobo en cada
+  SG asociado a RDS. Mensaje a Slack, no pager. Queríamos señal sin llorar lobo en cada
   cambio legítimo del bastion.
 - Documentamos el acceso por bastion como el único camino aprobado para conexiones humanas
   a la base.
@@ -85,7 +85,7 @@ en la instancia RDS, y un check en CI que falla si algún `aws_security_group_ru
 cometimos.
 
 <Callout variant="success" title="El hábito">
-  El acceso temporal necesita vencimiento — en el ticket, en Terraform, o en un recordatorio
+  El acceso temporal necesita vencimiento: en el ticket, en Terraform, o en un recordatorio
   en el calendario. "Lo saco después" es cómo después se convierte en seis semanas.
 </Callout>
 

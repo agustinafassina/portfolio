@@ -47,7 +47,7 @@ the rest:
 | **Owner / principal** | Humans vs service users vs "shared deploy" ghosts |
 
 The scary bucket was not "old and unused." Unused keys are easy: deactivate, wait, delete.
-The scary bucket was **old and still used** — nightly jobs, vendor integrations, a staging
+The scary bucket was **old and still used**: nightly jobs, vendor integrations, a staging
 tool that had become production without changing its IAM user.
 
 Those are the keys that teach you why naive "delete everything over 90 days" scripts cause
@@ -62,7 +62,7 @@ rotation became a two-key dance:
 2. **Deploy** the new key to every consumer (Secrets Manager, CI variable, `.env` in the
    one place that still had one)
 3. **Verify** CloudTrail / app logs show traffic on the new key only
-4. **Deactivate** the old key — do not delete yet
+4. **Deactivate** the old key. Do not delete yet
 5. **Wait** one full business cycle (we used seven days)
 6. **Delete** the inactive key
 
@@ -79,12 +79,12 @@ Day 10  delete key A if no callers
 
 ## Alarms that earn their keep
 
-We stopped relying on the wiki and wired three checks — the same shape our
+We stopped relying on the wiki and wired three checks. Same shape our
 [AWS Security Dashboard](/en/projects/aws-dashboard) IAM modules surface:
 
-- **Key older than 90 days** — warning; older than 180 — page the owning team
-- **Key never used after 30 days** — candidate for deletion, not rotation
-- **Second active key missing during a rotation window** — process smell; someone created
+- **Key older than 90 days**: warning; older than 180: page the owning team
+- **Key never used after 30 days**: candidate for deletion, not rotation
+- **Second active key missing during a rotation window**: process smell; someone created
   and swapped in one step with no rollback
 
 Age alone is a blunt instrument. Age **plus** last-used is how you separate hygiene from
@@ -115,10 +115,10 @@ stay valid because nobody is paid to make them expire.
 
 If you are standing up a new AWS account tomorrow:
 
-1. Ban long-lived keys for humans — SSO / Identity Center only
-2. Ban long-lived keys for CI — OIDC to AWS
+1. Ban long-lived keys for humans. SSO / Identity Center only
+2. Ban long-lived keys for CI. OIDC to AWS
 3. Where a key is unavoidable, require dual-key rotation with deactivate-before-delete
 4. Alert on age and last-used from day one, not after the first audit spreadsheet
 
 Rotation is necessary. Visibility is what makes it real. The goal is not a perfect
-ninety-day ritual — it is an account where a 412-day key cannot exist unnoticed.
+ninety-day ritual. It is an account where a 412-day key cannot exist unnoticed.

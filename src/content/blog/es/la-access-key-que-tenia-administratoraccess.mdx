@@ -27,7 +27,7 @@ El contratista no exfiltró nada. Copió un snippet que funcionaba desde una pá
 del wiki escrita seis meses atrás, cuando crearon `deploy-bot`. La página del wiki estaba
 mal el día que la escribieron y nadie la volvió a abrir.
 
-La key en sí estaba bien al crearla — scope a push en ECR y deploy en ECS en un cluster.
+La key en sí estaba bien al crearla: scope a push en ECR y deploy en ECS en un cluster.
 Después un ingeniero de plataforma le attachó `AdministratorAccess` durante un deploy de
 viernes que iba mal, juró que lo sacaría, abrió un ticket, cerró el ticket cuando el deploy
 salió verde, y nunca más tocó IAM.
@@ -44,12 +44,12 @@ alguien más lo vio.
 
 Este es el orden que importó, no el que se sintió satisfactorio:
 
-1. **Desactivar la key** — no borrar todavía; querés el trail.
-2. **CloudTrail lookup** sobre `AccessKeyId` de los últimos 90 días — filtrar primero sin
+1. **Desactivar la key** (no borrar todavía; querés el trail).
+2. **CloudTrail lookup** sobre `AccessKeyId` de los últimos 90 días. Filtrar primero sin
    `errorCode`, después leer todo.
-3. **Asumir compromiso** en todo lo que el principal tocó — buckets S3, env vars de Lambda,
-   paths de Secrets Manager. Rotar lo que era legible, no lo que parece sospechoso.
-4. **Emitir una key nueva** solo cuando entendés el blast radius — un reemplazo apurado con
+3. **Asumir compromiso** en todo lo que el principal tocó: buckets S3, env vars de Lambda,
+   paths de Secrets Manager. Rotar lo que era legible, no solo lo que parece sospechoso.
+4. **Emitir una key nueva** solo cuando entendés el blast radius. Un reemplazo apurado con
    la misma policy repite el problema.
 
 La ventana de CloudTrail mostró llamadas `Describe*` desde un ISP residencial en otro país,
@@ -59,7 +59,7 @@ después nada. Pudo ser un scanner. Pudo ser alguien cuidadoso. Tratamos ambos i
 
 | Control | Qué habría cambiado |
 | --- | --- |
-| **Sin keys de larga duración en humanos o bots** | OIDC desde CI a AWS — el gist hubiera tenido un token que expira en minutos |
+| **Sin keys de larga duración en humanos o bots** | OIDC desde CI a AWS. El gist hubiera tenido un token que expira en minutos |
 | **Permission boundary en `deploy-bot`** | El attach de admin hubiera fallado en la API |
 | **Alarma por edad de access key** | La key tenía 94 días; no teníamos alerta |
 | **Secret scanning en wiki interno** | El wiki fue el leak real; el gist fue el amplificador |
@@ -101,6 +101,6 @@ La falla real tenía tres meses y era invisible: una policy de admin que nadie r
 haber attachado, en una key que nadie recordaba haber creado, copiada desde una página que
 nadie recordaba haber escrito. El gist fue solo el momento en que la deuda se hizo visible.
 
-Rotá rápido. Pero el trabajo que previene el próximo es higiene aburrida de IAM — boundaries,
-sin keys de larga duración, y tratar `AdministratorAccess` como un hacha de bomberos: detrás
+Rotá rápido. Pero el trabajo que previene el próximo es higiene aburrida de IAM: boundaries,
+sin keys de larga duración, y tratar `AdministratorAccess` como un hacha de bomberos. Detrás
 del vidrio, logueada, y devuelta al instante.

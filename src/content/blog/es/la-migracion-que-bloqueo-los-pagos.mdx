@@ -36,7 +36,7 @@ CREATE INDEX idx_payments_customer_created ON payments(customer_id, created_at D
 Staging tenía cuatro millones de filas y terminó en once minutos. Producción tenía
 noventa y dos millones. Esa diferencia importaba, pero no por el motivo que esperábamos.
 
-El `UPDATE` era lento y aburrido — batchable, visible en `pg_stat_activity`, fácil de
+El `UPDATE` era lento y aburrido: batchable, visible en `pg_stat_activity`, fácil de
 abortar. Los índices eran el problema. Ninguno usaba `CONCURRENTLY`. En PostgreSQL, un
 `CREATE INDEX` común toma un lock `ACCESS EXCLUSIVE`. Lecturas y escrituras en `payments`
 quedan en cola detrás. La tabla no se corrompe. Simplemente no está disponible, todo el
@@ -60,7 +60,7 @@ Tres señales mintieron por omisión, no por error.
 no siempre CPU-heavy. Un gráfico de CPU plano no significa que la app pueda escribir filas.
 
 **El lag de réplica** se mantuvo bajo un segundo. La réplica no era la que recibía
-escrituras. Los usuarios no leían datos viejos — no leían nada.
+escrituras. Los usuarios no leían datos viejos. No leían nada.
 
 **El runner de migraciones** reportó el paso tres de cuatro como "en progreso." Era
 exacto e inútil. Nadie había cableado una alerta sobre `wait_event = 'Lock'` para la
@@ -69,14 +69,14 @@ relación `payments`, porque nunca la habíamos necesitado.
 Los cuarenta minutos terminaron cuando alguien corrió `SELECT * FROM pg_locks` desde el
 bastion, encontró el build del índice y lo canceló. Re-corrimos ambos índices con
 `CONCURRENTLY` en las dos horas siguientes. Sin más impacto al cliente. La columna y el
-backfill ya habían terminado antes del lock — solo los índices había que rehacerlos.
+backfill ya habían terminado antes del lock. Solo los índices había que rehacerlos.
 
 ## Qué cambiamos
 
 **Esa noche:**
 
 - Separamos la migración en fases: cambio de schema, backfill en batches, índices al
-  final — cada fase en su propia revisión deployable.
+  final. Cada fase en su propia revisión deployable.
 - Agregamos `SET lock_timeout = '5s'` al inicio de cada archivo de migración. Una
   migración que no puede tomar un lock debería fallar rápido, no secuestrar la tabla.
 
