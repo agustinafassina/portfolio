@@ -107,19 +107,36 @@ Coordinates and `countryCode` (ISO 3166-1 alpha-2) are shared; copy lives under
 - `draft: true` hides content in production builds; dev still shows it.
 
 ## 🚢 Deployment
-Static output in `dist/`. Works on Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, etc.
+Static output in `dist/`. Works on Netlify, Vercel, Cloudflare Pages, GitHub Pages, S3, or
+**Docker + nginx** behind the Hetzner compose stack.
 
 - Build: `npm run build`
 - Output: `dist/`
 - Node: **22.12+** (Astro 7 requirement)
+- Container: listens on **port 80** (`Dockerfile` + `nginx.conf`)
 
-Set all `PUBLIC_*` variables in the host dashboard before the first deploy.
+```bash
+docker build \
+  --build-arg PUBLIC_SITE_URL=https://your-domain.com \
+  --build-arg PUBLIC_SITE_NAME="Agustina Fassina" \
+  --build-arg PUBLIC_AUTHOR_NAME="Agustina Fassina" \
+  --build-arg PUBLIC_CONTACT_EMAIL=you@example.com \
+  --build-arg PUBLIC_FORMSPREE_ENDPOINT=https://formspree.io/f/your-form-id \
+  --build-arg PUBLIC_GITHUB_URL=https://github.com/agustinafassina \
+  --build-arg PUBLIC_LINKEDIN_URL=https://www.linkedin.com/in/agustina-fassina-458247163 \
+  -t portfolio:local .
+```
+
+Orchestration lives in [Hetzner.Server.Infrastructure](https://github.com/agustinafassina/Hetzner.Server.Infrastructure)
+(`portfolio` service → Caddy → `PORTFOLIO_SITE`).
+
+Set all `PUBLIC_*` variables in the host dashboard (or compose build args) before the first deploy.
 
 **Formspree:** create a form at [formspree.io](https://formspree.io/), set
 `PUBLIC_FORMSPREE_ENDPOINT`. Honeypot field `_gotcha` is already wired in `contact.astro`.
 
 **Headers:** `public/_headers` is picked up automatically on Netlify and Cloudflare Pages.
-Vercel needs a `vercel.json` (not configured yet).
+The Docker image applies the same policy in `nginx.conf`.
 
 Preview with a real origin:
 
