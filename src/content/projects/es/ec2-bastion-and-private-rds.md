@@ -16,6 +16,7 @@ coverAlt: Un monitor CRT ejecutando un script de automatización junto a un braz
 diagram: ../../../assets/projects/ec2-bastion-diagram.jpg
 diagramAlt: Desarrollador se conecta a RDS privado a través de un bastion EC2 con port forwarding SSH
 featured: false
+draft: true
 order: 13
 startedOn: 2024-04-15
 ---

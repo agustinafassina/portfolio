@@ -16,6 +16,7 @@ coverAlt: An open wooden card catalogue drawer with glowing index cards arrangin
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
 diagramAlt: "ECS Fargate vs EC2 launch types: same Docker images from ECR, different compute layers and task patterns"
 featured: false
+draft: true
 order: 14
 startedOn: 2024-08-10
 ---

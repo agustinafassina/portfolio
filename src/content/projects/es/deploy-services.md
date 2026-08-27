@@ -16,7 +16,8 @@ cover: ../../../assets/projects/pipeline.png
 coverAlt: Una cinta transportadora de cajas etiquetadas pasando por tres arcos de control hacia una lámpara verde de verificación
 diagram: ../../../assets/projects/deploy-services-diagram.jpg
 diagramAlt: "Tres modelos de despliegue en AWS: contenedores ECS siempre activos, tareas Fargate con EventBridge y sitios estáticos en S3"
-featured: false
+featured: false
+draft: true
 order: 11
 startedOn: 2024-06-01
 ---

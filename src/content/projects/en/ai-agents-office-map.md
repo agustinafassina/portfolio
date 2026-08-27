@@ -18,6 +18,7 @@ coverAlt: Architecture of the AI Agents Office Map with WebGL scene, Zustand sto
 diagram: ../../../assets/projects/ai-agents-office-map/litellm-workflow.png
 diagramAlt: LiteLLM.Local request flow from client to LiteLLM API to Ollama, with PostgreSQL for usage logs
 featured: false
+draft: true
 order: 10
 startedOn: 2025-10-01
 ---

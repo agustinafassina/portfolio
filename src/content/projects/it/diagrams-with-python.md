@@ -15,6 +15,7 @@ coverAlt: Diagramma di infrastruttura AWS e Azure DevOps generato da Python con 
 diagram: ../../../assets/projects/diagrams-with-python/ci-cd.png
 diagramAlt: Diagramma pipeline CI/CD da Bitbucket ad Azure DevOps ad AWS con branch QA e produzione separati
 featured: false
+draft: true
 order: 15
 startedOn: 2025-06-01
 ---

@@ -16,6 +16,7 @@ coverAlt: Un cajón de fichero de madera abierto con tarjetas índice brillantes
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
 diagramAlt: "ECS Fargate vs EC2: mismas imágenes Docker desde ECR, distintas capas de compute y patrones de tarea"
 featured: false
+draft: true
 order: 14
 startedOn: 2024-08-10
 ---

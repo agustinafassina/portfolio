@@ -16,6 +16,7 @@ coverAlt: Un cassetto di schedario di legno aperto con schede indice luminose ch
 diagram: ../../../assets/projects/ecs-fargate-diagram.jpg
 diagramAlt: "ECS Fargate vs EC2: stesse immagini Docker da ECR, diversi layer di compute e pattern di task"
 featured: false
+draft: true
 order: 14
 startedOn: 2024-08-10
 ---

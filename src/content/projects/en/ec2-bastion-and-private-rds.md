@@ -16,6 +16,7 @@ coverAlt: A CRT monitor running an automation script next to a robot arm stampin
 diagram: ../../../assets/projects/ec2-bastion-diagram.jpg
 diagramAlt: Developer connects to private RDS through an EC2 bastion host via SSH port forwarding
 featured: false
+draft: true
 order: 13
 startedOn: 2024-04-15
 ---
