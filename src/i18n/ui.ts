@@ -32,7 +32,7 @@ const en = {
   'home.greeting': "Hi, I'm",
   'home.role': 'DevOps · Cloud Infrastructure & Automation',
   'home.pitch':
-    'I design and run cloud platforms: deployments, account security with daily scans and metrics, automation, and FinOps habits like Cost Explorer by project tag so spend stays predictable in production. I also build product backends in .NET when an API is needed, create and maintain Azure DevOps pipelines, and for fun I develop dashboards and small games.',
+    'I design and run cloud platforms: deployments, account security with daily scans and metrics, automation, and FinOps habits like Cost Explorer by project tag so spend stays predictable in production. I also build product backends in .NET when an API is needed, create and maintain Azure DevOps pipelines, and as a hobby I like building things with code, like dashboards and games.',
   'home.ctaProjects': 'See my work',
   'home.ctaContact': 'Get in touch',
   'home.latestProjects': 'Featured projects',
@@ -169,7 +169,7 @@ const es: Record<UIKey, string> = {
   'home.greeting': 'Hola, soy',
   'home.role': 'DevOps · Infraestructura Cloud y Automatización',
   'home.pitch':
-    'Diseño y opero plataformas cloud: despliegues, seguridad de cuenta con escaneos diarios y métricas, automatización y FinOps concreto (Cost Explorer por tag de proyecto) para que el gasto se mantenga predecible en producción. También armo backends de producto en .NET cuando hace falta una API, creo y mantengo pipelines en Azure DevOps, y de hobby desarrollo dashboards y juegos chicos.',
+    'Diseño y opero plataformas cloud: despliegues, seguridad de cuenta con escaneos diarios y métricas, automatización y FinOps concreto (Cost Explorer por tag de proyecto) para que el gasto se mantenga predecible en producción. También armo backends de producto en .NET cuando hace falta una API, creo y mantengo pipelines en Azure DevOps, y de hobby me gusta crear cosas con código, como dashboards y juegos.',
   'home.ctaProjects': 'Ver mi trabajo',
   'home.ctaContact': 'Escribime',
   'home.latestProjects': 'Proyectos destacados',
@@ -307,7 +307,7 @@ const it: Record<UIKey, string> = {
   'home.greeting': 'Ciao, sono',
   'home.role': 'DevOps · Infrastruttura Cloud e Automazione',
   'home.pitch':
-    'Progetto e gestisco piattaforme cloud: deploy, sicurezza dell\'account con scansioni giornaliere e metriche, automazione e abitudini FinOps come Cost Explorer per tag di progetto, così la spesa resta prevedibile in produzione. Scrivo anche backend di prodotto in .NET quando serve un\'API, creo e mantengo pipeline in Azure DevOps, e per hobby sviluppo dashboard e piccoli giochi.',
+    'Progetto e gestisco piattaforme cloud: deploy, sicurezza dell\'account con scansioni giornaliere e metriche, automazione e abitudini FinOps come Cost Explorer per tag di progetto, così la spesa resta prevedibile in produzione. Scrivo anche backend di prodotto in .NET quando serve un\'API, creo e mantengo pipeline in Azure DevOps, e per hobby mi piace creare cose con il codice, come dashboard e giochi.',
   'home.ctaProjects': 'Guarda i miei lavori',
   'home.ctaContact': 'Scrivimi',
   'home.latestProjects': 'Progetti in evidenza',

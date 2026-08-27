@@ -114,5 +114,15 @@ const pageKeywords = keywords ?? t('site.keywords');
     </main>
 
     <Footer lang={lang} />
+
+    {
+      siteConfig.cloudflareAnalyticsToken ? (
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: siteConfig.cloudflareAnalyticsToken })}
+        />
+      ) : null
+    }
   </body>
 </html>

@@ -9,6 +9,7 @@ const envSchema = z.object({
   PUBLIC_GITHUB_URL: z.url(),
   PUBLIC_LINKEDIN_URL: z.url(),
   PUBLIC_TWITTER_URL: z.url().optional().or(z.literal('')),
+  PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: z.string().min(1).optional().or(z.literal('')),
 });
 
 const rawEnv = {
@@ -20,6 +21,7 @@ const rawEnv = {
   PUBLIC_GITHUB_URL: import.meta.env.PUBLIC_GITHUB_URL,
   PUBLIC_LINKEDIN_URL: import.meta.env.PUBLIC_LINKEDIN_URL,
   PUBLIC_TWITTER_URL: import.meta.env.PUBLIC_TWITTER_URL,
+  PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
 };
 
 const parsed = envSchema.safeParse(rawEnv);
@@ -48,6 +50,7 @@ export const siteConfig = {
   author: env.PUBLIC_AUTHOR_NAME,
   email: env.PUBLIC_CONTACT_EMAIL,
   formspreeEndpoint: env.PUBLIC_FORMSPREE_ENDPOINT,
+  cloudflareAnalyticsToken: env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN || '',
 } as const;
 
 export const socialLinks = [

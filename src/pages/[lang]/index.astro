@@ -144,7 +144,7 @@ const skillDomains = [
     </div>
   </section>
 
-  <div class="mx-auto w-full max-w-5xl space-y-20 px-4 py-14 sm:space-y-24 sm:px-6 sm:py-16">
+  <div class="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
     <section>
       <div class="mb-6 flex items-baseline justify-between gap-4">
         <h2 class="text-2xl">
@@ -162,7 +162,7 @@ const skillDomains = [
 
       {
         posts.length > 0 ? (
-          <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div class="grid items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <BlogCard lang={lang} post={post} headingLevel={3} />
             ))}
@@ -172,10 +172,12 @@ const skillDomains = [
         )
       }
     </section>
+  </div>
 
-    {
-      travels.length > 0 ? (
-        <section>
+  {
+    travels.length > 0 ? (
+      <section class="border-y border-edge bg-surface">
+        <div class="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
           <div class="mb-6 flex items-baseline justify-between gap-4">
             <h2 class="text-2xl">
               <span class="mr-2 text-accent" aria-hidden="true">
@@ -192,7 +194,7 @@ const skillDomains = [
             </a>
           </div>
 
-          <div class="overflow-hidden border border-edge bg-surface">
+          <div class="overflow-hidden border border-edge bg-surface-raised">
             <Image
               src={travelsBanner}
               alt={t('home.travelsBannerAlt')}
@@ -210,7 +212,7 @@ const skillDomains = [
 
               <ul class="mt-4 flex flex-wrap gap-2">
                 {travelPreview.map((travel) => (
-                  <li class="inline-flex items-center gap-2 border border-edge bg-surface-raised px-2.5 py-1 font-mono text-xs text-fg transition-colors hover:border-accent hover:text-accent">
+                  <li class="inline-flex items-center gap-2 border border-edge bg-surface px-2.5 py-1 font-mono text-xs text-fg transition-colors hover:border-accent hover:text-accent">
                     <img
                       src={flagDataUri(travel.countryCode)}
                       alt=""
@@ -230,10 +232,12 @@ const skillDomains = [
               </ul>
             </div>
           </div>
-        </section>
-      ) : null
-    }
+        </div>
+      </section>
+    ) : null
+  }
 
+  <div class="mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
     <section>
       <div class="mb-6">
         <h2 class="text-2xl">
