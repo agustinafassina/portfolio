@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import avatar from '../../assets/profile/avatar.jpg';
+import animatedAvatar from '../../assets/profile/avatar-animated.png';
 import PageHeader from '../../components/PageHeader.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import type { Locale } from '../../i18n/ui';
@@ -13,7 +13,7 @@ const { lang } = Astro.props as { lang: Locale };
 const t = useTranslations(lang);
 
 const fieldClass =
-  'w-full border-2 border-edge bg-surface-raised px-3 py-2 text-sm text-fg placeholder:text-fg-muted/70 focus:border-accent focus:outline-none';
+  'w-full border border-edge bg-surface-raised px-3 py-2.5 text-sm text-fg placeholder:text-fg-muted/70 focus:border-accent focus:outline-none';
 const labelClass = 'mb-1.5 block font-mono text-xs tracking-wide text-fg-muted uppercase';
 ---
 
@@ -25,12 +25,16 @@ const labelClass = 'mb-1.5 block font-mono text-xs tracking-wide text-fg-muted u
     section="contact"
   />
 
-  <div class="grid gap-10 md:grid-cols-[1.4fr_1fr]">
+  <div class="grid gap-10 lg:grid-cols-[1.35fr_1fr] lg:items-start">
     <form
       action={siteConfig.formspreeEndpoint}
       method="POST"
-      class="space-y-4 border-2 border-edge bg-surface p-5"
+      class="space-y-4 border border-edge bg-surface p-5 sm:p-6"
     >
+      <p class="font-mono text-xs tracking-widest text-fg-muted uppercase">
+        {t('contact.formHeading')}
+      </p>
+
       <p class="hidden" aria-hidden="true">
         <label for="gotcha">Leave this empty</label>
         <input type="text" id="gotcha" name="_gotcha" tabindex="-1" autocomplete="off" />
@@ -70,7 +74,7 @@ const labelClass = 'mb-1.5 block font-mono text-xs tracking-wide text-fg-muted u
           class={fieldClass}
           id="message"
           name="message"
-          rows="6"
+          rows="7"
           required
           maxlength="5000"
           placeholder={t('contact.formMessagePlaceholder')}></textarea>
@@ -87,49 +91,56 @@ const labelClass = 'mb-1.5 block font-mono text-xs tracking-wide text-fg-muted u
     </form>
 
     <aside class="space-y-6">
-      <div class="flex items-center gap-3">
-        <Image
-          src={avatar}
-          alt={siteConfig.author}
-          widths={[80, 160]}
-          sizes="4rem"
-          class="size-14 rounded-full border-2 border-accent object-cover"
-          loading="lazy"
-        />
-        <p class="font-mono text-sm font-bold">{siteConfig.author}</p>
-      </div>
+      <div class="border border-edge bg-surface p-5">
+        <div class="flex items-center gap-3">
+          <Image
+            src={animatedAvatar}
+            alt=""
+            widths={[64, 128]}
+            sizes="2.5rem"
+            class="size-10 shrink-0 rounded-full border border-accent object-cover"
+            loading="lazy"
+          />
+          <p class="font-mono text-sm font-bold">{siteConfig.author}</p>
+        </div>
+        <p class="mt-2 text-sm text-fg-muted">{t('contact.asideNote')}</p>
 
-      <div>
-        <p class="text-sm text-fg-muted">{t('contact.orEmail')}</p>
-        <a
-          href={`mailto:${siteConfig.email}`}
-          class="link-underline font-mono text-sm break-all text-accent"
-        >
-          {siteConfig.email}
-        </a>
-      </div>
+        <div class="mt-5">
+          <p class="mb-1.5 font-mono text-xs tracking-widest text-fg-muted uppercase">
+            {t('contact.orEmail')}
+          </p>
+          <a
+            href={`mailto:${siteConfig.email}`}
+            class="link-underline font-mono text-sm break-all text-accent"
+          >
+            {siteConfig.email}
+          </a>
+        </div>
 
-      <div>
-        <p class="mb-2 font-mono text-xs tracking-widest text-fg-muted uppercase">
-          {t('contact.socials')}
-        </p>
-        <ul class="space-y-1.5">
-          {
-            socialLinks.map((link) => (
-              <li>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="me noopener noreferrer"
-                  class="text-sm text-fg-muted hover:text-accent"
-                >
-                  {link.label}
-                  <span aria-hidden="true"> -&gt;</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
+        <div class="mt-5">
+          <p class="mb-2 font-mono text-xs tracking-widest text-fg-muted uppercase">
+            {t('contact.socials')}
+          </p>
+          <ul class="space-y-1.5">
+            {
+              socialLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="me noopener noreferrer"
+                    class="inline-flex border border-edge px-3 py-1.5 font-mono text-xs text-fg-muted hover:border-accent hover:text-accent"
+                  >
+                    {link.label}
+                    <span aria-hidden="true" class="ml-1.5">
+                      -&gt;
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </aside>
   </div>

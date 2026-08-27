@@ -32,13 +32,32 @@ const en = {
   'home.greeting': "Hi, I'm",
   'home.role': 'DevOps · Cloud Infrastructure & Automation',
   'home.pitch':
-    'I started out in backend development, then moved deeper into servers, infrastructure and cloud ops: deployments, environments, performance and keeping services reliable. Today I build and run systems across different stacks, with a strong focus on automation and platform work.',
+    'I design and run cloud platforms: deployments, account security with daily scans and metrics, automation, and cost-aware ops so services stay stable and predictable in production. I also build product backends in .NET when an API is needed, create and maintain pipelines, and for fun I develop dashboards and small games.',
   'home.ctaProjects': 'See my work',
   'home.ctaContact': 'Get in touch',
   'home.latestProjects': 'Featured projects',
   'home.latestPosts': 'From the blog',
   'home.viewAllProjects': 'All projects',
   'home.viewAllPosts': 'All posts',
+  'home.skillsTitle': 'Skills',
+  'home.skillsSummary':
+    'The domains I hire for. Tools and depth live in the full map, so it can keep growing without crowding this page.',
+  'home.skillsMap': 'Full skills map',
+  'home.skillsDomain.cloud': 'Cloud platforms',
+  'home.skillsDomain.iac': 'IaC & containers',
+  'home.skillsDomain.cicd': 'CI/CD & automation',
+  'home.skillsDomain.security': 'Security & identity',
+  'home.skillsDomain.dotnet': '.NET APIs',
+  'home.skillsDomain.data': 'Data stores',
+  'home.travelsTitle': 'Travels',
+  'home.travelsSummary':
+    'Pins on a map for places I actually stood. The wall version has more coffee stains.',
+  'home.travelsBannerAlt':
+    'Illustrated world map with a dashed travel route and a tiny car on the road',
+  'home.viewAllTravels': 'See the map',
+  'home.contactCtaTitle': 'Get in touch',
+  'home.contactCtaBody':
+    'Hiring, platform work, or a question about something I built. Write here or email me directly.',
   'home.deskAlt':
     'An illustrated night-time desk with a world map, a whiteboard and Buenos Aires through the window',
 
@@ -98,16 +117,20 @@ const en = {
 
   'contact.title': 'Contact',
   'contact.description':
-    'Got a project, a question, or a good recommendation for somewhere to visit? Write to me.',
+    'Roles, collaborations, questions about my work, or a place worth visiting. Write here or email me directly.',
+  'contact.formHeading': 'Send a message',
   'contact.formName': 'Your name',
   'contact.formEmail': 'Your email',
   'contact.formMessage': 'Message',
   'contact.formSend': 'Send message',
-  'contact.formNamePlaceholder': 'Ada Lovelace',
-  'contact.formEmailPlaceholder': 'ada@example.com',
-  'contact.formMessagePlaceholder': 'Tell me what you are building...',
-  'contact.orEmail': 'Or email me directly at',
-  'contact.socials': 'Find me elsewhere',
+  'contact.formNamePlaceholder': 'Your name',
+  'contact.formEmailPlaceholder': 'you@company.com',
+  'contact.formMessagePlaceholder':
+    'Tell me about the role, the problem, or what you want to build...',
+  'contact.orEmail': 'Email',
+  'contact.socials': 'Elsewhere',
+  'contact.asideNote':
+    'I read every message. Hiring and platform work first; travel tips always welcome.',
 
   'footer.rss': 'RSS feed',
   'footer.builtWith': 'Built with Astro',
@@ -145,13 +168,32 @@ const es: Record<UIKey, string> = {
   'home.greeting': 'Hola, soy',
   'home.role': 'DevOps · Infraestructura Cloud y Automatización',
   'home.pitch':
-    'Empecé en desarrollo backend y después me fui metiendo de lleno en servidores, infraestructura y operaciones cloud: despliegues, entornos, rendimiento y servicios confiables. Hoy construyo y opero sistemas con distintos stacks, con un fuerte foco en automatización y trabajo de plataforma.',
+    'Diseño y opero plataformas cloud: despliegues, seguridad de cuenta con escaneos diarios y métricas, automatización y ops con ojo al costo, para que los servicios se mantengan estables y predecibles en producción. También armo backends de producto en .NET cuando hace falta una API, creo y mantengo pipelines, y de hobby desarrollo dashboards y juegos chicos.',
   'home.ctaProjects': 'Ver mi trabajo',
   'home.ctaContact': 'Escribime',
   'home.latestProjects': 'Proyectos destacados',
   'home.latestPosts': 'Del blog',
   'home.viewAllProjects': 'Todos los proyectos',
   'home.viewAllPosts': 'Todos los posts',
+  'home.skillsTitle': 'Skills',
+  'home.skillsSummary':
+    'Los dominios por los que me contratan. Tools y detalle viven en el mapa completo, así puede crecer sin llenar esta página.',
+  'home.skillsMap': 'Mapa completo de skills',
+  'home.skillsDomain.cloud': 'Plataformas cloud',
+  'home.skillsDomain.iac': 'IaC y contenedores',
+  'home.skillsDomain.cicd': 'CI/CD y automatización',
+  'home.skillsDomain.security': 'Seguridad e identidad',
+  'home.skillsDomain.dotnet': 'APIs .NET',
+  'home.skillsDomain.data': 'Datos',
+  'home.travelsTitle': 'Viajes',
+  'home.travelsSummary':
+    'Chinches en un mapa de lugares donde realmente estuve. La versión de la pared tiene más manchas de café.',
+  'home.travelsBannerAlt':
+    'Mapa del mundo ilustrado con una ruta de viaje punteada y un autito en el camino',
+  'home.viewAllTravels': 'Ver el mapa',
+  'home.contactCtaTitle': 'Escribime',
+  'home.contactCtaBody':
+    'Hiring, trabajo de plataforma o una duda sobre algo que armé. Escribí acá o mandame un mail directo.',
   'home.deskAlt':
     'Un escritorio ilustrado de noche con un mapa del mundo, una pizarra y Buenos Aires por la ventana',
 
@@ -214,16 +256,20 @@ const es: Record<UIKey, string> = {
 
   'contact.title': 'Contacto',
   'contact.description':
-    '¿Tenés un proyecto, una duda o una buena recomendación de algún lugar para visitar? Escribime.',
+    'Roles, colaboraciones, dudas sobre mi trabajo o un lugar que valga la pena. Escribí acá o mandame un mail directo.',
+  'contact.formHeading': 'Enviar un mensaje',
   'contact.formName': 'Tu nombre',
   'contact.formEmail': 'Tu email',
   'contact.formMessage': 'Mensaje',
   'contact.formSend': 'Enviar mensaje',
-  'contact.formNamePlaceholder': 'Ada Lovelace',
-  'contact.formEmailPlaceholder': 'ada@ejemplo.com',
-  'contact.formMessagePlaceholder': 'Contame qué estás construyendo...',
-  'contact.orEmail': 'O escribime directamente a',
-  'contact.socials': 'Encontrame en otros lados',
+  'contact.formNamePlaceholder': 'Tu nombre',
+  'contact.formEmailPlaceholder': 'vos@empresa.com',
+  'contact.formMessagePlaceholder':
+    'Contame del rol, del problema o de lo que querés construir...',
+  'contact.orEmail': 'Email',
+  'contact.socials': 'En otros lados',
+  'contact.asideNote':
+    'Leo todos los mensajes. Primero hiring y trabajo de plataforma; tips de viaje siempre bienvenidos.',
 
   'footer.rss': 'Feed RSS',
   'footer.builtWith': 'Hecho con Astro',
@@ -259,13 +305,32 @@ const it: Record<UIKey, string> = {
   'home.greeting': 'Ciao, sono',
   'home.role': 'DevOps · Infrastruttura Cloud e Automazione',
   'home.pitch':
-    'Ho iniziato nello sviluppo backend, poi mi sono concentrata sempre di più su server, infrastruttura e operazioni cloud: deploy, ambienti, prestazioni e affidabilità dei servizi. Oggi costruisco e gestisco sistemi con stack diversi, con una forte attenzione all automazione e al lavoro di piattaforma.',
+    'Progetto e gestisco piattaforme cloud: deploy, sicurezza dell\'account con scansioni giornaliere e metriche, automazione e ops attente ai costi, così i servizi restano stabili e prevedibili in produzione. Scrivo anche backend di prodotto in .NET quando serve un\'API, creo e mantengo pipeline, e per hobby sviluppo dashboard e piccoli giochi.',
   'home.ctaProjects': 'Guarda i miei lavori',
   'home.ctaContact': 'Scrivimi',
   'home.latestProjects': 'Progetti in evidenza',
   'home.latestPosts': 'Dal blog',
   'home.viewAllProjects': 'Tutti i progetti',
   'home.viewAllPosts': 'Tutti gli articoli',
+  'home.skillsTitle': 'Skills',
+  'home.skillsSummary':
+    'I domini per cui mi assumono. Tool e dettaglio stanno nella mappa completa, così può crescere senza riempire questa pagina.',
+  'home.skillsMap': 'Mappa completa delle skills',
+  'home.skillsDomain.cloud': 'Piattaforme cloud',
+  'home.skillsDomain.iac': 'IaC e container',
+  'home.skillsDomain.cicd': 'CI/CD e automazione',
+  'home.skillsDomain.security': 'Sicurezza e identità',
+  'home.skillsDomain.dotnet': 'API .NET',
+  'home.skillsDomain.data': 'Dati',
+  'home.travelsTitle': 'Viaggi',
+  'home.travelsSummary':
+    'Spilli su una mappa di posti dove sono stata davvero. La versione al muro ha più macchie di caffè.',
+  'home.travelsBannerAlt':
+    'Mappa del mondo illustrata con una rotta tratteggiata e una macchinina sulla strada',
+  'home.viewAllTravels': 'Vedi la mappa',
+  'home.contactCtaTitle': 'Scrivimi',
+  'home.contactCtaBody':
+    'Hiring, lavoro di piattaforma o una domanda su qualcosa che ho costruito. Scrivi qui o mandami una mail diretta.',
   'home.deskAlt':
     'Una scrivania illustrata di notte con una mappa del mondo, una lavagna e Buenos Aires dalla finestra',
 
@@ -327,16 +392,20 @@ const it: Record<UIKey, string> = {
 
   'contact.title': 'Contatti',
   'contact.description':
-    'Hai un progetto, una domanda o un buon consiglio su un posto da visitare? Scrivimi.',
+    'Ruoli, collaborazioni, domande sul mio lavoro o un posto che vale la pena. Scrivi qui o mandami una mail diretta.',
+  'contact.formHeading': 'Invia un messaggio',
   'contact.formName': 'Il tuo nome',
   'contact.formEmail': 'La tua email',
   'contact.formMessage': 'Messaggio',
   'contact.formSend': 'Invia messaggio',
-  'contact.formNamePlaceholder': 'Ada Lovelace',
-  'contact.formEmailPlaceholder': 'ada@esempio.com',
-  'contact.formMessagePlaceholder': 'Raccontami cosa stai costruendo...',
-  'contact.orEmail': 'Oppure scrivimi direttamente a',
-  'contact.socials': 'Trovami altrove',
+  'contact.formNamePlaceholder': 'Il tuo nome',
+  'contact.formEmailPlaceholder': 'tu@azienda.com',
+  'contact.formMessagePlaceholder':
+    'Parlami del ruolo, del problema o di quello che vuoi costruire...',
+  'contact.orEmail': 'Email',
+  'contact.socials': 'Altrove',
+  'contact.asideNote':
+    'Leggo ogni messaggio. Prima hiring e lavoro di piattaforma; consigli di viaggio sempre benvenuti.',
 
   'footer.rss': 'Feed RSS',
   'footer.builtWith': 'Fatto con Astro',
