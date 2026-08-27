@@ -20,10 +20,17 @@ diagramAlt: Gli utenti si autenticano via Auth0, l'app Next.js instrada verso i 
 featured: true
 order: 0
 startedOn: 2025-03-01
-outcome: Un solo posto protetto da Auth0 per vedere rischi IAM, esposizione aperta, finding Inspector e concentrazione dei costi, senza saltare tra console.
+outcome: Un solo posto protetto da Auth0 per vedere rischi IAM, esposizione aperta, finding Inspector e spesa Cost Explorer per tag di progetto (vista FinOps), senza saltare tra console.
 problem: La console AWS risponde a “apri questa risorsa”. Fallisce su “quanto siamo esposti adesso?” su S3, EC2, RDS, IAM, Lambda, Inspector e Cost Explorer.
 decision: Ho separato una UI Next.js da un'API di scansione .NET così il browser non tiene mai credenziali AWS. L'API cammina l'account con l'SDK dietro Auth0.
 result: Chi fa review vede misconfigurazioni e credenziali vecchie in una dashboard, non un muro di toggle CIS che nessuno guarda.
+metrics:
+  - label: Chiavi AWS nel browser
+    value: "0"
+  - label: Superfici in una review
+    value: 7 domini
+  - label: Cost Explorer
+    value: per tag di progetto
 ---
 
 ## Contesto

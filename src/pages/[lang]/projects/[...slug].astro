@@ -93,6 +93,24 @@ const showDiagram =
       ) : null
     }
 
+    {
+      data.metrics && data.metrics.length > 0 ? (
+        <section class="mt-4" aria-label={t('projects.metrics')}>
+          <p class="mb-2 font-mono text-xs tracking-widest text-fg-muted uppercase">
+            {t('projects.metrics')}
+          </p>
+          <ul class="grid gap-3 sm:grid-cols-2">
+            {data.metrics.map((metric) => (
+              <li class="border border-edge bg-surface px-4 py-3">
+                <p class="font-mono text-xs tracking-wide text-fg-muted uppercase">{metric.label}</p>
+                <p class="mt-1 font-mono text-xl text-accent">{metric.value}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null
+    }
+
     <Image
       src={data.cover}
       alt={data.coverAlt}

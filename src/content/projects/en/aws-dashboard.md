@@ -20,10 +20,17 @@ diagramAlt: Users authenticate via Auth0, the Next.js app routes to Vulnerabilit
 featured: true
 order: 0
 startedOn: 2025-03-01
-outcome: One Auth0-gated place to see IAM risks, open exposure, Inspector findings, and cost concentration without hopping consoles.
+outcome: One Auth0-gated place to see IAM risks, open exposure, Inspector findings, and Cost Explorer spend by project tag (FinOps view) without hopping consoles.
 problem: The AWS console answers “open this resource.” It fails at “how exposed are we right now?” across S3, EC2, RDS, IAM, Lambda, Inspector, and Cost Explorer.
 decision: Split a Next.js UI from a .NET scanning API so the browser never holds AWS credentials. The API walks the account with the SDK behind Auth0.
 result: Reviewers get misconfigs and stale credentials in one dashboard instead of a CIS toggle wall nobody looks at.
+metrics:
+  - label: AWS keys in browser
+    value: "0"
+  - label: Surfaces in one review
+    value: 7 domains
+  - label: Cost Explorer
+    value: by project tag
 ---
 
 ## Context

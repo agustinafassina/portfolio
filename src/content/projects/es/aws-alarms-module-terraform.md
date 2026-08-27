@@ -21,6 +21,11 @@ outcome: Mail cuando alguien crea una access key, abre un security group a inter
 problem: Los cambios riesgosos de la cuenta aparecían en auditorías semanales, no en el inbox. GuardDuty y Security Hub ayudan cuando algo ya se ve mal.
 decision: Un root de Terraform para SNS, EventBridge, filtros de métricas, alarmas y reglas de Config. El módulo solo alerta. No crea CloudTrail ni el recorder de Config.
 result: Señales de seguridad a nivel cuenta llegan por email sin armar cada regla a mano en la consola.
+metrics:
+  - label: Cambio de MTTD
+    value: "días → minutos"
+  - label: Keys / SG / root
+    value: push al inbox
 ---
 
 ## Contexto

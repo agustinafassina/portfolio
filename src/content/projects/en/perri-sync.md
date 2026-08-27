@@ -22,6 +22,11 @@ outcome: One household product for expenses, calendar, habits, and chores, with 
 problem: Couples run a house across spreadsheets and chats until something falls through the cracks.
 decision: Four repos (dashboard, landing, API, WebGL game) with JWT plus household scoping, instead of a monolith or a shared-password mess.
 result: Shared house ops live in one product surface, including a game layer so chores get opened on purpose.
+metrics:
+  - label: Tenant blast radius
+    value: 1 household
+  - label: Auth gate
+    value: JWT + membership
 ---
 
 ## Context

@@ -58,6 +58,15 @@ const projects = defineCollection({
       problem: z.string().min(1).optional(),
       decision: z.string().min(1).optional(),
       result: z.string().min(1).optional(),
+      metrics: z
+        .array(
+          z.object({
+            label: z.string().min(1),
+            value: z.string().min(1),
+          }),
+        )
+        .max(3)
+        .optional(),
     }),
 });
 

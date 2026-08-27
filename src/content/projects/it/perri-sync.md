@@ -22,6 +22,11 @@ outcome: Un prodotto per la casa su spese, calendario, abitudini e faccende, con
 problem: Le coppie gestiscono la casa tra fogli e chat finché qualcosa si perde tra le app.
 decision: Quattro repo (dashboard, landing, API, gioco WebGL) con JWT e scope per household, invece di un monolite o password condivise.
 result: L'operatività condivisa della casa vive in un solo prodotto, con un layer di gioco così le faccende si aprono perché vuoi, non solo perché tocca.
+metrics:
+  - label: Blast radius del tenant
+    value: 1 household
+  - label: Gate di auth
+    value: JWT + membership
 ---
 
 ## Contesto
