@@ -80,6 +80,26 @@ const labelClass = 'mb-1.5 block font-mono text-xs tracking-wide text-fg-muted u
           placeholder={t('contact.formMessagePlaceholder')}></textarea>
       </div>
 
+      {
+        siteConfig.turnstileSiteKey ? (
+          <div>
+            <p class={labelClass}>{t('contact.formCaptcha')}</p>
+            <div
+              class="cf-turnstile"
+              data-sitekey={siteConfig.turnstileSiteKey}
+              data-theme="auto"
+              data-language={lang}
+            />
+            <script
+              is:inline
+              src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+              async
+              defer
+            />
+          </div>
+        ) : null
+      }
+
       <input type="hidden" name="_language" value={lang} />
 
       <button

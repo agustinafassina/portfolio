@@ -135,6 +135,11 @@ Set all `PUBLIC_*` variables in the host dashboard (or compose build args) befor
 **Formspree:** create a form at [formspree.io](https://formspree.io/), set
 `PUBLIC_FORMSPREE_ENDPOINT`. Honeypot field `_gotcha` is already wired in `contact.astro`.
 
+**Cloudflare Turnstile (CAPTCHA):** create a widget at
+[dash.cloudflare.com → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile),
+set `PUBLIC_TURNSTILE_SITE_KEY` (site key) in the build env, and paste the **secret key**
+in Formspree → form Settings → CAPTCHA → Cloudflare Turnstile. Enable CAPTCHA on that form.
+
 **Headers:** `public/_headers` is picked up automatically on Netlify and Cloudflare Pages.
 The Docker image applies the same policy in `nginx.conf`.
 

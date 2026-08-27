@@ -10,6 +10,7 @@ const envSchema = z.object({
   PUBLIC_LINKEDIN_URL: z.url(),
   PUBLIC_TWITTER_URL: z.url().optional().or(z.literal('')),
   PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: z.string().min(1).optional().or(z.literal('')),
+  PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1).optional().or(z.literal('')),
 });
 
 const rawEnv = {
@@ -22,6 +23,7 @@ const rawEnv = {
   PUBLIC_LINKEDIN_URL: import.meta.env.PUBLIC_LINKEDIN_URL,
   PUBLIC_TWITTER_URL: import.meta.env.PUBLIC_TWITTER_URL,
   PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
+  PUBLIC_TURNSTILE_SITE_KEY: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY,
 };
 
 const parsed = envSchema.safeParse(rawEnv);
@@ -51,6 +53,7 @@ export const siteConfig = {
   email: env.PUBLIC_CONTACT_EMAIL,
   formspreeEndpoint: env.PUBLIC_FORMSPREE_ENDPOINT,
   cloudflareAnalyticsToken: env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN || '',
+  turnstileSiteKey: env.PUBLIC_TURNSTILE_SITE_KEY || '',
 } as const;
 
 export const socialLinks = [

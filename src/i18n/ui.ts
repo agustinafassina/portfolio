@@ -124,6 +124,7 @@ const en = {
   'contact.formEmail': 'Your email',
   'contact.formMessage': 'Message',
   'contact.formSend': 'Send message',
+  'contact.formCaptcha': 'Security check',
   'contact.formNamePlaceholder': 'Your name',
   'contact.formEmailPlaceholder': 'you@company.com',
   'contact.formMessagePlaceholder':
@@ -264,6 +265,7 @@ const es: Record<UIKey, string> = {
   'contact.formEmail': 'Tu email',
   'contact.formMessage': 'Mensaje',
   'contact.formSend': 'Enviar mensaje',
+  'contact.formCaptcha': 'Verificación de seguridad',
   'contact.formNamePlaceholder': 'Tu nombre',
   'contact.formEmailPlaceholder': 'vos@empresa.com',
   'contact.formMessagePlaceholder':
@@ -401,6 +403,7 @@ const it: Record<UIKey, string> = {
   'contact.formEmail': 'La tua email',
   'contact.formMessage': 'Messaggio',
   'contact.formSend': 'Invia messaggio',
+  'contact.formCaptcha': 'Verifica di sicurezza',
   'contact.formNamePlaceholder': 'Il tuo nome',
   'contact.formEmailPlaceholder': 'tu@azienda.com',
   'contact.formMessagePlaceholder':

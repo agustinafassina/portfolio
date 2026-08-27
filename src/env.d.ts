@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_LINKEDIN_URL: string;
   readonly PUBLIC_TWITTER_URL?: string;
   readonly PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN?: string;
+  readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
 }
 
 interface ImportMeta {
