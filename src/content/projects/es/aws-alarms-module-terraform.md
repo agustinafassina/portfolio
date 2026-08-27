@@ -104,12 +104,3 @@ prendidas. Después del primer apply, confirmá cada suscripción de email en SN
 
 Convive con el [AWS Security Dashboard](/es/projects/aws-dashboard): push acá, pull allá.
 Uno responde “avisame cuando pasa”. El otro, “¿qué se ve mal ahora?”.
-
-## Qué haría distinto
-
-- Meter un checklist post-apply en el README que fuerce la confirmación SNS a memoria
-  muscular.
-- Documentar el orden de magnitud de costo de metric filters más evaluaciones de Config
-  para que nadie trate “alarmas de cuenta” como gratis.
-- Meter un link corto de runbook en el body del mail SNS para las familias más ruidosas
-  (create de access key, SG abierto) para que el mail no sea un callejón sin salida.

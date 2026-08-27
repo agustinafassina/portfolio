@@ -119,12 +119,3 @@ trimestral en spreadsheet.
 Convive con [Alarmas AWS a nivel cuenta](/es/projects/aws-alarms-module-terraform): el
 dashboard es pull (“¿qué se ve mal ahora?”), el módulo Terraform es push (“avisame cuando
 pasa”).
-
-## Qué haría distinto
-
-- Cachear más agresivo las ventanas caras de Cost Explorer; esas queries se ponen caras si
-  refrescás sin pensar.
-- Meter un template de IAM read-only en el repo para que los permisos requeridos sean
-  obvios el día uno.
-- Sumar deep links a la consola AWS en los checks más ruidosos, para que el dashboard no
-  sea un callejón sin salida cuando hay que arreglar algo.

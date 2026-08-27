@@ -15,6 +15,8 @@ stack:
 repoUrl: https://github.com/agustinafassina/Perri.Sync.Dashboard.New
 cover: ../../../assets/projects/perri-sync-cover.png
 coverAlt: Gioco WebGL di Perri.Sync, Household World isometrico con faccende, abitudini e metriche condivise
+diagram: ../../../assets/projects/perri-sync/workflow.png
+diagramAlt: Flusso del prodotto da Landing e Auth0, scelta della famiglia in Dashboard, API .NET e gioco WebGL, con JWT e X-Household-Id condivisi
 featured: true
 order: 2
 startedOn: 2024-09-01
@@ -48,8 +50,10 @@ piatti?” qualcosa che apri perché ti va, non solo perché tocca.
 
 ## Decisione di architettura
 
-Quattro repo, un prodotto. Perché non un monolite? Il build del gioco, il sito marketing e
-l'API escono su orologi diversi. Perché non una password condivisa per la casa? Auth0 per
+Quattro repo, un prodotto. Il diagramma sopra è il percorso utente: landing → Auth0 →
+dashboard (scegli household) → API, e il gioco WebGL riusa lo stesso JWT e
+`X-Household-Id`. Perché non un monolite? Il build del gioco, il sito marketing e l'API
+escono su orologi diversi. Perché non una password condivisa per la casa? Auth0 per
 utente più membership del household è il trust model.
 
 | Pezzo | Repo | Ruolo |
@@ -75,18 +79,14 @@ o torni alla checklist. Stessa casa, due modi di entrare.
 <video src="/projects/perri-sync/game.mp4" autoplay loop muted playsinline></video>
 
 **API** è .NET 10 a strati controllers → services → repositories → models, con
-FluentValidation sui DTO.
+FluentValidation sui DTO. Un campione della superficie (ci sono altri domini: calendar,
+habits, chat, meals, pets):
 
 | Dominio | Endpoints | Feature |
 | --- | --- | --- |
 | Expenses | `GET /expenses/monthly`, `GET /expenses/summary` | Griglia spese condivise |
-| Calendar | CRUD `/calendar/events`, OAuth Google | Calendario di casa |
 | Chores | `GET /chores/assignments`, `PUT /chores/assignments` | Faccende quotidiane → gioco |
-| Habits | `GET /habits/today`, `PUT /habits/completions` | Tracciamento abitudini |
 | Settings | `GET /settings`, `POST /settings/members` | Famiglie multi-membro |
-| Chat | `GET/POST /chat/messages` | Note in-app |
-| Meals | `GET/POST /meals/menus` | Pianificazione pasti |
-| Animals | CRUD `/animals/animals` | Cura animali |
 | Avatar | `GET/PUT /avatar` | Profilo / personaggio di gioco |
 
 ```http
@@ -99,7 +99,23 @@ X-Household-Id: {household-guid}
 
 JWT Auth0 su ogni route. `X-Household-Id` fa lo scope della request. La membership si
 controlla sul server così una famiglia non ne legge un'altra cambiando l'header (IDOR
-classico se salti quel check).
+classico se salti quel check). Il diagramma di workflow sopra è il percorso del prodotto.
+La dashboard tiene la famiglia attiva in `localStorage` e la invia su ogni call; cambiare
+casa cambia l'header, non i claim del JWT. Il tenant non è embedded nel token di proposito:
+la membership è un join in DB tra Auth0 `sub` e household id. Fail closed nel service layer:
+
+```csharp
+Member? member = await _householdContextResolver.ResolveMemberAsync(
+    auth0Id,
+    householdId,
+    includeHousehold: false,
+    includeNotificationPrefs: false);
+
+if (member == null)
+    return Array.Empty<ChoreDto>(); // fail closed
+
+return await _choreRepo.GetByHouseholdIdAsync(member.HouseholdId, cancellationToken);
+```
 
 Le famiglie free hanno chat e spese. Premium sblocca chores e più membri. Quel gate vive
 sull'API. Swagger resta in sviluppo su `/swagger` soltanto.
@@ -112,11 +128,3 @@ prodotto, finché l'autorizzazione per household resta onesta.
 I collaboratori aprono i link dei repo privati; questa pagina mostra i walkthrough sopra.
 Swagger per lavoro locale sull'API. Temi e Auth0 fanno parte del deploy dell'app, non di un
 prodotto console a parte.
-
-## Cosa farei diversamente
-
-- Pubblicare un diagramma breve di auth su questa pagina (JWT + `X-Household-Id` + check di
-  membership) così i repo privati non nascondono il trust model.
-- Aggiungere un GIF o MP4 dello switcher di household e di un caso di fallimento anti-IDOR.
-- Spostare i limiti di piano in un unico modulo di policy così free/premium non restano
-  sparsi nei controller.

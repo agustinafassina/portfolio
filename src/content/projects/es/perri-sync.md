@@ -15,6 +15,8 @@ stack:
 repoUrl: https://github.com/agustinafassina/Perri.Sync.Dashboard.New
 cover: ../../../assets/projects/perri-sync-cover.png
 coverAlt: Juego WebGL de Perri.Sync, Household World isométrico con tareas, hábitos y métricas compartidas
+diagram: ../../../assets/projects/perri-sync/workflow.png
+diagramAlt: Flujo del producto desde Landing y Auth0, elección de hogar en el Dashboard, API .NET y juego WebGL, compartiendo JWT y X-Household-Id
 featured: true
 order: 2
 startedOn: 2024-09-01
@@ -48,9 +50,11 @@ platos?” sea algo que abrís porque querés, no solo porque toca.
 
 ## Decisión de arquitectura
 
-Cuatro repos, un producto. ¿Por qué no un monolito? El build del juego, el sitio de
-marketing y la API salen en relojes distintos. ¿Por qué no una contraseña compartida para
-la casa? Auth0 por usuario más membership del hogar es el trust model.
+Cuatro repos, un producto. El diagrama de arriba es el camino del usuario: landing → Auth0 →
+dashboard (elegir hogar) → API, y el juego WebGL reusa el mismo JWT y `X-Household-Id`.
+¿Por qué no un monolito? El build del juego, el sitio de marketing y la API salen en
+relojes distintos. ¿Por qué no una contraseña compartida para la casa? Auth0 por usuario
+más membership del hogar es el trust model.
 
 | Pieza | Repo | Rol |
 | --- | --- | --- |
@@ -75,18 +79,14 @@ life-sim o volvés a la checklist. Mismo hogar, dos formas de entrar.
 <video src="/projects/perri-sync/game.mp4" autoplay loop muted playsinline></video>
 
 **API** es .NET 10 en capas controllers → services → repositories → models, con
-FluentValidation en los DTOs.
+FluentValidation en los DTOs. Una muestra de la superficie (hay más dominios: calendar,
+habits, chat, meals, pets):
 
 | Dominio | Endpoints | Feature |
 | --- | --- | --- |
 | Expenses | `GET /expenses/monthly`, `GET /expenses/summary` | Grilla de gastos compartidos |
-| Calendar | CRUD `/calendar/events`, OAuth Google | Calendario del hogar |
 | Chores | `GET /chores/assignments`, `PUT /chores/assignments` | Tareas diarias → juego |
-| Habits | `GET /habits/today`, `PUT /habits/completions` | Seguimiento de hábitos |
 | Settings | `GET /settings`, `POST /settings/members` | Hogares multi-miembro |
-| Chat | `GET/POST /chat/messages` | Notas in-app |
-| Meals | `GET/POST /meals/menus` | Planificación de comidas |
-| Animals | CRUD `/animals/animals` | Cuidado de mascotas |
 | Avatar | `GET/PUT /avatar` | Perfil / personaje del juego |
 
 ```http
@@ -99,7 +99,23 @@ X-Household-Id: {household-guid}
 
 JWT de Auth0 en cada ruta. `X-Household-Id` scopea el request. La membership se chequea en
 el server para que un hogar no lea otro cambiando el header (IDOR clásico si te salteás ese
-check).
+check). El diagrama de workflow de arriba es el camino del producto. El dashboard guarda el
+hogar activo en `localStorage` y lo manda en cada call; cambiar de casa cambia el header,
+no los claims del JWT. El tenant no va embebido en el token a propósito: la membership es
+un join en DB entre Auth0 `sub` y household id. Fail closed en la capa de servicio:
+
+```csharp
+Member? member = await _householdContextResolver.ResolveMemberAsync(
+    auth0Id,
+    householdId,
+    includeHousehold: false,
+    includeNotificationPrefs: false);
+
+if (member == null)
+    return Array.Empty<ChoreDto>(); // fail closed
+
+return await _choreRepo.GetByHouseholdIdAsync(member.HouseholdId, cancellationToken);
+```
 
 Los hogares free tienen chat y gastos. Premium desbloquea chores y más miembros. Ese gate
 vive en la API. Swagger queda en desarrollo en `/swagger` solamente.
@@ -112,11 +128,3 @@ producto, mientras la autorización por hogar se mantenga honesta.
 Los colaboradores abren los links de repos privados; esta página muestra los walkthroughs
 de arriba. Swagger para trabajo local de API. Temas y Auth0 forman parte del deploy de la
 app, no de un producto de consola aparte.
-
-## Qué haría distinto
-
-- Publicar un diagrama corto de auth en esta página (JWT + `X-Household-Id` + check de
-  membership) para que los repos privados no escondan el trust model.
-- Sumar un GIF o MP4 del household switcher y de un caso de fallo anti-IDOR.
-- Mover los límites de plan a un solo módulo de policy para que free/premium no queden
-  esparcidos en controllers.

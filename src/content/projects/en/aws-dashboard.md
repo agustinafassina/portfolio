@@ -118,12 +118,3 @@ quarterly spreadsheet.
 This pairs with [AWS Account Alarms](/en/projects/aws-alarms-module-terraform): the
 dashboard is pull (“what looks wrong right now?”), the Terraform module is push (“tell me
 when it happens”).
-
-## What I would do differently
-
-- Cache expensive Cost Explorer windows more aggressively; those queries get pricey if you
-  refresh without thinking.
-- Add an explicit read-only IAM policy template in the repo so the required permissions are
-  obvious on day one.
-- Ship a thin “finding deep link” into the AWS console for the noisiest checks, so the
-  dashboard is not a dead end when you need to fix something.

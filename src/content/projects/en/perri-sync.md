@@ -15,6 +15,8 @@ stack:
 repoUrl: https://github.com/agustinafassina/Perri.Sync.Dashboard.New
 cover: ../../../assets/projects/perri-sync-cover.png
 coverAlt: Perri.Sync WebGL game, Household World isometric home with chores, habits, and shared metrics
+diagram: ../../../assets/projects/perri-sync/workflow.png
+diagramAlt: Product workflow from Landing and Auth0 through Dashboard household pick to the .NET API and WebGL game, sharing JWT plus X-Household-Id
 featured: true
 order: 2
 startedOn: 2024-09-01
@@ -47,7 +49,9 @@ something you open because you want to, not only because you should.
 
 ## Architecture decision
 
-Four repos, one product. Why not a monolith? The game build, the marketing site, and the
+Four repos, one product. The diagram above is the path a user takes: landing → Auth0 →
+dashboard (pick household) → API, with the WebGL game reusing the same JWT and
+`X-Household-Id`. Why not a monolith? The game build, the marketing site, and the
 API release on different clocks. Why not a shared password for the house? Auth0 per user
 plus household membership is the trust model.
 
@@ -74,18 +78,14 @@ fall back to the checklist. Same household, two ways in.
 <video src="/projects/perri-sync/game.mp4" autoplay loop muted playsinline></video>
 
 **API** is .NET 10, layered controllers → services → repositories → models, with
-FluentValidation on request DTOs.
+FluentValidation on request DTOs. A sample of the surface (there are more domains:
+calendar, habits, chat, meals, pets):
 
 | Domain | Endpoints | Feature |
 | --- | --- | --- |
 | Expenses | `GET /expenses/monthly`, `GET /expenses/summary` | Shared spending grid |
-| Calendar | CRUD `/calendar/events`, Google OAuth link | Household calendar |
 | Chores | `GET /chores/assignments`, `PUT /chores/assignments` | Daily tasks → game |
-| Habits | `GET /habits/today`, `PUT /habits/completions` | Habit tracking |
 | Settings | `GET /settings`, `POST /settings/members` | Multi-member households |
-| Chat | `GET/POST /chat/messages` | In-app notes |
-| Meals | `GET/POST /meals/menus` | Meal planning |
-| Animals | CRUD `/animals/animals` | Pet care |
 | Avatar | `GET/PUT /avatar` | Profile / game character |
 
 ```http
@@ -98,7 +98,23 @@ X-Household-Id: {household-guid}
 
 Auth0 JWT on every route. `X-Household-Id` scopes the request. Membership is checked server
 side so one household cannot read another by swapping the header (classic IDOR if you skip
-that check).
+that check). The workflow diagram above is the product path. The dashboard keeps the active
+household in `localStorage` and sends it on every call; switching homes changes the header,
+not the JWT claims. Tenant IDs stay out of the token on purpose: membership is a DB join on
+Auth0 `sub` + household id. Fail closed in the service layer:
+
+```csharp
+Member? member = await _householdContextResolver.ResolveMemberAsync(
+    auth0Id,
+    householdId,
+    includeHousehold: false,
+    includeNotificationPrefs: false);
+
+if (member == null)
+    return Array.Empty<ChoreDto>(); // fail closed
+
+return await _choreRepo.GetByHouseholdIdAsync(member.HouseholdId, cancellationToken);
+```
 
 Free households get chat and expenses. Premium unlocks chores and higher member limits.
 That gate lives on the API. Swagger stays available in development at `/swagger` only.
@@ -111,11 +127,3 @@ whole product, as long as household authorization stays honest.
 Collaborators open the private repo links; this page shows the product walkthroughs above.
 Swagger for local API work. Themes and Auth0 config are part of the app deploy, not a
 separate console product.
-
-## What I would do differently
-
-- Publish a short auth-flow diagram on this page (JWT + `X-Household-Id` + membership
-  check) so private repos do not hide the trust model.
-- Add a GIF or MP4 specifically for the household switcher and an IDOR-safe failure case.
-- Move plan limits into a single policy module so free/premium rules are not sprinkled
-  across controllers.

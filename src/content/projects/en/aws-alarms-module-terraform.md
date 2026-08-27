@@ -100,11 +100,3 @@ are on. After the first apply, confirm every SNS email subscription.
 This pairs with the [AWS Security Dashboard](/en/projects/aws-dashboard): push here, pull
 there. One answers “tell me when it happens.” The other answers “what looks wrong right
 now?”
-
-## What I would do differently
-
-- Add a post-apply checklist in the README that forces SNS confirmation into muscle memory.
-- Document order-of-magnitude cost for metric filters plus Config evaluations so nobody
-  treats “account alarms” as free.
-- Wire a short runbook link into the SNS message body for the noisiest families (access
-  key create, open SG) so the mail is not a dead end.
