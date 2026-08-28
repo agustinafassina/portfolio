@@ -101,27 +101,11 @@
     "lng": 21.0122,
     "photos": [
       {
-        "src": "travels/poland/warsaw.jpg",
-        "alt": {
-          "en": "The Palace of Culture and Science on a snowy day",
-          "es": "El Palacio de la Cultura y la Ciencia durante un día nevado",
-          "it": "Il Palazzo della Cultura e della Scienza in una giornata di neve"
-        }
-      },
-      {
         "src": "travels/poland/warsaw-skyline.jpg",
         "alt": {
           "en": "The Palace of Culture and Science framed by modern glass towers on a snowy day",
           "es": "El Palacio de la Cultura y la Ciencia enmarcado por torres modernas de cristal en un día nevado",
           "it": "Il Palazzo della Cultura e della Scienza incorniciato da torri moderne di vetro in una giornata di neve"
-        }
-      },
-      {
-        "src": "travels/poland/warsaw-fireworks.jpg",
-        "alt": {
-          "en": "Fireworks bursting above the Palace of Culture and Science at night",
-          "es": "Fuegos artificiales estallando sobre el Palacio de la Cultura y la Ciencia de noche",
-          "it": "Fuochi d artificio sopra il Palazzo della Cultura e della Scienza di notte"
         }
       },
       {
@@ -133,19 +117,27 @@
         }
       },
       {
+        "src": "travels/poland/futbol.jpg",
+        "alt": {
+          "en": "A snow-covered football pitch with goals in front of a brick apartment block",
+          "es": "Una cancha de fútbol cubierta de nieve con arcos frente a un edificio de ladrillo",
+          "it": "Un campo di calcio innevato con porte davanti a un palazzo di mattoni"
+        }
+      },
+      {
+        "src": "travels/poland/cracovia.jpg",
+        "alt": {
+          "en": "Kraków's Main Market Square with the Cloth Hall under grey winter skies",
+          "es": "La Plaza del Mercado de Cracovia con la Lonja de los Paños bajo un cielo invernal gris",
+          "it": "La Piazza del Mercato di Cracovia con i Sukiennice sotto un cielo invernale grigio"
+        }
+      },
+      {
         "src": "travels/poland/auschwitz-birkenau.jpg",
         "alt": {
           "en": "Railway tracks leading toward the entrance of Auschwitz-Birkenau",
           "es": "Vías ferroviarias que conducen hacia la entrada de Auschwitz-Birkenau",
           "it": "Binari ferroviari che conducono verso l ingresso di Auschwitz-Birkenau"
-        }
-      },
-      {
-        "src": "travels/poland/poland.jpg",
-        "alt": {
-          "en": "Winter selfie in Warsaw Old Town Market Square with snow on the ground",
-          "es": "Selfie de invierno en la Plaza del Mercado de la Ciudad Vieja de Varsovia con nieve",
-          "it": "Selfie invernale nella Piazza del Mercato della Città Vecchia di Varsavia con neve"
         }
       },
       {
@@ -159,16 +151,16 @@
     ],
     "translations": {
       "en": {
-        "title": "Warsaw & Auschwitz-Birkenau, Poland",
-        "summary": "Warsaw in winter — the Palace of Culture from every angle, fireworks over the skyline and the Old Town under snow — followed by a sobering visit to Auschwitz-Birkenau."
+        "title": "Warsaw, Kraków & Auschwitz-Birkenau, Poland",
+        "summary": "Warsaw in winter — the Palace of Culture, the snowy Old Town and a frozen football pitch — Kraków's main square, and a sobering visit to Auschwitz-Birkenau."
       },
       "es": {
-        "title": "Varsovia y Auschwitz-Birkenau, Polonia",
-        "summary": "Varsovia en invierno: el Palacio de la Cultura desde todos los ángulos, fuegos artificiales sobre el skyline y la Ciudad Vieja bajo la nieve, seguidos por una visita sobria a Auschwitz-Birkenau."
+        "title": "Varsovia, Cracovia y Auschwitz-Birkenau, Polonia",
+        "summary": "Varsovia en invierno: el Palacio de la Cultura, la Ciudad Vieja nevada y una cancha de fútbol congelada; la plaza principal de Cracovia y una visita sobria a Auschwitz-Birkenau."
       },
       "it": {
-        "title": "Varsavia e Auschwitz-Birkenau, Polonia",
-        "summary": "Varsavia d inverno: il Palazzo della Cultura da ogni angolazione, fuochi d artificio sullo skyline e la Città Vecchia sotto la neve, seguiti da una visita intensa ad Auschwitz-Birkenau."
+        "title": "Varsavia, Cracovia e Auschwitz-Birkenau, Polonia",
+        "summary": "Varsavia d'inverno: il Palazzo della Cultura, la Città Vecchia innevata e un campo di calcio gelato; la piazza principale di Cracovia e una visita intensa ad Auschwitz-Birkenau."
       }
     }
   },
@@ -275,6 +267,22 @@
         }
       },
       {
+        "src": "travels/italy/bergamo.jpg",
+        "alt": {
+          "en": "The wooden storefront of La Birreria in Bergamo Alta",
+          "es": "La fachada de madera de La Birreria en Bérgamo Alta",
+          "it": "La vetrina in legno di La Birreria a Bergamo Alta"
+        }
+      },
+      {
+        "src": "travels/italy/monza.jpg",
+        "alt": {
+          "en": "The striped marble façade and rose window of Monza Cathedral",
+          "es": "La fachada de mármol listado y el rosetón del Duomo de Monza",
+          "it": "La facciata in marmo a bande e il rosone del Duomo di Monza"
+        }
+      },
+      {
         "src": "travels/italy/como.jpeg",
         "alt": {
           "en": "Hillside neighbourhoods above Lake Como on a sunny day",
@@ -291,14 +299,6 @@
         }
       },
       {
-        "src": "travels/italy/como-panorama.jpg",
-        "alt": {
-          "en": "A wide view of Lake Como and the mountains beyond",
-          "es": "Una vista amplia del lago de Como y las montañas al fondo",
-          "it": "Una vista ampia del Lago di Como e delle montagne sullo sfondo"
-        }
-      },
-      {
         "src": "travels/italy/venice.jpg",
         "alt": {
           "en": "A canal in Venice lined with colourful buildings",
@@ -307,15 +307,7 @@
         }
       },
       {
-        "src": "travels/italy/venice-canal.jpg",
-        "alt": {
-          "en": "Gondolas and colourful palazzi along a canal near the Rialto Bridge",
-          "es": "Góndolas y palacios coloridos a lo largo de un canal cerca del Puente de Rialto",
-          "it": "Gondole e palazzi colorati lungo un canale vicino al Ponte di Rialto"
-        }
-      },
-      {
-        "src": "travels/italy/italia-1.jpg",
+        "src": "travels/italy/pisa.jpg",
         "alt": {
           "en": "The Leaning Tower and cathedral on the grass of Piazza dei Miracoli in Pisa",
           "es": "La Torre Inclinada y la catedral sobre el césped de la Piazza dei Miracoli en Pisa",
@@ -323,15 +315,15 @@
         }
       },
       {
-        "src": "travels/italy/italia-2.jpg",
+        "src": "travels/italy/avola.jpg",
         "alt": {
-          "en": "A sunlit alley with wrought-iron balconies and a green hill at the end",
-          "es": "Un callejón soleado con balcones de hierro forjado y una colina verde al fondo",
-          "it": "Un vicolo soleggiato con balconi in ferro battuto e una collina verde in fondo"
+          "en": "A sunlit alley with wrought-iron balconies and a green hill at the end in Avola",
+          "es": "Un callejón soleado con balcones de hierro forjado y una colina verde al fondo en Avola",
+          "it": "Un vicolo soleggiato con balconi in ferro battuto e una collina verde in fondo ad Avola"
         }
       },
       {
-        "src": "travels/italy/italia-3.jpg",
+        "src": "travels/italy/agrigento.jpg",
         "alt": {
           "en": "Fallen Icarus sculpture before the Temple of Concordia in Agrigento, Sicily",
           "es": "Escultura del Ícaro caído ante el Templo de la Concordia en Agrigento, Sicilia",
@@ -341,16 +333,16 @@
     ],
     "translations": {
       "en": {
-        "title": "Rome, Milan, Lake Como & Venice, Italy",
-        "summary": "The Colosseum at golden hour, Milan's cathedral lit up at night, green hills around Lake Como and two very different canals in Venice."
+        "title": "Rome, Milan, Bergamo, Monza, Lake Como, Venice, Pisa & Sicily, Italy",
+        "summary": "The Colosseum at golden hour, Milan's cathedral at night, Bergamo Alta and Monza's striped Duomo, hills around Lake Como, a Venice canal, Pisa's tower and Sicily from Avola to Agrigento."
       },
       "es": {
-        "title": "Roma, Milán, Lago de Como y Venecia, Italia",
-        "summary": "El Coliseo a la hora dorada, la catedral de Milán iluminada de noche, colinas verdes alrededor del lago de Como y dos canales muy distintos en Venecia."
+        "title": "Roma, Milán, Bérgamo, Monza, Lago de Como, Venecia, Pisa y Sicilia, Italia",
+        "summary": "El Coliseo a la hora dorada, la catedral de Milán de noche, Bérgamo Alta y el Duomo listado de Monza, colinas del lago de Como, un canal de Venecia, la torre de Pisa y Sicilia de Avola a Agrigento."
       },
       "it": {
-        "title": "Roma, Milano, Lago di Como e Venezia, Italia",
-        "summary": "Il Colosseo all ora dorata, il duomo di Milano illuminato di notte, colline verdi intorno al Lago di Como e due canali molto diversi a Venezia."
+        "title": "Roma, Milano, Bergamo, Monza, Lago di Como, Venezia, Pisa e Sicilia, Italia",
+        "summary": "Il Colosseo all'ora dorata, il duomo di Milano di notte, Bergamo Alta e il Duomo a bande di Monza, colline del Lago di Como, un canale di Venezia, la torre di Pisa e la Sicilia da Avola ad Agrigento."
       }
     }
   },
@@ -504,6 +496,14 @@
         }
       },
       {
+        "src": "travels/scotland/edim.jpg",
+        "alt": {
+          "en": "Edinburgh Castle on its rocky crag above a busy street and the Saltire flag",
+          "es": "El castillo de Edimburgo sobre su peñasco, encima de una calle concurrida y la bandera de Escocia",
+          "it": "Il castello di Edimburgo sulla sua rupe rocciosa sopra una strada trafficata e la bandiera scozzese"
+        }
+      },
+      {
         "src": "travels/scotland/st-giles-cathedral.jpg",
         "alt": {
           "en": "St Giles' Cathedral and the Mercat Cross on the Royal Mile",
@@ -517,6 +517,30 @@
           "en": "Historic gravestones in a cemetery with Edinburgh's Old Town rising behind",
           "es": "Lápidas históricas en un cementerio con la Ciudad Vieja de Edimburgo al fondo",
           "it": "Lapidi storiche in un cimitero con la Città Vecchia di Edimburgo sullo sfondo"
+        }
+      },
+      {
+        "src": "travels/scotland/edimb.jpg",
+        "alt": {
+          "en": "A sandstone corner turret on Macdonald Road under autumn trees",
+          "es": "Una torreta de esquina en piedra arenisca en Macdonald Road bajo árboles de otoño",
+          "it": "Una torretta d'angolo in arenaria su Macdonald Road sotto alberi autunnali"
+        }
+      },
+      {
+        "src": "travels/scotland/edimb2.jpg",
+        "alt": {
+          "en": "A red sightseeing bus passing the Balmoral Hotel and Scott Monument",
+          "es": "Un bus turístico rojo pasando frente al Hotel Balmoral y el monumento a Scott",
+          "it": "Un bus turistico rosso che passa davanti al Balmoral Hotel e al monumento a Scott"
+        }
+      },
+      {
+        "src": "travels/scotland/edim3.jpg",
+        "alt": {
+          "en": "A postcard of Edinburgh Castle held up against a blurred city street",
+          "es": "Una postal del castillo de Edimburgo sostenida frente a una calle de la ciudad desenfocada",
+          "it": "Una cartolina del castello di Edimburgo tenuta davanti a una strada cittadina sfocata"
         }
       }
     ],
@@ -713,6 +737,22 @@
         }
       },
       {
+        "src": "travels/luxembourg/lux.jpg",
+        "alt": {
+          "en": "Adolphe Bridge and the Spuerkeess tower under an overcast sky",
+          "es": "El puente Adolphe y la torre de Spuerkeess bajo un cielo nublado",
+          "it": "Il ponte Adolphe e la torre della Spuerkeess sotto un cielo nuvoloso"
+        }
+      },
+      {
+        "src": "travels/luxembourg/luxemburgo.jpg",
+        "alt": {
+          "en": "A plate of grilled octopus with vegetables and fries at a restaurant table",
+          "es": "Un plato de pulpo a la parrilla con verduras y papas fritas en una mesa de restaurante",
+          "it": "Un piatto di polpo alla griglia con verdure e patatine su un tavolo di ristorante"
+        }
+      },
+      {
         "src": "travels/luxembourg/souvenir.jpg",
         "alt": {
           "en": "A Luxembourg-shaped souvenir magnet in a shop",
@@ -878,6 +918,54 @@
         }
       },
       {
+        "src": "travels/spain/madrid-shep.jpg",
+        "alt": {
+          "en": "The Carrión Building on Gran Vía with the Capitol and Schweppes neon signs",
+          "es": "El Edificio Carrión en Gran Vía con los neones de Capitol y Schweppes",
+          "it": "L'Edificio Carrión su Gran Vía con le insegne al neon Capitol e Schweppes"
+        }
+      },
+      {
+        "src": "travels/spain/madrid-palacio2.jpg",
+        "alt": {
+          "en": "The Royal Palace of Madrid across the stone plaza under a cloudy sky",
+          "es": "El Palacio Real de Madrid desde la plaza de piedra bajo un cielo nublado",
+          "it": "Il Palazzo Reale di Madrid dalla piazza in pietra sotto un cielo nuvoloso"
+        }
+      },
+      {
+        "src": "travels/spain/madrid.jpg",
+        "alt": {
+          "en": "The gala dining hall in Madrid's Royal Palace set with chandeliers and a long table",
+          "es": "El comedor de gala del Palacio Real de Madrid con candelabros y una larga mesa puesta",
+          "it": "La sala da pranzo di gala del Palazzo Reale di Madrid con lampadari e una lunga tavola apparecchiata"
+        }
+      },
+      {
+        "src": "travels/spain/madrid-palacio.jpg",
+        "alt": {
+          "en": "Almudena Cathedral's twin towers behind an iron fence in Madrid",
+          "es": "Las torres gemelas de la Catedral de la Almudena detrás de una reja en Madrid",
+          "it": "Le torri gemelle della Cattedrale dell'Almudena dietro una cancellata a Madrid"
+        }
+      },
+      {
+        "src": "travels/spain/templo-debod.jpg",
+        "alt": {
+          "en": "The stone gateways of the Temple of Debod aligned under a blue sky",
+          "es": "Los pilonos de piedra del Templo de Debod alineados bajo un cielo azul",
+          "it": "I pilastri in pietra del Tempio di Debod allineati sotto un cielo azzurro"
+        }
+      },
+      {
+        "src": "travels/spain/paella.jpg",
+        "alt": {
+          "en": "A paella pan with prawns and rice on an outdoor restaurant table",
+          "es": "Una paellera con langostinos y arroz en una mesa de restaurante al aire libre",
+          "it": "Una padella di paella con gamberi e riso su un tavolo di ristorante all'aperto"
+        }
+      },
+      {
         "src": "travels/spain/sagrada-familia.jpg",
         "alt": {
           "en": "The illuminated Sagrada Família rising into the night sky in Barcelona",
@@ -974,9 +1062,9 @@
       {
         "src": "travels/netherlands/amsterdam.jpg",
         "alt": {
-          "en": "A mint-green bicycle overlooking an Amsterdam canal",
-          "es": "Una bicicleta verde menta frente a un canal de Ámsterdam",
-          "it": "Una bicicletta verde menta davanti a un canale di Amsterdam"
+          "en": "Canal houses and glass-topped tour boats on an Amsterdam canal",
+          "es": "Casas de canal y barcos turísticos con techo de vidrio en un canal de Ámsterdam",
+          "it": "Case sul canale e battelli turistici con tetto in vetro su un canale di Amsterdam"
         }
       },
       {
@@ -988,11 +1076,27 @@
         }
       },
       {
+        "src": "travels/netherlands/haarlem2.jpg",
+        "alt": {
+          "en": "The HAARLEM station sign above an arched doorway on the platform",
+          "es": "El cartel HAARLEM sobre un arco en el andén de la estación",
+          "it": "Il cartello HAARLEM sopra un arco sul binario della stazione"
+        }
+      },
+      {
         "src": "travels/netherlands/alkmaar.jpg",
         "alt": {
           "en": "A quiet cobbled residential street in Alkmaar",
           "es": "Una tranquila calle residencial empedrada en Alkmaar",
           "it": "Una tranquilla strada residenziale acciottolata ad Alkmaar"
+        }
+      },
+      {
+        "src": "travels/netherlands/alkmaar2.jpg",
+        "alt": {
+          "en": "A traditional windmill behind a row of parked bicycles in Alkmaar",
+          "es": "Un molino tradicional detrás de una fila de bicicletas estacionadas en Alkmaar",
+          "it": "Un mulino tradizionale dietro una fila di biciclette parcheggiate ad Alkmaar"
         }
       }
     ],
@@ -1087,6 +1191,30 @@
           "en": "The illuminated Paris skyline seen from the Eiffel Tower at night",
           "es": "El horizonte iluminado de París visto desde la Torre Eiffel de noche",
           "it": "Lo skyline illuminato di Parigi visto dalla Torre Eiffel di notte"
+        }
+      },
+      {
+        "src": "travels/france/paris-3.jpg",
+        "alt": {
+          "en": "Looking straight up through the illuminated iron lattice of the Eiffel Tower at night",
+          "es": "Mirando hacia arriba a través de la estructura de hierro iluminada de la Torre Eiffel de noche",
+          "it": "Sguardo verso l'alto attraverso la struttura in ferro illuminata della Torre Eiffel di notte"
+        }
+      },
+      {
+        "src": "travels/france/paris-notre-dame.jpg",
+        "alt": {
+          "en": "Notre-Dame's western façade with scaffolding and a crowd during restoration",
+          "es": "La fachada oeste de Notre-Dame con andamios y una multitud durante la restauración",
+          "it": "La facciata ovest di Notre-Dame con ponteggi e una folla durante il restauro"
+        }
+      },
+      {
+        "src": "travels/france/paris-dibus.jpg",
+        "alt": {
+          "en": "Graffiti mural on the shutter of La Chope des Artistes in Paris",
+          "es": "Mural de graffiti en la persiana de La Chope des Artistes en París",
+          "it": "Murale di graffiti sulla saracinesca di La Chope des Artistes a Parigi"
         }
       }
     ],
