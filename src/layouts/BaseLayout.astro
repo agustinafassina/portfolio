@@ -95,6 +95,26 @@ const pageKeywords = keywords ?? t('site.keywords');
         document.documentElement.dataset.theme = theme;
       })();
     </script>
+
+    {
+      siteConfig.gaMeasurementId ? (
+        <>
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(siteConfig.gaMeasurementId)}`}
+            is:inline
+          />
+          <script is:inline define:vars={{ gaMeasurementId: siteConfig.gaMeasurementId }}>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', gaMeasurementId);
+          </script>
+        </>
+      ) : null
+    }
   </head>
 
   <body class="flex min-h-screen flex-col">

@@ -11,6 +11,11 @@ const envSchema = z.object({
   PUBLIC_TWITTER_URL: z.url().optional().or(z.literal('')),
   PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: z.string().min(1).optional().or(z.literal('')),
   PUBLIC_TURNSTILE_SITE_KEY: z.string().min(1).optional().or(z.literal('')),
+  PUBLIC_GA_MEASUREMENT_ID: z
+    .string()
+    .regex(/^G-[A-Z0-9]+$/, 'Must look like G-XXXXXXXX')
+    .optional()
+    .or(z.literal('')),
 });
 
 const rawEnv = {
@@ -24,6 +29,7 @@ const rawEnv = {
   PUBLIC_TWITTER_URL: import.meta.env.PUBLIC_TWITTER_URL,
   PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN: import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
   PUBLIC_TURNSTILE_SITE_KEY: import.meta.env.PUBLIC_TURNSTILE_SITE_KEY,
+  PUBLIC_GA_MEASUREMENT_ID: import.meta.env.PUBLIC_GA_MEASUREMENT_ID,
 };
 
 const parsed = envSchema.safeParse(rawEnv);
@@ -54,6 +60,7 @@ export const siteConfig = {
   formspreeEndpoint: env.PUBLIC_FORMSPREE_ENDPOINT,
   cloudflareAnalyticsToken: env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN || '',
   turnstileSiteKey: env.PUBLIC_TURNSTILE_SITE_KEY || '',
+  gaMeasurementId: env.PUBLIC_GA_MEASUREMENT_ID || '',
 } as const;
 
 export const socialLinks = [

@@ -9,6 +9,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_TWITTER_URL?: string;
   readonly PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN?: string;
   readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
+  readonly PUBLIC_GA_MEASUREMENT_ID?: string;
 }
 
 interface ImportMeta {

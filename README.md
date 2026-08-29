@@ -44,6 +44,9 @@ Validated at build time in `src/lib/config.ts`. See `.env.example` for the full 
 | `PUBLIC_GITHUB_URL` | yes | Social links |
 | `PUBLIC_LINKEDIN_URL` | yes | Social links |
 | `PUBLIC_TWITTER_URL` | no | Omitted when unset |
+| `PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN` | no | Optional Cloudflare Web Analytics beacon |
+| `PUBLIC_TURNSTILE_SITE_KEY` | no | Cloudflare Turnstile on contact |
+| `PUBLIC_GA_MEASUREMENT_ID` | no | Google Analytics 4 (`G-XXXXXXXX`) |
 
 All `PUBLIC_*` values are inlined into the static output — they are configuration, not
 secrets. `PUBLIC_SITE_URL` must be the real origin with **no trailing slash**.
@@ -139,6 +142,9 @@ Set all `PUBLIC_*` variables in the host dashboard (or compose build args) befor
 [dash.cloudflare.com → Turnstile](https://dash.cloudflare.com/?to=/:account/turnstile),
 set `PUBLIC_TURNSTILE_SITE_KEY` (site key) in the build env, and paste the **secret key**
 in Formspree → form Settings → CAPTCHA → Cloudflare Turnstile. Enable CAPTCHA on that form.
+
+**Google Analytics 4:** set `PUBLIC_GA_MEASUREMENT_ID` (or `PORTFOLIO_PUBLIC_GA_MEASUREMENT_ID`
+in compose) to your `G-XXXXXXXX` ID. Leave empty to omit the tag. Rebuild after changing it.
 
 **Headers:** `public/_headers` is picked up automatically on Netlify and Cloudflare Pages.
 The Docker image applies the same policy in `nginx.conf`.
